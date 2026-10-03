@@ -54,21 +54,26 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 ### 1. Data entry in `LESSONS`
 
 ```js
-{ n:3, slug:'smart-defaults', title:'Smart defaults', theme:'choices', status:'draft', frame:'Checkout',
+{ n:3, slug:'smart-defaults', title:'Every choice starts blank', theme:'choices', status:'draft', frame:'Checkout',
   lede:'One or two sentences, plain language, why this matters.',
-  tags:['Smart defaults','Hick\u2019s law'],               // principles; each becomes a tag page
-  problems:['slow-decisions','too-many-options'],        // ids from PROBLEMS
+  tags:['Smart defaults','Hick\u2019s law'],               // principles; primary first; each becomes a tag page
+  problems:['slow-decisions'],                           // one id from PROBLEMS
   screens:['checkout','settings'],                       // ids from SCREENS
   synonyms:'default preselected preset',                 // words people might search
+  phrases:['nothing is selected on checkout', '…'],      // 4-6 ways people describe the problem
   steps:{
     before:{ anchor:'#some-id', label:'The problem', title:'…', body:'…', cta:'Show the fix' },
     after:{  anchor:'#other-id', label:'The fix',    title:'…', body:'…', cta:'See the problem again' }
   }}
 ```
 
+- `title` is the plain-language problem, the way someone would say it in a crit ("This form is way too long"), not the principle's name.
+- `tags` are formal principle names. The first is the primary principle the lesson teaches; the rest are related.
+- `problems` holds one id: one problem per lesson. If two lessons share a primary principle, their bad UI examples must be different.
+- `phrases` lists 4 to 6 other ways people phrase the same problem. Search matches on them.
 - `status` moves `planned` → `draft` → `live`. The highest-numbered `live` lesson is automatically "Today's crit" on the home page.
 - `frame` is the canvas label ("Export sheet / Before").
-- Planned lessons already exist in `LESSONS` with `problems`, `screens` and `synonyms` filled in. Building one means adding `lede`, `tags`, `frame` and `steps`, plus its template.
+- Planned lessons already exist in `LESSONS` with `problems`, `screens`, `synonyms` and `phrases` filled in. `BACKLOG.md` holds the plan for each one: title, tags, single problem, phrases and the bad UI example, plus full drafts for the next few. Building one means copying its backlog entry (title, `tags`, `problems`), then adding `lede`, `frame` and `steps`, plus its template.
 - Only add a new entry to `PROBLEMS` or `SCREENS` if nothing existing fits. Problems are written from the user's point of view, in plain language: "People abandon a long form," not "Form abandonment."
 
 ### 2. Screen template
@@ -118,13 +123,13 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 
 ## Search
 
-- Search is client-side keyword matching across title, tags, problem labels, synonyms, screen titles, lede and tooltip text, with weights favoring the first four.
+- Search is client-side keyword matching across title, tags, problem labels, search phrases, synonyms, screen titles, lede and tooltip text, with weights favoring the first five.
 - A new lesson is searchable as soon as its fields are filled in.
-- After adding a lesson, test 3 or 4 plain-language queries in the ⌘K palette and on `#/find` to confirm it shows up. Add synonyms if it doesn't.
+- After adding a lesson, test 3 or 4 plain-language queries in the ⌘K palette and on `#/find` to confirm it shows up. Add synonyms or phrases if it doesn't.
 
 ## Daily workflow
 
-1. Pick the next planned lesson in `LESSONS`.
+1. Pick the next planned lesson in `BACKLOG.md`.
 2. Write both tooltips first. If the problem and the fix can't each be explained in one short tooltip, change the scenario before building.
 3. Choose a screen people recognize instantly (checkout, settings, sign-up, feed).
 4. Build the template, then fill in the data entry with `status:'draft'`.
