@@ -1,0 +1,1109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-itunes-app" content="app-id=6766068712">
+<title>Daily Crit</title>
+<meta name="description" content="A daily design crit: a flawed screen fixes itself in real UI, with the principle behind the fix.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#EFEFEF; --surface:#FFFFFF; --ink:#000000; --ink-2:#8A8A8A; --line:#DCDCDC; --chip:#E8E8E8; --dots:#D6D6D6;
+  --accent:#2B2BFF; --tip:#000000; --tip-ink:#FFFFFF; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.3);
+  --bezel:#1B1D20; --dim:#3A3D42;
+  --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
+  --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC;
+  --ease:cubic-bezier(.32,.72,0,1);
+  --display:"Outfit","Space Grotesk",system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#0A0A0A; --surface:#161616; --ink:#FFFFFF; --ink-2:#8A8A8A; --line:#262626; --chip:#1F1F1F; --dots:#2A2A2A;
+    --accent:#5A5AFF; --tip:#FFFFFF; --tip-ink:#000000; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.45);
+    --bezel:#2C3035; --dim:#0E0F10;
+    --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
+    --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0A0A0A; --surface:#161616; --ink:#FFFFFF; --ink-2:#8A8A8A; --line:#262626; --chip:#1F1F1F; --dots:#2A2A2A;
+  --accent:#5A5AFF; --tip:#FFFFFF; --tip-ink:#000000; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.45);
+  --bezel:#2C3035; --dim:#0E0F10;
+  --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
+  --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--page);color:var(--ink);
+  font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body.palette-open{overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+kbd{font-family:inherit;font-size:12px;font-weight:500;line-height:1;padding:4px 6px;border-radius:6px;background:var(--chip);color:var(--ink-2)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.page{max-width:1160px;margin:0 auto;padding:0 32px 40px}
+.page-enter{animation:pageIn .45s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- Header ---------- */
+.masthead{background:#000;color:#fff}
+.mast-inner{max-width:1160px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.025em;white-space:nowrap}
+.logo svg{width:32px;height:32px;flex:none;transition:transform .5s var(--ease)}
+.logo:hover svg{transform:rotate(-8deg) scale(1.06)}
+.site-nav{display:flex;gap:4px;margin-left:auto}
+.site-nav a{text-decoration:none;font-weight:500;font-size:15px;color:#9A9A9A;padding:8px 12px;border-radius:999px;transition:color .2s,background .2s}
+.site-nav a:hover{color:#fff}
+.site-nav a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.12)}
+.search-btn{display:flex;align-items:center;gap:10px;height:38px;padding:0 8px 0 14px;border:0;border-radius:999px;background:rgba(255,255,255,.12);color:#BDBDBD;font-size:15px;transition:background .2s,color .2s}
+.search-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.search-btn svg{width:16px;height:16px}
+.search-btn kbd{background:rgba(255,255,255,.14);color:#BDBDBD}
+
+/* ---------- Home: find pill ---------- */
+.find-pill{display:flex;align-items:center;gap:14px;width:100%;max-width:720px;height:64px;margin:36px 0 56px;padding:0 12px 0 22px;border:0;border-radius:999px;
+  background:var(--surface);color:var(--ink-2);font-size:17px;text-align:left;box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .25s,transform .25s var(--ease)}
+.find-pill:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.find-pill:active{transform:scale(.99)}
+.find-pill svg{width:20px;height:20px;color:var(--ink);flex:none}
+.find-pill .fp-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.find-pill .fp-text b{color:var(--ink);font-weight:500}
+.find-pill kbd{margin-right:4px}
+
+/* ---------- Lesson module ---------- */
+.lesson-mod{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center;margin:0 0 104px}
+.lesson-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 18px;font-size:15px;font-weight:500;color:var(--ink-2)}
+.theme-link{text-decoration:none;padding:5px 11px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);transition:color .2s,box-shadow .2s}
+.theme-link:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.badge{background:var(--ink);color:var(--page);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.lesson-title{margin:0 0 22px;font-family:var(--display);font-weight:900;font-size:clamp(50px,6.8vw,96px);line-height:.88;letter-spacing:-.035em}
+.lesson-title a{text-decoration:none}
+.lesson-title a:hover{color:var(--accent)}
+.lede{margin:0 0 30px;font-size:19px;line-height:1.55;max-width:36ch}
+.related-label{margin:0 0 10px;font-size:14px;font-weight:500;color:var(--ink-2)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.tags a{display:block;background:var(--chip);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500;text-decoration:none;transition:background .2s,color .2s}
+.tags a:hover{background:var(--ink);color:var(--page)}
+.tags .cnt{color:var(--ink-2);margin-left:5px;font-weight:400}
+.tags a:hover .cnt{color:inherit;opacity:.6}
+
+/* the canvas: a design-file artboard the phone sits on */
+.canvas{position:relative;display:grid;place-items:center;padding:76px 24px 64px;border-radius:32px;background-color:var(--surface);
+  background-image:radial-gradient(var(--dots) 1.1px,transparent 1.4px);background-size:20px 20px;background-position:10px 10px}
+.canvas-bar{position:absolute;top:18px;left:22px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.frame-label{display:grid;font-size:13px;font-weight:500;color:var(--ink-2)}
+.frame-label span{grid-area:1/1;transition:opacity .35s ease}
+.frame-label .fb{opacity:0}
+[data-state="after"] .frame-label .fa{opacity:0}
+[data-state="after"] .frame-label .fb{opacity:1}
+.switch{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:var(--page)}
+.switch::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--ink);transition:transform .5s var(--ease)}
+[data-state="after"] .switch::before{transform:translateX(100%)}
+.switch button{position:relative;border:0;background:transparent;padding:9px 18px;border-radius:999px;font-size:15px;font-weight:500;color:var(--ink-2);transition:color .35s}
+.switch button[aria-pressed="true"]{color:var(--page)}
+.canvas-hint{position:absolute;bottom:18px;left:0;right:0;margin:0;text-align:center;font-size:13px;color:var(--ink-2)}
+.canvas-hint kbd{margin:0 2px;background:var(--page)}
+@media (hover:none){.canvas-hint{display:none}.canvas{padding-bottom:40px}}
+
+/* lesson page extras */
+.helps{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 56px;margin:-56px 0 72px}
+.plist{margin:0;padding:0;list-style:none}
+.plist a{display:block;padding:10px 0;border-bottom:1px solid var(--line);font-size:17px;text-decoration:none;transition:padding .3s var(--ease),color .2s}
+.plist li:first-child a{border-top:1px solid var(--line)}
+.plist a:hover{padding-left:8px;color:var(--accent)}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 64px}
+.pager>*{display:flex;align-items:center;gap:18px;background:var(--surface);border-radius:24px;padding:22px 24px;text-decoration:none;min-height:104px}
+.pager .pnum{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;letter-spacing:-.03em;color:var(--chip);transition:color .3s}
+.pager a:hover .pnum{color:var(--accent)}
+.pager .dir{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:4px}
+.pager .pt{font-size:19px;font-weight:500;letter-spacing:-.01em}
+.pager .next{justify-content:flex-end;text-align:right}
+.pager .muted{opacity:.55}
+.pager .empty{background:transparent}
+
+/* ---------- The month: 30 tiles ---------- */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 8px}
+.sec-head h2{margin:0;font-size:30px;letter-spacing:-.03em}
+.sec-head p{margin:0;font-size:15px;color:var(--ink-2)}
+.month{margin:0 0 88px}
+.week-row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding:22px 0;border-top:1px solid var(--line)}
+.week-row:last-child{border-bottom:1px solid var(--line)}
+.wk{display:block;font-size:14px;font-weight:500;color:var(--ink-2);margin-bottom:4px}
+.week-name{font-size:19px;font-weight:700;letter-spacing:-.015em;line-height:1.2;text-decoration:none}
+a.week-name:hover{color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:1/1.08;padding:12px;border-radius:18px;text-decoration:none;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.tile .tn{font-family:var(--display);font-weight:900;font-size:32px;line-height:1;letter-spacing:-.03em}
+.tile .tt{overflow-wrap:anywhere;hyphens:auto;font-size:13px;font-weight:500;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile .ts{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700}
+.tile.live{background:var(--accent);color:#fff}
+.tile.draft{background:var(--surface)}
+.tile.draft .ts{color:var(--ink-2)}
+.tile.planned{box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2)}
+.tile.planned .tn{color:var(--line)}
+a.tile:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 18px 28px -18px rgba(0,0,0,.45)}
+
+/* ---------- Lists ---------- */
+.list{border-top:1px solid var(--line);margin:0 0 56px}
+.lrow{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .3s var(--ease)}
+a.lrow:hover{padding-left:8px}
+a.lrow:hover .ltitle{color:var(--accent)}
+.lnum{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:-.03em;color:var(--ink-2)}
+.ltitle{font-size:18px;font-weight:500;letter-spacing:-.01em;transition:color .2s}
+.why{display:block;font-size:14px;color:var(--ink-2);margin-top:3px}
+.lrow.planned{opacity:.5}
+.lstatus{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--chip)}
+.lstatus.live{background:var(--accent);color:#fff}
+.lstatus.soon{background:transparent;font-weight:500;padding:0;color:var(--ink-2)}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .3s var(--ease)}
+.prow:hover{padding-left:8px}
+.prow:hover .ltitle{color:var(--accent)}
+.pcount{font-size:14px;color:var(--ink-2);white-space:nowrap}
+
+/* ---------- Page intros ---------- */
+.page-intro{padding:56px 0 44px;max-width:820px}
+.crumb{margin:0 0 14px;font-size:15px;font-weight:500;color:var(--ink-2)}
+.crumb a{text-decoration:none}
+.crumb a:hover{color:var(--ink)}
+.page-intro h1{margin:0 0 18px;font-family:var(--display);font-weight:900;font-size:clamp(46px,6.4vw,84px);line-height:.9;letter-spacing:-.035em}
+.page-intro p.big{margin:0;font-size:19px;line-height:1.55;max-width:44ch}
+.prose{max-width:62ch;font-size:18px;line-height:1.65;margin:0 0 64px}
+.prose p{margin:0 0 18px}
+
+/* ---------- Find page ---------- */
+.bigsearch{position:relative;max-width:720px;margin:0 0 56px}
+.bigsearch svg{position:absolute;left:22px;top:50%;width:20px;height:20px;transform:translateY(-50%);pointer-events:none}
+.bigsearch input{width:100%;height:64px;border:0;border-radius:999px;background:var(--surface);color:var(--ink);padding:0 22px 0 54px;font:inherit;font-size:18px;
+  box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .25s;-webkit-appearance:none;appearance:none}
+.bigsearch input::placeholder{color:var(--ink-2)}
+.bigsearch input:focus{outline:none;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sub-h{margin:0 0 14px;font-size:15px;font-weight:500;color:var(--ink-2)}
+.groups{margin:0 0 64px}
+.group{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;padding:24px 0;border-top:1px solid var(--line)}
+.group h3{margin:0;font-size:19px;letter-spacing:-.015em}
+.group .list{border-top:0;margin:0}
+.group .prow:first-child{padding-top:0}
+.screens{margin:0 0 72px}
+.empty-note{margin:0 0 40px;padding:20px 0;color:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ---------- Daily Five ---------- */
+.d5{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;background:var(--surface);border-radius:28px;padding:24px 26px;margin:0 0 56px}
+.d5-icon{width:64px;height:64px;border-radius:16px;background:var(--ink);color:var(--page);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:34px;position:relative}
+.d5-icon::after{content:"";position:absolute;right:11px;top:11px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.d5 h3{margin:0 0 4px;font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em}
+.d5 p{margin:0;font-size:15px;line-height:1.45;color:var(--ink-2);max-width:48ch}
+.d5-btn{background:var(--ink);color:var(--page);text-decoration:none;font-weight:700;font-size:15px;border-radius:999px;padding:13px 20px;white-space:nowrap;transition:background .2s}
+.d5-btn:hover{background:var(--accent);color:#fff}
+
+.site-foot{max-width:1160px;margin:0 auto;padding:28px 32px 48px;color:var(--ink-2);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- Command palette ---------- */
+.pal-backdrop{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
+.palette{position:fixed;z-index:51;left:50%;top:calc(env(safe-area-inset-top,0px) + 11vh);width:min(640px,calc(100vw - 24px));max-height:min(560px,76vh);display:flex;flex-direction:column;
+  background:var(--surface);border-radius:22px;overflow:hidden;box-shadow:0 40px 90px -20px rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transform:translate(-50%,10px) scale(.98);transition:opacity .2s,transform .4s var(--ease)}
+.palette-open .pal-backdrop{opacity:1;pointer-events:auto}
+.palette-open .palette{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.pal-top{display:flex;align-items:center;gap:12px;padding:0 16px 0 20px;height:64px;border-bottom:1px solid var(--line);flex:none}
+.pal-top svg{width:20px;height:20px;flex:none}
+.pal-top input{flex:1;min-width:0;height:100%;border:0;background:transparent;color:var(--ink);font:inherit;font-size:18px;outline:none}
+.pal-top input::placeholder{color:var(--ink-2)}
+.pal-close{border:0;background:transparent;padding:0}
+.pal-list{overflow-y:auto;padding:8px;overscroll-behavior:contain}
+.pal-sec{margin:10px 12px 6px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.pal-item{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:14px;text-decoration:none;cursor:pointer}
+.pal-item[aria-selected="true"]{background:var(--page)}
+.pal-ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--chip);font-family:var(--display);font-weight:900;font-size:17px}
+.pal-ic.live{background:var(--accent);color:#fff}
+.pal-ic svg{width:18px;height:18px}
+.pal-txt{min-width:0}
+.pal-t{display:block;font-size:16px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pal-s{display:block;font-size:13px;color:var(--ink-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pal-none{padding:20px 12px;color:var(--ink-2);font-size:15px;margin:0}
+.pal-foot{display:flex;gap:18px;padding:12px 20px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);flex:none}
+@media (hover:none){.pal-foot{display:none}}
+/* ---------- Device ---------- */
+.phone{position:relative;width:min(340px,calc(100vw - 76px));height:660px;border-radius:46px;overflow:hidden;
+  background:var(--dim);box-shadow:0 0 0 9px var(--bezel),0 40px 70px -24px rgba(15,18,22,.45);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:var(--ios-label)}
+.status{height:50px;display:flex;align-items:center;justify-content:space-between;padding:6px 30px 0;color:#fff;font-size:15px;font-weight:600}
+.icons{display:flex;gap:6px;align-items:center}
+.bars{display:flex;gap:2px;align-items:flex-end;height:11px}
+.bars i{width:3px;background:#fff;border-radius:1px}
+.batt{width:24px;height:11px;border:1.5px solid rgba(255,255,255,.55);border-radius:3.5px;padding:1px}
+.batt i{display:block;height:100%;width:75%;background:#fff;border-radius:1.5px}
+.parent{position:absolute;top:50px;left:16px;right:16px;height:20px;border-radius:12px 12px 0 0;background:rgba(255,255,255,.14)}
+.sheet{position:absolute;top:58px;left:0;right:0;bottom:0;background:var(--ios-bg);border-radius:12px 12px 0 0;display:flex;flex-direction:column}
+.grabber{width:36px;height:5px;border-radius:3px;background:var(--grab);margin:6px auto 0}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:44px;padding:0 16px;font-size:17px}
+.nav .cancel{color:var(--ios-blue)}
+.nav .title{font-weight:600}
+.screen{flex:1;overflow-y:auto;padding:0 16px 28px;scrollbar-width:none;overscroll-behavior:contain}
+.screen::-webkit-scrollbar{display:none}
+.fade{position:absolute;left:0;right:0;bottom:0;height:70px;pointer-events:none;
+  background:linear-gradient(to bottom,transparent,var(--ios-bg));transition:opacity .4s}
+.after .fade{opacity:0}
+
+/* Transition primitive: collapse / expand */
+.c{display:grid;grid-template-rows:1fr;opacity:1;
+  transition:grid-template-rows .62s var(--ease) var(--delay,0s),opacity .38s ease var(--delay,0s)}
+.c>div{min-height:0;overflow:hidden}
+.bad-only{--delay:calc(.12s + var(--d,0) * 45ms)}
+.after .bad-only{grid-template-rows:0fr;opacity:0;--delay:calc(var(--d,0) * 45ms)}
+.good-only{grid-template-rows:0fr;opacity:0;--delay:0s}
+.after .good-only{grid-template-rows:1fr;opacity:1;--delay:calc(.24s + var(--d,0) * 60ms)}
+/* Transition primitive: swap text */
+.swap{display:inline-grid}
+.swap>span{grid-area:1/1;transition:opacity .4s ease .25s}
+.swap .sb{opacity:0}
+.after .swap .sa{opacity:0;transition-delay:0s}
+.after .swap .sb{opacity:1}
+
+/* iOS kit */
+.preview{margin-top:6px;background:var(--ios-cell);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center}
+.thumb{width:56px;height:56px;border-radius:8px;flex:none;position:relative;overflow:hidden;
+  background:linear-gradient(to bottom,#F7B57C 0%,#EA8C98 48%,#7065A3 78%)}
+.thumb::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-38%;height:70%;border-radius:50%;background:#2F3653}
+.thumb::before{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#FFE3B0;left:30px;top:16px}
+.pname{font-size:16px;font-weight:600;margin:0 0 3px}
+.sub{font-size:14px;color:var(--ios-2);display:grid}
+.pad{padding-top:22px}
+.ghead{margin:0;padding:0 16px 6px;font-size:13px;color:var(--ios-2)}
+.card{background:var(--ios-cell);border-radius:12px;overflow:hidden}
+.row{position:relative;min-height:46px;padding:7px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:16px;width:100%;
+  background:transparent;border:0;text-align:left;color:var(--ios-label)}
+.card>.c~.c .row::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
+button.row:active{background:var(--ios-fill)}
+.ph{color:var(--ios-2)}
+.val{color:var(--ios-2);display:flex;align-items:center;gap:6px;font-size:16px}
+.val b{font-weight:400}
+.chev{width:7px;height:7px;border-top:2px solid var(--ios-sep);border-right:2px solid var(--ios-sep);transform:rotate(45deg);margin-right:2px}
+.seg{display:inline-flex;background:var(--ios-fill);border-radius:8px;padding:2px;flex:none}
+.seg button{border:0;background:transparent;font-size:13px;font-weight:500;padding:5px 8px;border-radius:6px;color:var(--ios-label)}
+.seg button[aria-pressed="true"]{background:var(--ios-seg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.sw{width:46px;height:28px;border-radius:14px;border:0;background:var(--ios-off);position:relative;flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;
+  box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .25s var(--ease)}
+.sw[aria-checked="true"]{background:var(--ios-green)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+input[type=range]{width:130px;accent-color:var(--ios-blue)}
+.dims{display:flex;align-items:center;gap:5px;color:var(--ios-2);font-size:14px}
+.dims span{background:var(--ios-fill);color:var(--ios-label);border-radius:6px;padding:3px 7px;font-variant-numeric:tabular-nums}
+.link{color:var(--ios-blue)}
+.primary{margin-top:22px;width:100%;height:50px;border:0;border-radius:12px;background:var(--ios-blue);color:#fff;font-size:17px;font-weight:600}
+.primary:active{opacity:.85}
+.steps-head{padding:12px 4px 2px}
+.progress{display:flex;gap:6px}
+.progress i{flex:1;height:4px;border-radius:2px;background:var(--ios-fill)}
+.progress i.on{background:var(--ios-blue)}
+.step-label{margin:12px 0 2px;font-size:13px;color:var(--ios-2)}
+.step-title{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em}
+
+/* ---------- Coach marks ---------- */
+.ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
+  box-shadow:0 0 0 3px var(--accent),0 0 0 9999px var(--scrim);transition:opacity .35s ease}
+.ring.show{opacity:1}
+.tip{position:absolute;top:0;left:14px;width:calc(100% - 28px);z-index:6;background:var(--tip);color:var(--tip-ink);
+  border-radius:16px;padding:15px 16px 16px;font-family:"Space Grotesk",system-ui,sans-serif;
+  box-shadow:0 20px 40px -12px rgba(0,0,0,.5);opacity:0;transform:translateY(8px) scale(.98);pointer-events:none;
+  transition:opacity .28s ease,transform .45s var(--ease)}
+.tip.show{opacity:1;transform:none;pointer-events:auto}
+.tip.up{transform-origin:bottom}
+.arrow{position:absolute;width:14px;height:14px;background:var(--tip);transform:rotate(45deg);top:-6px;left:40px;border-radius:2px}
+.tip.up .arrow{top:auto;bottom:-6px}
+.tip-head{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tip-2)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.step{margin-left:auto;font-variant-numeric:tabular-nums}
+.tip-close{border:0;background:transparent;width:30px;height:30px;margin:-7px -9px -7px 2px;border-radius:50%;display:grid;place-items:center;color:var(--tip-2)}
+.tip-close:hover{color:var(--tip-ink)}
+.tip-close svg{width:14px;height:14px}
+.tip h2{margin:8px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.01em}
+.tip p{margin:0;font-size:14px;line-height:1.45;opacity:.88}
+.tip .cta{margin-top:14px;border:0;border-radius:10px;padding:9px 14px;background:var(--accent);color:#fff;font-size:14px;font-weight:600}
+.beacon{position:absolute;z-index:6;width:30px;height:30px;border-radius:50%;border:0;background:var(--accent);color:#fff;
+  font-family:"Space Grotesk",system-ui,sans-serif;font-size:15px;font-weight:700;display:grid;place-items:center;
+  box-shadow:0 6px 14px -4px rgba(0,0,0,.35);opacity:0;transform:scale(.5);pointer-events:none;
+  transition:opacity .25s ease,transform .4s var(--ease)}
+.beacon.show{opacity:1;transform:none;pointer-events:auto}
+.beacon::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);z-index:-1;animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(2);opacity:0}}
+
+
+@media (max-width:900px){
+  .lesson-mod{grid-template-columns:1fr;gap:28px;margin-bottom:72px}
+  .helps{grid-template-columns:1fr;margin-top:-32px}
+  .week-row{grid-template-columns:1fr;gap:14px}
+  .tiles{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:118px;overflow-x:auto;scroll-snap-type:x mandatory;
+    margin:0 -32px;padding:4px 32px 10px;scroll-padding:0 32px;scrollbar-width:none}
+  .tiles::-webkit-scrollbar{display:none}
+  .tile{scroll-snap-align:start;height:128px;aspect-ratio:auto}
+  .group{grid-template-columns:1fr;gap:12px}
+}
+@media (max-width:700px){
+  .mast-inner{padding:0 20px;gap:12px;height:60px}
+  .page{padding:0 20px 32px}
+  .site-nav a{padding:7px 9px;font-size:15px}
+  .search-btn{width:38px;padding:0;justify-content:center}
+  .search-btn .sb-label,.search-btn kbd{display:none}
+  .find-pill{height:58px;margin:24px 0 36px;font-size:16px}
+  .find-pill kbd{display:none}
+  .fp-more{display:none}
+  .lesson-title{font-size:clamp(46px,13vw,64px)}
+  .lede{font-size:17px}
+  .canvas{padding:68px 12px 36px;border-radius:26px;margin:0 -8px}
+  .canvas-bar{left:16px;right:12px;top:14px}
+  .tiles{margin:0 -20px;padding:4px 20px 10px;scroll-padding:0 20px}
+  .sec-head{flex-direction:column;gap:4px}
+  .pager{grid-template-columns:1fr}
+  .pager .next{justify-content:flex-start;text-align:left;flex-direction:row-reverse}
+  .d5{grid-template-columns:auto minmax(0,1fr);padding:20px}
+  .d5-btn{grid-column:1/-1;text-align:center}
+  .page-intro{padding:36px 0 32px}
+  .page-intro p.big{font-size:17px}
+  .site-foot{padding:24px 20px 40px}
+}
+@media (max-width:440px){
+  .logo{font-size:19px;gap:8px}
+  .logo svg{width:28px;height:28px}
+  .site-nav a{padding:7px 7px}
+  .site-nav a[data-nav="find"]{display:none}
+}
+@media (max-width:340px){ .logo span{display:none} }
+@media (max-width:400px){ .frame-label{display:none} .canvas-bar{justify-content:flex-end} }
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="mast-inner">
+    <a class="logo" href="#/" aria-label="Daily Crit home">
+      <svg viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1" y="1" width="32" height="24" rx="7" fill="#fff"/>
+        <path d="M11 24.5 L17 31 L23 24.5 Z" fill="#fff"/>
+        <rect x="7" y="8" width="11" height="3" rx="1.5" fill="#000"/>
+        <rect x="7" y="14" width="7" height="3" rx="1.5" fill="#000" opacity=".35"/>
+        <circle cx="24.5" cy="13" r="4" fill="#2B2BFF"/>
+      </svg>
+      <span>Daily Crit</span>
+    </a>
+    <nav class="site-nav" aria-label="Main"><a href="#/lessons" data-nav="lessons">Lessons</a><a href="#/find" data-nav="find">Find</a><a href="#/about" data-nav="about">About</a></nav>
+    <button class="search-btn" data-palette aria-label="Search problems and lessons">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <span class="sb-label">Search</span><kbd>⌘K</kbd>
+    </button>
+  </div>
+</header>
+<main id="app" class="page"></main>
+<footer class="site-foot"><span>Daily Crit. One design crit a day, in real UI. dailycrit.app</span><span>Lesson screens are fictional examples.</span></footer>
+
+<div class="pal-backdrop" data-pal-close></div>
+<div class="palette" role="dialog" aria-modal="true" aria-label="Search problems and lessons">
+  <div class="pal-top">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+    <input id="pal-q" type="text" autocomplete="off" spellcheck="false" placeholder="Describe the problem, or search a principle" aria-label="Search" aria-controls="pal-list" aria-activedescendant="">
+    <button class="pal-close" data-pal-close aria-label="Close search"><kbd>Esc</kbd></button>
+  </div>
+  <div class="pal-list" id="pal-list" role="listbox"></div>
+  <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div>
+</div>
+<template id="tpl-decision-overload">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Export</span><span></span></div>
+        <div class="screen" id="screen">
+
+          <div class="preview">
+            <div class="thumb" aria-hidden="true"></div>
+            <div>
+              <p class="pname">IMG_4021</p>
+              <div class="sub swap"><span class="sa">HEIC, 12 MP, 3.1 MB</span><span class="sb">Saves as a high-quality JPEG</span></div>
+            </div>
+          </div>
+
+          <div class="c bad-only" style="--d:0"><div><div class="pad">
+            <p class="ghead">File</p>
+            <div class="card" id="g-file">
+              <div class="c"><div><div class="row">Format
+                <span class="seg"><button aria-pressed="true">JPEG</button><button aria-pressed="false">PNG</button><button aria-pressed="false">HEIC</button><button aria-pressed="false">TIFF</button></span></div></div></div>
+              <div class="c"><div><div class="row">Quality <input type="range" min="0" max="100" value="85" aria-label="Quality"></div></div></div>
+              <div class="c"><div><button class="row" data-values="Display P3|sRGB|Adobe RGB">Color profile <span class="val"><b class="v">Display P3</b><span class="chev"></span></span></button></div></div>
+              <div class="c"><div><div class="row">Bit depth
+                <span class="seg"><button aria-pressed="true">8-bit</button><button aria-pressed="false">16-bit</button></span></div></div></div>
+            </div>
+          </div></div></div>
+
+          <div class="pad">
+            <div class="c bad-only" style="--d:1"><div><p class="ghead">Output</p></div></div>
+            <div class="card" id="g-size">
+              <div class="c"><div><div class="row">Size
+                <span class="seg"><button aria-pressed="true">Full</button><button aria-pressed="false">Large</button><button aria-pressed="false">Small</button></span></div></div></div>
+              <div class="c bad-only" style="--d:1"><div><div class="row">Dimensions <span class="dims"><span>4032</span>×<span>3024</span></span></div></div></div>
+              <div class="c bad-only" style="--d:2"><div><button class="row" data-values="72 ppi|150 ppi|300 ppi">Resolution <span class="val"><b class="v">72 ppi</b><span class="chev"></span></span></button></div></div>
+              <div class="c good-only" style="--d:1"><div><button class="row link" id="more">More options <span class="val">13<span class="chev"></span></span></button></div></div>
+            </div>
+          </div>
+
+          <div class="c bad-only" style="--d:2"><div><div class="pad">
+            <p class="ghead">Metadata</p>
+            <div class="card">
+              <div class="c"><div><div class="row">Include location <button class="sw" role="switch" aria-checked="false" aria-label="Include location"></button></div></div></div>
+              <div class="c"><div><div class="row">Camera details <button class="sw" role="switch" aria-checked="true" aria-label="Camera details"></button></div></div></div>
+              <div class="c"><div><div class="row">Captions <button class="sw" role="switch" aria-checked="true" aria-label="Captions"></button></div></div></div>
+            </div>
+          </div></div></div>
+
+          <div class="c bad-only" style="--d:3"><div><div class="pad">
+            <p class="ghead">Extras</p>
+            <div class="card">
+              <div class="c"><div><button class="row" data-values="Screen|Glossy print|Matte print|None">Sharpen for <span class="val"><b class="v">Screen</b><span class="chev"></span></span></button></div></div>
+              <div class="c"><div><div class="row">Watermark <button class="sw" role="switch" aria-checked="false" aria-label="Watermark"></button></div></div></div>
+              <div class="c"><div><button class="row" data-values="Original|Date|Custom">File name <span class="val"><b class="v">Original</b><span class="chev"></span></span></button></div></div>
+              <div class="c"><div><button class="row" data-values="None|By date|By album">Subfolder <span class="val"><b class="v">None</b><span class="chev"></span></span></button></div></div>
+            </div>
+          </div></div></div>
+
+          <button class="primary" id="export" data-done="Exported">Export Photo</button>
+        </div>
+</template>
+<template id="tpl-chunking">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Sign Up</span><span></span></div>
+<div class="screen">
+  <div class="c good-only" style="--d:0"><div>
+    <div class="steps-head" id="steps-head">
+      <div class="progress"><i class="on"></i><i></i><i></i></div>
+      <p class="step-label">Step 1 of 3</p>
+      <p class="step-title">Create your account</p>
+    </div>
+  </div></div>
+
+  <div class="pad">
+    <div class="c bad-only" style="--d:0"><div><p class="ghead">Your details</p></div></div>
+    <div class="card" id="g-details">
+      <div class="c"><div><div class="row"><span class="ph">Email</span></div></div></div>
+      <div class="c"><div><div class="row"><span class="ph">Password</span></div></div></div>
+      <div class="c bad-only" style="--d:0"><div><div class="row"><span class="ph">Confirm password</span></div></div></div>
+      <div class="c bad-only" style="--d:1"><div><div class="row"><span class="ph">First name</span></div></div></div>
+      <div class="c bad-only" style="--d:1"><div><div class="row"><span class="ph">Last name</span></div></div></div>
+      <div class="c bad-only" style="--d:2"><div><div class="row"><span class="ph">Phone</span></div></div></div>
+      <div class="c bad-only" style="--d:2"><div><div class="row"><span class="ph">Birthday</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="c bad-only" style="--d:2"><div><div class="pad">
+    <p class="ghead">Address</p>
+    <div class="card">
+      <div class="c"><div><div class="row"><span class="ph">Street address</span></div></div></div>
+      <div class="c"><div><div class="row"><span class="ph">City</span></div></div></div>
+      <div class="c"><div><div class="row"><span class="ph">ZIP code</span></div></div></div>
+    </div>
+  </div></div></div>
+
+  <div class="c bad-only" style="--d:3"><div><div class="pad">
+    <p class="ghead">About you</p>
+    <div class="card">
+      <div class="c"><div><div class="row"><span class="ph">Company</span></div></div></div>
+      <div class="c"><div><div class="row"><span class="ph">Job title</span></div></div></div>
+      <div class="c"><div><button class="row" data-values="Choose|A friend|Search|Social media|Other">How did you hear about us? <span class="val"><b class="v">Choose</b><span class="chev"></span></span></button></div></div>
+    </div>
+  </div></div></div>
+
+  <div class="c bad-only" style="--d:4"><div><div class="pad">
+    <div class="card">
+      <div class="c"><div><div class="row">Send me the newsletter <button class="sw" role="switch" aria-checked="true" aria-label="Newsletter"></button></div></div></div>
+      <div class="c"><div><div class="row">I agree to the Terms <button class="sw" role="switch" aria-checked="false" aria-label="Agree to terms"></button></div></div></div>
+    </div>
+  </div></div></div>
+
+  <button class="primary" id="signup-btn"><span class="swap"><span class="sa">Create Account</span><span class="sb">Continue</span></span></button>
+</div>
+</template>
+<script>
+(function(){
+const THEMES = [
+  { id:'choices',     wk:'Week 1',        title:'Choices and complexity',  desc:'How many decisions a screen asks for, and how to ask for fewer.' },
+  { id:'hierarchy',   wk:'Week 2',        title:'Hierarchy and attention', desc:'Where the eye lands first, and making sure it lands on the right thing.' },
+  { id:'feedback',    wk:'Week 3',        title:'Feedback and forgiveness',desc:'Telling people what is happening, and letting them recover from mistakes.' },
+  { id:'interaction', wk:'Week 4',        title:'Interaction and access',  desc:'Designing for real fingers, real eyes and real expectations.' },
+  { id:'wrap-up',     wk:'Days 29 and 30',title:'Wrap-up',                 desc:'Putting the month together.' }
+];
+
+/* Plain-language problems people arrive with. Lessons point to these by id. */
+const PROBLEM_GROUPS = [
+  { id:'overwhelmed', title:'Overwhelmed or slow' },
+  { id:'give-up',     title:'Giving up' },
+  { id:'miss',        title:'Missing things' },
+  { id:'mistakes',    title:'Making mistakes' },
+  { id:'confused',    title:'Confused or uneasy' }
+];
+const PROBLEMS = [
+  { id:'too-many-options',  group:'overwhelmed', label:'There are too many options on one screen' },
+  { id:'slow-decisions',    group:'overwhelmed', label:'People take too long to decide' },
+  { id:'cluttered',         group:'overwhelmed', label:'The screen feels cluttered' },
+  { id:'abandon-form',      group:'give-up',     label:'People abandon a long form' },
+  { id:'quit-midway',       group:'give-up',     label:'People quit partway through a process' },
+  { id:'drop-onboarding',   group:'give-up',     label:'New users drop off during onboarding' },
+  { id:'miss-main-action',  group:'miss',        label:'People miss the main button or action' },
+  { id:'skim-past',         group:'miss',        label:'People skim past important information' },
+  { id:'unsure-it-worked',  group:'miss',        label:'People can\u2019t tell if something worked' },
+  { id:'wrong-taps',        group:'mistakes',    label:'People tap the wrong thing' },
+  { id:'form-errors',       group:'mistakes',    label:'People make errors filling out forms' },
+  { id:'accidental-delete', group:'mistakes',    label:'People delete things by accident' },
+  { id:'lost-in-nav',       group:'confused',    label:'People get lost in the navigation' },
+  { id:'forget-info',       group:'confused',    label:'People forget what they entered or saw earlier' },
+  { id:'unclear-buttons',   group:'confused',    label:'People aren\u2019t sure what a button does' },
+  { id:'feel-tricked',      group:'confused',    label:'People feel pushed or tricked' },
+  { id:'looks-broken',      group:'confused',    label:'A screen looks empty or broken' },
+  { id:'states-look-same',  group:'confused',    label:'Some people can\u2019t tell states apart' }
+];
+const SCREENS = [
+  { id:'sign-up',    title:'Sign-up and login' },
+  { id:'forms',      title:'Forms' },
+  { id:'settings',   title:'Settings' },
+  { id:'onboarding', title:'Onboarding' },
+  { id:'checkout',   title:'Checkout' },
+  { id:'navigation', title:'Navigation and menus' },
+  { id:'dashboards', title:'Dashboards and cards' },
+  { id:'feeds',      title:'Lists and feeds' },
+  { id:'dialogs',    title:'Dialogs and sheets' },
+  { id:'errors',     title:'Errors and empty states' }
+];
+
+/* Each lesson: problems (ids above), screens (ids above), and synonyms for search. */
+const LESSONS = [
+  { n:1, slug:'decision-overload', title:'Decision overload', theme:'choices', status:'live', frame:'Export sheet',
+    lede:'Every choice you put in front of someone costs time and confidence. Ask for fewer decisions, and the ones that matter get better answers.',
+    tags:["Hick's law",'Smart defaults','Progressive disclosure'],
+    problems:['too-many-options','slow-decisions','cluttered'], screens:['settings','dialogs'],
+    synonyms:'overwhelming overwhelmed choice overload too many choices options complex complicated simplify export share sheet',
+    steps:{
+      before:{ anchor:'#g-file', label:'The problem', title:'14 decisions to save one photo',
+        body:'Each option asks for a judgment call most people can\u2019t make. And the Export button they came for is pushed below the fold.',
+        cta:'Show the fix' },
+      after:{ anchor:'#export', label:'The fix', title:'Smart defaults, details on demand',
+        body:'In this example, user interviews showed size was the one choice people cared about: full to keep, smaller to send. So it stays. Everything else gets a smart default behind More options.',
+        cta:'See the problem again' }
+    }},
+  { n:2, slug:'chunking', title:'Chunking long forms', theme:'choices', status:'draft', frame:'Sign-up form',
+    lede:'A long form looks like work before anyone types a letter. Break it into short steps, and each one feels easy to finish.',
+    tags:['Chunking','Goal-gradient effect','Form design'],
+    problems:['abandon-form','quit-midway','too-many-options'], screens:['sign-up','forms'],
+    synonyms:'long form multi-step multistep wizard stepper steps registration register signup abandonment drop-off dropoff conversion fields',
+    steps:{
+      before:{ anchor:'#g-details', label:'The problem', title:'15 fields on one screen',
+        body:'A wall of inputs signals effort before the first tap, and many people bail right there. The button is buried below it all.',
+        cta:'Show the fix' },
+      after:{ anchor:'#steps-head', label:'The fix', title:'Three short steps',
+        body:'Step one asks only for what creates the account. The rest is split into small steps or saved for later, and the progress bar shows the finish line.',
+        cta:'See the problem again' }
+    }},
+  { n:3,  slug:'smart-defaults', title:'Smart defaults', theme:'choices', status:'planned',
+    problems:['slow-decisions','too-many-options'], screens:['settings','forms','checkout'], synonyms:'default preselected preset' },
+  { n:4,  slug:'recognition-over-recall', title:'Recognition over recall', theme:'choices', status:'planned',
+    problems:['forget-info','lost-in-nav'], screens:['forms','navigation'], synonyms:'memory remember recent history autocomplete' },
+  { n:5,  slug:'progressive-onboarding', title:'Progressive onboarding', theme:'choices', status:'planned',
+    problems:['drop-onboarding'], screens:['onboarding'], synonyms:'tutorial walkthrough first run welcome intro carousel' },
+  { n:6,  slug:'empty-states', title:'Helpful empty states', theme:'choices', status:'planned',
+    problems:['looks-broken','drop-onboarding'], screens:['errors','feeds','dashboards'], synonyms:'empty blank nothing zero state first use' },
+  { n:7,  slug:'navigation-overload', title:'Too many navigation items', theme:'choices', status:'planned',
+    problems:['lost-in-nav','too-many-options'], screens:['navigation'], synonyms:'menu tab bar sidebar hamburger information architecture ia' },
+  { n:8,  slug:'one-primary-action', title:'One primary action', theme:'hierarchy', status:'planned',
+    problems:['miss-main-action','slow-decisions'], screens:['checkout','dialogs','sign-up'], synonyms:'cta call to action primary secondary button competing buttons' },
+  { n:9,  slug:'proximity', title:'Proximity and grouping', theme:'hierarchy', status:'planned',
+    problems:['cluttered','form-errors'], screens:['forms','dashboards'], synonyms:'gestalt spacing whitespace group related' },
+  { n:10, slug:'visual-hierarchy', title:'Visual hierarchy', theme:'hierarchy', status:'planned',
+    problems:['miss-main-action','skim-past','cluttered'], screens:['dashboards','feeds'], synonyms:'emphasis contrast size weight focus attention' },
+  { n:11, slug:'scannable-text', title:'Scannable text', theme:'hierarchy', status:'planned',
+    problems:['skim-past'], screens:['feeds','onboarding'], synonyms:'reading wall of text copy headings f-pattern long text' },
+  { n:12, slug:'alignment', title:'Alignment', theme:'hierarchy', status:'planned',
+    problems:['cluttered'], screens:['forms','dashboards'], synonyms:'grid layout messy edges' },
+  { n:13, slug:'consistency', title:'Consistency', theme:'hierarchy', status:'planned',
+    problems:['lost-in-nav','unclear-buttons'], screens:['navigation','dialogs'], synonyms:'consistent patterns standards design system' },
+  { n:14, slug:'interruptions', title:'Interruptions and popups', theme:'hierarchy', status:'planned',
+    problems:['skim-past','feel-tricked'], screens:['dialogs','feeds'], synonyms:'modal popup pop-up interstitial banner blindness annoying' },
+  { n:15, slug:'system-status', title:'Show system status', theme:'feedback', status:'planned',
+    problems:['unsure-it-worked','quit-midway'], screens:['checkout','dashboards'], synonyms:'loading spinner progress feedback waiting slow saved save sent submitted know whether confirmation' },
+  { n:16, slug:'undo', title:'Undo over \u201cAre you sure?\u201d', theme:'feedback', status:'planned',
+    problems:['accidental-delete'], screens:['feeds','settings'], synonyms:'confirm confirmation dialog undo delete remove' },
+  { n:17, slug:'inline-errors', title:'Inline errors', theme:'feedback', status:'planned',
+    problems:['form-errors'], screens:['forms','sign-up'], synonyms:'validation error message invalid' },
+  { n:18, slug:'error-prevention', title:'Prevent errors with constraints', theme:'feedback', status:'planned',
+    problems:['form-errors'], screens:['forms','checkout'], synonyms:'constraint picker format input mask mistakes' },
+  { n:19, slug:'destructive-actions', title:'Destructive actions', theme:'feedback', status:'planned',
+    problems:['accidental-delete','wrong-taps'], screens:['settings','dialogs'], synonyms:'delete remove danger red irreversible' },
+  { n:20, slug:'optimistic-ui', title:'Optimistic UI', theme:'feedback', status:'planned',
+    problems:['unsure-it-worked'], screens:['feeds'], synonyms:'latency instant responsive feels slow saved save sent liked' },
+  { n:21, slug:'dead-ends', title:'Friendly dead ends', theme:'feedback', status:'planned',
+    problems:['looks-broken','lost-in-nav'], screens:['errors'], synonyms:'404 not found error page broken link' },
+  { n:22, slug:'fitts-law', title:"Fitts's law", theme:'interaction', status:'planned',
+    problems:['wrong-taps','miss-main-action'], screens:['navigation','checkout'], synonyms:'tap target touch target small buttons size distance' },
+  { n:23, slug:'thumb-zone', title:'The thumb zone', theme:'interaction', status:'planned',
+    problems:['wrong-taps','miss-main-action'], screens:['navigation','checkout'], synonyms:'reach one handed mobile bottom top' },
+  { n:24, slug:'color-alone', title:'Color isn\u2019t enough', theme:'interaction', status:'planned',
+    problems:['states-look-same'], screens:['dashboards','forms'], synonyms:'accessibility a11y color blind contrast status charts' },
+  { n:25, slug:'labels-not-placeholders', title:'Labels, not placeholders', theme:'interaction', status:'planned',
+    problems:['form-errors','forget-info','abandon-form'], screens:['forms','sign-up'], synonyms:'placeholder label input field accessibility' },
+  { n:26, slug:'affordance', title:'Buttons that look tappable', theme:'interaction', status:'planned',
+    problems:['unclear-buttons','wrong-taps'], screens:['navigation','dialogs'], synonyms:'affordance flat design clickable signifier links' },
+  { n:27, slug:'clear-labels', title:'Clear button labels', theme:'interaction', status:'planned',
+    problems:['unclear-buttons'], screens:['dialogs','checkout'], synonyms:'microcopy ux writing ok submit wording copy' },
+  { n:28, slug:'confirmshaming', title:'Confirmshaming', theme:'interaction', status:'planned',
+    problems:['feel-tricked'], screens:['dialogs','sign-up'], synonyms:'dark pattern guilt manipulative opt out unsubscribe' },
+  { n:29, slug:'spot-the-problems', title:'Spot the problems', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'quiz review practice' },
+  { n:30, slug:'month-in-review', title:'The month in review', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'recap summary' }
+];
+
+const problemById = id => PROBLEMS.find(p => p.id === id);
+const screenById = id => SCREENS.find(x => x.id === id);
+const lessonsFor = (field, id) => LESSONS.filter(l => (l[field] || []).includes(id))
+  .sort((a, b) => (visible(b) - visible(a)) || a.n - b.n);
+
+/* ---------- search: weighted keyword matching, all in the browser ---------- */
+const STOP = new Set('a an the to of and or is are am my our i it its on in for with be can cant can’t dont don’t do does not they them people users user when how what why this that so very get gets at from by their there some me we us want need help too many much really just something thing things keep keeps'.split(' '));
+const stem = w => w.length > 4 ? w.replace(/(ing|ed|es|s)$/, '') : w;
+const words = t => String(t).toLowerCase().replace(/[’']/g, '').split(/[^a-z0-9]+/).filter(Boolean).map(stem);
+const queryTokens = q => words(q).filter(w => w.length > 1 && !STOP.has(w));
+const SEARCH_INDEX = LESSONS.map(l => ({ l, fields: [
+  { w:5, t:l.title }, { w:4, t:(l.tags||[]).join(' ') },
+  { w:4, t:(l.problems||[]).map(id => problemById(id).label).join(' ') },
+  { w:3, t:l.synonyms || '' }, { w:2, t:(l.screens||[]).map(id => screenById(id).title).join(' ') },
+  { w:1, t:l.lede || '' }, { w:1, t:l.steps ? Object.values(l.steps).map(x => x.title + ' ' + x.body).join(' ') : '' }
+].map(f => ({ w:f.w, text:f.t.toLowerCase(), ws:words(f.t) })) }));
+function scoreFields(fields, toks, phrase){
+  let score = 0, hits = 0;
+  toks.forEach(q => {
+    let hit = false;
+    fields.forEach(f => { if (f.ws.some(w => w.startsWith(q) || (q.length > 3 && w.length > 3 && q.startsWith(w)))) { score += f.w; hit = true; } });
+    if (hit) hits++;
+  });
+  if (phrase.length > 3) fields.forEach(f => { if (f.text.includes(phrase)) score += f.w * 2; });
+  return toks.length ? score * (hits / toks.length) : 0;
+}
+function search(q){
+  const toks = queryTokens(q), phrase = q.trim().toLowerCase();
+  if (!toks.length) return { lessons:[], problems:[] };
+  const lessons = SEARCH_INDEX.map(x => ({ l:x.l, s:scoreFields(x.fields, toks, phrase) }))
+    .filter(x => x.s >= 3).sort((a, b) => b.s - a.s || (visible(b.l) - visible(a.l)) || a.l.n - b.l.n).map(x => x.l);
+  const problems = PROBLEMS.map(p => ({ p, s:scoreFields([{ w:1, text:p.label.toLowerCase(), ws:words(p.label) }], toks, phrase) }))
+    .filter(x => x.s >= 0.5).sort((a, b) => b.s - a.s).slice(0, 4).map(x => x.p);
+  return { lessons, problems };
+}
+
+
+let eng = null;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function unmount(){ if (!eng) return; clearTimeout(eng.timer); eng.ac.abort(); eng = null; }
+
+function mount(lesson){
+  const root = app.querySelector('[data-lesson-root]');
+  const tpl = document.getElementById('tpl-' + lesson.slug);
+  if (!root || !tpl) return;
+  const phone = root.querySelector('.phone');
+  const sheet = phone.querySelector('.sheet');
+  sheet.insertAdjacentHTML('beforeend', tpl.innerHTML + '<div class="fade"></div>');
+  phone.insertAdjacentHTML('beforeend', `
+    <div class="ring" aria-hidden="true"></div>
+    <button class="beacon" aria-label="Show tip">?</button>
+    <div class="tip" role="status" aria-live="polite">
+      <span class="arrow"></span>
+      <div class="tip-head"><span class="dot"></span><span class="t-label"></span><span class="step t-step"></span>
+        <button class="tip-close" aria-label="Hide tip"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+      <h2 class="t-title"></h2><p class="t-body"></p><button class="cta"></button>
+    </div>`);
+  const ac = new AbortController();
+  const on = (el, ev, fn, opts) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, opts || {}));
+  const e = eng = {
+    lesson, ac, state:'before', timer:null, root, phone,
+    screen: sheet.querySelector('.screen'),
+    tip: phone.querySelector('.tip'), arrow: phone.querySelector('.arrow'),
+    ring: phone.querySelector('.ring'), beacon: phone.querySelector('.beacon'),
+    switches: root.querySelectorAll('.switch button')
+  };
+  const step = () => lesson.steps[e.state];
+
+  function position(){
+    const tipOn = e.tip.classList.contains('show');
+    if (!tipOn && !e.beacon.classList.contains('show')) return;
+    const a = phone.querySelector(step().anchor);
+    const pr = phone.getBoundingClientRect(), ar = a.getBoundingClientRect(), pad = 5;
+    Object.assign(e.ring.style, { top:(ar.top-pr.top-pad)+'px', left:(ar.left-pr.left-pad)+'px', width:(ar.width+pad*2)+'px', height:(ar.height+pad*2)+'px' });
+    e.beacon.style.left = Math.min(ar.right - pr.left - 22, pr.width - 40) + 'px';
+    e.beacon.style.top = Math.max(ar.top - pr.top - 12, 58) + 'px';
+    if (!tipOn) return;
+    const w = e.tip.offsetWidth, h = e.tip.offsetHeight;
+    let top = ar.bottom - pr.top + 18, up = false;
+    if (top + h > pr.height - 12) {
+      const above = ar.top - pr.top - h - 14;
+      if (above > 60) { top = above; up = true; } else top = pr.height - h - 12;
+    }
+    const left = Math.min(Math.max(ar.left - pr.left + ar.width/2 - w/2, 14), pr.width - w - 14);
+    e.tip.style.top = top + 'px'; e.tip.style.left = left + 'px';
+    e.tip.classList.toggle('up', up);
+    e.arrow.style.left = Math.min(Math.max(ar.left - pr.left + ar.width/2 - left - 7, 22), w - 36) + 'px';
+  }
+  function showTip(){
+    const s = step();
+    e.tip.querySelector('.t-label').textContent = s.label;
+    e.tip.querySelector('.t-step').textContent = (e.state === 'before' ? 1 : 2) + ' of 2';
+    e.tip.querySelector('.t-title').textContent = s.title;
+    e.tip.querySelector('.t-body').textContent = s.body;
+    e.tip.querySelector('.cta').textContent = s.cta;
+    e.beacon.classList.remove('show');
+    e.tip.classList.add('show'); position(); e.ring.classList.add('show');
+  }
+  function hideAll(){ e.tip.classList.remove('show'); e.beacon.classList.remove('show'); e.ring.classList.remove('show'); }
+  function dismiss(){ e.tip.classList.remove('show'); e.ring.classList.remove('show'); e.beacon.classList.add('show'); position(); e.beacon.focus({ preventScroll:true }); }
+  function go(next){
+    clearTimeout(e.timer); hideAll(); e.state = next;
+    e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
+    root.dataset.state = next;
+    const apply = () => { phone.classList.toggle('after', next === 'after'); e.timer = setTimeout(showTip, reduce ? 60 : 980); };
+    if (e.screen.scrollTop > 0) { e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); e.timer = setTimeout(apply, reduce ? 0 : 340); }
+    else e.timer = setTimeout(apply, reduce ? 0 : 220);
+  }
+
+  e.switches.forEach(b => on(b, 'click', () => {
+    if (b.dataset.s !== e.state) go(b.dataset.s); else if (!e.tip.classList.contains('show')) showTip();
+  }));
+  on(phone, 'click', ev => {
+    const t = ev.target;
+    if (t.closest('.tip-close')) return dismiss();
+    if (t.closest('.cta')) return go(e.state === 'before' ? 'after' : 'before');
+    if (t.closest('.beacon')) return showTip();
+    const segB = t.closest('.seg button');
+    if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); return; }
+    const sw = t.closest('.sw');
+    if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
+    const cyc = t.closest('[data-values]');
+    if (cyc) { const vals = cyc.dataset.values.split('|'), v = cyc.querySelector('.v'); v.textContent = vals[(vals.indexOf(v.textContent)+1) % vals.length]; return; }
+    const done = t.closest('[data-done]');
+    if (done) { const orig = done.textContent; done.textContent = done.dataset.done; setTimeout(() => { done.textContent = orig; }, 1200); }
+  });
+  on(e.screen, 'scroll', position, { passive:true });
+  on(window, 'resize', position);
+  on(document, 'keydown', ev => {
+    if (document.body.classList.contains('palette-open')) return;
+    if (ev.key === 'Escape' && e.tip.classList.contains('show')) return dismiss();
+    if (ev.target.closest && ev.target.closest('input, textarea, select')) return;
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (ev.key === 'ArrowRight' && e.state === 'before') { ev.preventDefault(); go('after'); }
+    if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
+  });
+  e.timer = setTimeout(showTip, reduce ? 0 : 700);
+}
+
+const DAILY_FIVE_URL = 'https://apps.apple.com/app/id6766068712';
+
+/* ---------- helpers ---------- */
+const app = document.getElementById('app');
+const slugify = s => s.toLowerCase().replace(/['\u2019]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const themeById = id => THEMES.find(t => t.id === id);
+const visible = l => l.status !== 'planned';
+const latestLive = () => [...LESSONS].reverse().find(l => l.status === 'live');
+const allTags = () => { const m = new Map(); LESSONS.filter(visible).forEach(l => (l.tags||[]).forEach(t => m.set(slugify(t), t))); return m; };
+const MOD_K = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent) ? '⌘K' : 'Ctrl K';
+const pad2 = n => String(n).padStart(2, '0');
+const lc = s => s.charAt(0).toLowerCase() + s.slice(1);
+const ICON_SEARCH = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>';
+const ICON_PROBLEM = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.5M10 13.6v.1"/></svg>';
+
+function statusChip(l){
+  if (l.status === 'live') return '<span class="lstatus live">Live</span>';
+  if (l.status === 'draft') return '<span class="lstatus">Draft</span>';
+  return '<span class="lstatus soon">Upcoming</span>';
+}
+function lessonRows(list, toks){
+  return `<div class="list">${list.map(l => {
+    const probs = (l.problems || []).map(problemById);
+    const best = probs.find(p => (toks||[]).some(q => words(p.label).some(w => w.startsWith(q)))) || probs[0];
+    const why = best ? `<span class="why">Helps when ${esc(lc(best.label))}</span>` : '';
+    const inner = `<span class="lnum">${pad2(l.n)}</span><span><span class="ltitle">${esc(l.title)}</span>${why}</span>${statusChip(l)}`;
+    return visible(l) ? `<a class="lrow" href="#/lessons/${l.slug}">${inner}</a>` : `<div class="lrow planned">${inner}</div>`;
+  }).join('')}</div>`;
+}
+function problemRows(list){
+  return `<div class="list">${list.map(p => {
+    const n = lessonsFor('problems', p.id).length;
+    return `<a class="prow" href="#/problems/${p.id}"><span class="ltitle">${esc(p.label)}</span><span class="pcount">${n} lesson${n === 1 ? '' : 's'}</span></a>`;
+  }).join('')}</div>`;
+}
+function tile(l){
+  const today = latestLive();
+  const st = l === today ? 'Today' : l.status === 'draft' ? 'Draft' : '';
+  const inner = `<span class="tn">${l.n}</span>${st ? `<span class="ts">${st}</span>` : ''}<span class="tt">${esc(l.title)}</span>`;
+  return visible(l) ? `<a class="tile ${l.status}" href="#/lessons/${l.slug}">${inner}</a>`
+                    : `<div class="tile planned" title="Coming soon">${inner}</div>`;
+}
+function month(){
+  const live = LESSONS.filter(l => l.status === 'live').length, draft = LESSONS.filter(l => l.status === 'draft').length;
+  return `<section class="month" aria-labelledby="month-h">
+    <div class="sec-head"><h2 id="month-h">All 30 lessons</h2><p>${live} live${draft ? `, ${draft} in draft` : ''}, a new one each day</p></div>
+    <div style="height:18px"></div>
+    ${THEMES.map(t => `<div class="week-row">
+      <div><span class="wk">${t.wk}</span><a class="week-name" href="#/themes/${t.id}">${esc(t.title)}</a></div>
+      <div class="tiles">${LESSONS.filter(l => l.theme === t.id).map(tile).join('')}</div>
+    </div>`).join('')}
+  </section>`;
+}
+function dailyFive(){
+  return `<aside class="d5" aria-label="The Daily Five app">
+    <div class="d5-icon" aria-hidden="true">5</div>
+    <div><h3>The Daily Five</h3><p>Five handpicked design reads and videos every day, chosen for designers early in their careers.</p></div>
+    <a class="d5-btn" href="${DAILY_FIVE_URL}" target="_blank" rel="noopener">Get the app</a>
+  </aside>`;
+}
+const statusBar = `<div class="status"><span>9:41</span><span class="icons"><span class="bars"><i style="height:4px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:11px"></i></span><span class="batt"><i></i></span></span></div>`;
+
+function lessonModule(l, onHome){
+  const t = themeById(l.theme), frame = esc(l.frame || l.title);
+  const title = onHome ? `<h1 class="lesson-title"><a href="#/lessons/${l.slug}">${esc(l.title)}</a></h1>` : `<h1 class="lesson-title">${esc(l.title)}</h1>`;
+  return `<section class="lesson-mod" data-lesson-root data-state="before">
+    <div class="copy">
+      <p class="lesson-meta"><span>${onHome ? 'Today\u2019s crit, lesson ' : 'Lesson '}${l.n}</span>${l.status === 'draft' ? '<span class="badge">Draft</span>' : ''}<a class="theme-link" href="#/themes/${t.id}">${esc(t.title)}</a></p>
+      ${title}
+      <p class="lede">${esc(l.lede)}</p>
+      <p class="related-label">Related principles</p>
+      <ul class="tags">${l.tags.map(tag => `<li><a href="#/tags/${slugify(tag)}">${esc(tag)}</a></li>`).join('')}</ul>
+    </div>
+    <div class="canvas" aria-label="Interactive example">
+      <div class="canvas-bar">
+        <span class="frame-label" aria-hidden="true"><span class="fa">${frame} / Before</span><span class="fb">${frame} / After</span></span>
+        <div class="switch" role="group" aria-label="Compare versions"><button data-s="before" aria-pressed="true">Before</button><button data-s="after" aria-pressed="false">After</button></div>
+      </div>
+      <div class="phone">${statusBar}<div class="parent"></div><div class="sheet"><div class="grabber"></div></div></div>
+      <p class="canvas-hint">Press <kbd>←</kbd><kbd>→</kbd> to compare</p>
+    </div>
+  </section>`;
+}
+function helpsBlock(l){
+  if (!(l.problems || []).length) return '';
+  return `<section class="helps">
+    <div><p class="related-label">Shows up in</p><ul class="tags">${l.screens.map(id => `<li><a href="#/screens/${id}">${esc(screenById(id).title)}</a></li>`).join('')}</ul></div>
+    <div><p class="related-label">Helps when</p><ul class="plist">${l.problems.map(id => `<li><a href="#/problems/${id}">${esc(problemById(id).label)}</a></li>`).join('')}</ul></div>
+  </section>`;
+}
+
+/* =========================================================
+   PAGES
+   ========================================================= */
+function pageHome(){
+  const today = latestLive();
+  return { html: `
+    <button class="find-pill" data-palette>${ICON_SEARCH}<span class="fp-text"><b>Stuck on something?</b> <span class="fp-more">Describe the problem</span></span><kbd>${MOD_K}</kbd></button>
+    ${lessonModule(today, true)}
+    ${month()}
+    ${dailyFive()}`, lesson: today };
+}
+function pageLessons(){
+  return { html: `
+    <section class="page-intro"><h1>Lessons</h1>
+      <p class="big">Four weekly themes, one principle a day. Each lesson takes about a minute.</p></section>
+    ${month()}${dailyFive()}` };
+}
+function pageLesson(slug){
+  const l = LESSONS.find(x => x.slug === slug && visible(x));
+  if (!l) return null;
+  const prev = LESSONS.find(x => x.n === l.n - 1), next = LESSONS.find(x => x.n === l.n + 1);
+  const card = (x, dir) => {
+    if (!x) return `<div class="empty"></div>`;
+    const cls = dir === 'next' ? 'next' : '';
+    const inner = `<span class="pnum">${pad2(x.n)}</span><span><span class="dir">${dir === 'next' ? 'Next' : 'Previous'}${visible(x) ? '' : ', coming soon'}</span><span class="pt">${esc(x.title)}</span></span>`;
+    return visible(x) ? `<a class="${cls}" href="#/lessons/${x.slug}">${inner}</a>` : `<div class="${cls} muted">${inner}</div>`;
+  };
+  return { html: `<div style="height:40px"></div>${lessonModule(l, false)}${helpsBlock(l)}
+    <nav class="pager" aria-label="Lessons">${card(prev,'prev')}${card(next,'next')}</nav>${dailyFive()}`, lesson: l };
+}
+function pageTheme(id){
+  const t = themeById(id); if (!t) return null;
+  return { html: `
+    <section class="page-intro"><p class="crumb"><a href="#/lessons">Lessons</a> / ${t.wk}</p><h1>${esc(t.title)}</h1><p class="big">${esc(t.desc)}</p></section>
+    ${lessonRows(LESSONS.filter(l => l.theme === t.id))}${dailyFive()}` };
+}
+function pageTag(slug){
+  const name = allTags().get(slug); if (!name) return null;
+  const list = LESSONS.filter(l => visible(l) && l.tags.some(t => slugify(t) === slug));
+  return { html: `
+    <section class="page-intro"><p class="crumb"><a href="#/lessons">Lessons</a> / Principle</p><h1>${esc(name)}</h1>
+      <p class="big">${list.length} lesson${list.length === 1 ? '' : 's'} so far.</p></section>
+    ${lessonRows(list)}${dailyFive()}` };
+}
+function browseAll(){
+  return `<div class="groups">${PROBLEM_GROUPS.map(g => `<section class="group"><h3>${esc(g.title)}</h3>${problemRows(PROBLEMS.filter(p => p.group === g.id))}</section>`).join('')}</div>
+    <p class="sub-h">Browse by screen</p>
+    <ul class="tags screens">${SCREENS.map(x => `<li><a href="#/screens/${x.id}">${esc(x.title)}<span class="cnt">${lessonsFor('screens', x.id).length}</span></a></li>`).join('')}</ul>`;
+}
+function renderResults(q){
+  const box = document.getElementById('results'); if (!box) return;
+  const toks = queryTokens(q);
+  if (!toks.length) { box.innerHTML = browseAll(); return; }
+  const res = search(q);
+  let html = '';
+  if (res.problems.length) html += `<p class="sub-h">Problems that sound like yours</p>${problemRows(res.problems)}`;
+  html += `<p class="sub-h">Principles and lessons</p>`;
+  html += res.lessons.length ? lessonRows(res.lessons, toks) : `<p class="empty-note">Nothing matches that yet. Try other words, or browse the common problems below.</p>`;
+  box.innerHTML = html + browseAll();
+}
+function pageFind(q){
+  return { html: `
+    <section class="page-intro"><h1>What\u2019s going wrong?</h1>
+      <p class="big">Describe the problem in your own words, or browse the common ones. Each points to a principle you can cite.</p></section>
+    <form class="bigsearch" role="search" data-search>${ICON_SEARCH}
+      <label class="sr-only" for="q">Describe the problem</label>
+      <input id="q" type="search" autocomplete="off" placeholder="e.g. people quit my form" value="${esc(q)}"></form>
+    <div id="results"></div>`, find: q };
+}
+function pageProblem(id){
+  const p = problemById(id); if (!p) return null;
+  const g = PROBLEM_GROUPS.find(x => x.id === p.group);
+  const list = lessonsFor('problems', p.id);
+  const related = PROBLEMS.filter(x => x.group === p.group && x.id !== p.id);
+  return { html: `
+    <section class="page-intro"><p class="crumb"><a href="#/find">Problems</a> / ${esc(g.title)}</p><h1>${esc(p.label)}</h1>
+      <p class="big">${list.length} principle${list.length === 1 ? '' : 's'} that help, each with a lesson showing the fix.</p></section>
+    ${lessonRows(list)}
+    ${related.length ? `<p class="sub-h">Related problems</p>${problemRows(related)}` : ''}${dailyFive()}` };
+}
+function pageScreen(id){
+  const x = screenById(id); if (!x) return null;
+  return { html: `
+    <section class="page-intro"><p class="crumb"><a href="#/find">Screens</a></p><h1>${esc(x.title)}</h1>
+      <p class="big">Principles that come up most when designing ${esc(x.title.toLowerCase())}.</p></section>
+    ${lessonRows(lessonsFor('screens', x.id))}${dailyFive()}` };
+}
+function pageAbout(){
+  return { html: `
+    <section class="page-intro"><h1>Design principles, shown in real UI.</h1>
+      <p class="big">Each day, a flawed screen fixes itself in front of you, with notes on what went wrong and why the fix works.</p></section>
+    <div class="prose">
+      <p>Daily Crit is a short design review you can watch. Most design principles are taught with a definition and a diagram. Here, each one starts as a real-looking screen with a real problem. A note explains what is wrong, then the screen fixes itself and a second note explains why the fix works.</p>
+      <p>Tap around in the before version. The friction is the lesson.</p>
+      <p>A new lesson goes up every day for 30 days, organized into four weekly themes. After that, the library keeps growing.</p>
+    </div>${dailyFive()}` };
+}
+
+/* =========================================================
+   COMMAND PALETTE (⌘K, /, or any search button)
+   ========================================================= */
+const pal = {
+  input: document.getElementById('pal-q'), list: document.getElementById('pal-list'),
+  items: [], sel: 0, opener: null
+};
+function palRender(){
+  const q = pal.input.value, toks = queryTokens(q);
+  const groups = [];
+  if (!toks.length) {
+    const today = latestLive();
+    groups.push({ title:'Today', items:[{ href:`#/lessons/${today.slug}`, ic:`<span class="pal-ic live">${today.n}</span>`, t:today.title, s:themeById(today.theme).title }] });
+    groups.push({ title:'Common problems', items:['too-many-options','abandon-form','miss-main-action','unsure-it-worked','wrong-taps'].map(id => {
+      const p = problemById(id); return { href:`#/problems/${id}`, ic:`<span class="pal-ic">${ICON_PROBLEM}</span>`, t:p.label, s:PROBLEM_GROUPS.find(g => g.id === p.group).title };
+    }) });
+  } else {
+    const res = search(q);
+    if (res.problems.length) groups.push({ title:'Problems', items: res.problems.map(p => ({ href:`#/problems/${p.id}`, ic:`<span class="pal-ic">${ICON_PROBLEM}</span>`, t:p.label, s:`${lessonsFor('problems', p.id).length} lessons` })) });
+    const ls = res.lessons.slice(0, 6);
+    if (ls.length) groups.push({ title:'Lessons', items: ls.map(l => ({
+      href: visible(l) ? `#/lessons/${l.slug}` : `#/problems/${l.problems[0]}`,
+      ic:`<span class="pal-ic ${l.status === 'live' ? 'live' : ''}">${l.n}</span>`, t:l.title,
+      s: visible(l) ? themeById(l.theme).title : 'Coming soon, see related problem' })) });
+    groups.push({ title:'', items:[{ href:`#/find?q=${encodeURIComponent(q)}`, ic:`<span class="pal-ic">${ICON_SEARCH}</span>`, t:`See all results for \u201c${q}\u201d`, s:'Open the Find page' }] });
+  }
+  pal.items = groups.flatMap(g => g.items); pal.sel = 0;
+  let i = 0;
+  pal.list.innerHTML = groups.map(g => `${g.title ? `<p class="pal-sec">${g.title}</p>` : '<div style="height:6px"></div>'}${g.items.map(it => {
+    const id = 'pal-opt-' + i;
+    return `<a class="pal-item" id="${id}" role="option" data-i="${i++}" href="${it.href}" aria-selected="false">${it.ic}<span class="pal-txt"><span class="pal-t">${esc(it.t)}</span><span class="pal-s">${esc(it.s)}</span></span></a>`;
+  }).join('')}`).join('') + (toks.length && groups.length === 1 ? '<p class="pal-none">No matches yet. Try describing what people are doing.</p>' : '');
+  palSelect(0);
+}
+function palSelect(i){
+  if (!pal.items.length) return;
+  pal.sel = (i + pal.items.length) % pal.items.length;
+  pal.list.querySelectorAll('.pal-item').forEach(el => el.setAttribute('aria-selected', String(+el.dataset.i === pal.sel)));
+  const el = document.getElementById('pal-opt-' + pal.sel);
+  pal.input.setAttribute('aria-activedescendant', el ? el.id : '');
+  if (el) el.scrollIntoView({ block:'nearest' });
+}
+function palOpen(q){
+  pal.opener = document.activeElement;
+  pal.input.value = q || '';
+  document.body.classList.add('palette-open');
+  palRender();
+  setTimeout(() => pal.input.focus(), 30);
+}
+function palClose(){
+  if (!document.body.classList.contains('palette-open')) return;
+  document.body.classList.remove('palette-open');
+  if (pal.opener && pal.opener.focus) pal.opener.focus({ preventScroll:true });
+}
+pal.input.addEventListener('input', palRender);
+pal.input.addEventListener('keydown', ev => {
+  if (ev.key === 'ArrowDown') { ev.preventDefault(); palSelect(pal.sel + 1); }
+  else if (ev.key === 'ArrowUp') { ev.preventDefault(); palSelect(pal.sel - 1); }
+  else if (ev.key === 'Enter') { ev.preventDefault(); const it = pal.items[pal.sel]; if (it) { palClose(); location.hash = it.href; } }
+});
+pal.list.addEventListener('mousemove', ev => { const el = ev.target.closest('.pal-item'); if (el && +el.dataset.i !== pal.sel) palSelect(+el.dataset.i); });
+pal.list.addEventListener('click', ev => { if (ev.target.closest('.pal-item')) palClose(); });
+document.addEventListener('click', ev => {
+  if (ev.target.closest('[data-palette]')) { ev.preventDefault(); palOpen(); }
+  else if (ev.target.closest('[data-pal-close]')) palClose();
+});
+document.addEventListener('keydown', ev => {
+  const open = document.body.classList.contains('palette-open');
+  if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 'k') { ev.preventDefault(); open ? palClose() : palOpen(); return; }
+  if (open && ev.key === 'Escape') { ev.preventDefault(); palClose(); return; }
+  if (!open && ev.key === '/' && !(ev.target.closest && ev.target.closest('input, textarea'))) { ev.preventDefault(); palOpen(); }
+});
+if (!/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) document.querySelectorAll('kbd').forEach(k => { if (k.textContent === '⌘K') k.textContent = 'Ctrl K'; });
+
+/* =========================================================
+   ROUTER
+   ========================================================= */
+function route(){
+  const [path, qs] = location.hash.replace(/^#\/?/, '').split('?');
+  const parts = (path || '').split('/').filter(Boolean);
+  const q = new URLSearchParams(qs || '').get('q') || '';
+  let page = null, nav = '';
+  if (!parts.length) page = pageHome();
+  else if (parts[0] === 'lessons' && parts[1]) { page = pageLesson(parts[1]); nav = 'lessons'; }
+  else if (parts[0] === 'lessons') { page = pageLessons(); nav = 'lessons'; }
+  else if (parts[0] === 'themes') { page = pageTheme(parts[1]); nav = 'lessons'; }
+  else if (parts[0] === 'tags') { page = pageTag(parts[1]); nav = 'lessons'; }
+  else if (parts[0] === 'about') { page = pageAbout(); nav = 'about'; }
+  else if (parts[0] === 'find') { page = pageFind(q); nav = 'find'; }
+  else if (parts[0] === 'problems') { page = pageProblem(parts[1]); nav = 'find'; }
+  else if (parts[0] === 'screens') { page = pageScreen(parts[1]); nav = 'find'; }
+  if (!page) { page = pageHome(); nav = ''; }
+  unmount();
+  palClose();
+  app.innerHTML = page.html;
+  app.classList.remove('page-enter'); void app.offsetWidth; app.classList.add('page-enter');
+  document.querySelectorAll('[data-nav]').forEach(a => { if (a.dataset.nav === nav) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  const h = app.querySelector('h1');
+  document.title = (parts.length && h ? h.textContent + ' | ' : '') + 'Daily Crit';
+  if (!(parts[0] === 'find' && document.activeElement && document.activeElement.id === 'q')) window.scrollTo(0, 0);
+  if (page.lesson) mount(page.lesson);
+  if (page.find !== undefined) {
+    renderResults(page.find);
+    const input = document.getElementById('q');
+    input.addEventListener('input', () => {
+      renderResults(input.value);
+      history.replaceState(null, '', '#/find' + (input.value.trim() ? '?q=' + encodeURIComponent(input.value) : ''));
+    });
+  }
+}
+document.addEventListener('submit', ev => { if (ev.target.closest('[data-search]')) ev.preventDefault(); });
+window.addEventListener('hashchange', route);
+route();
+})();
+</script>
+</body>
+</html>
