@@ -267,6 +267,13 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .after .swap .sa{opacity:0;transition-delay:0s}
 .after .swap .sb{opacity:1}
 
+/* Transition primitive: preset (data-before / data-after set a control's value per state; empty = unset) */
+.v:empty::before{content:"Choose";color:var(--ios-blue)}
+.v.pin{animation:pin .5s var(--ease) both}
+@keyframes pin{from{opacity:0;transform:translateX(6px)}}
+.primary{transition:background .3s,color .3s}
+.primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
+
 /* iOS kit */
 .preview{margin-top:6px;background:var(--ios-cell);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center}
 .thumb{width:56px;height:56px;border-radius:8px;flex:none;position:relative;overflow:hidden;
@@ -525,6 +532,37 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" id="signup-btn"><span class="swap"><span class="sa">Create Account</span><span class="sb">Continue</span></span></button>
 </div>
 </template>
+<template id="tpl-smart-defaults">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Checkout</span><span></span></div>
+<div class="screen">
+  <div class="pad">
+    <p class="ghead">Delivery</p>
+    <div class="card" id="g-delivery">
+      <div class="c"><div><button class="row" data-values="United States|Canada|United Kingdom" data-before="" data-after="United States">Country <span class="val"><b class="v"></b><span class="chev"></span></span></button></div></div>
+      <div class="c"><div><button class="row" data-values="Home|Work|New address" data-before="" data-after="Home">Ship to <span class="val"><b class="v"></b><span class="chev"></span></span></button></div></div>
+      <div class="c"><div><button class="row" data-values="Standard, free|Express, $9|Next day, $19" data-before="" data-after="Standard, free">Speed <span class="val"><b class="v"></b><span class="chev"></span></span></button></div></div>
+    </div>
+  </div>
+
+  <div class="pad">
+    <p class="ghead">Extras</p>
+    <div class="card">
+      <div class="c"><div><div class="row">Gift wrap
+        <span class="seg" data-before="" data-after="No"><button aria-pressed="false">No</button><button aria-pressed="false">Yes</button></span></div></div></div>
+      <div class="c"><div><button class="row" data-values="Email|Paper|Both" data-before="" data-after="Email">Receipt <span class="val"><b class="v"></b><span class="chev"></span></span></button></div></div>
+    </div>
+  </div>
+
+  <div class="pad">
+    <p class="ghead">Payment</p>
+    <div class="card">
+      <div class="c"><div><button class="row" data-values="Apple Pay|Visa ending 4242|PayPal" data-before="" data-after="Apple Pay">Pay with <span class="val"><b class="v"></b><span class="chev"></span></span></button></div></div>
+    </div>
+  </div>
+
+  <button class="primary" id="pay" data-gate data-done="Paid"><span class="swap"><span class="sa">Pay</span><span class="sb">Pay $48.00</span></span></button>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -606,9 +644,20 @@ const LESSONS = [
         body:'Step one asks only for what creates the account. The rest is split into small steps or saved for later, and the progress bar shows the finish line.',
         cta:'See the problem again' }
     }},
-  { n:3,  slug:'smart-defaults', title:'Smart defaults', theme:'choices', status:'planned',
-    problems:['slow-decisions','too-many-options'], screens:['settings','forms','checkout'], synonyms:'default preselected preset',
-    phrases:['why do I have to pick all of this myself','nothing is selected on checkout','the pay button stays grey','people take ages to get through checkout','what should be selected by default'] },
+  { n:3, slug:'smart-defaults', title:'Every choice starts blank', theme:'choices', status:'draft', frame:'Checkout',
+    lede:'Every blank choice is a small decision people have to stop and make. Preselect the answer most people would pick, and let everyone else change it.',
+    tags:['Smart defaults','Default effect','Hick\u2019s law'],
+    problems:['slow-decisions'], screens:['checkout','forms'],
+    synonyms:'default defaults preselected preselect preset prefilled prefill autofill blank empty unselected',
+    phrases:['why do I have to pick all of this myself','nothing is selected on checkout','the pay button stays grey','people take ages to get through checkout','what should be selected by default','preselect the option most people choose'],
+    steps:{
+      before:{ anchor:'#g-delivery', label:'The problem', title:'6 choices before you can pay',
+        body:'Shipping speed, country, gift wrap: nothing is selected, and Pay stays grey until every one is answered. Most people want the same answers, but each has to be picked by hand.',
+        cta:'Show the fix' },
+      after:{ anchor:'#g-delivery', label:'The fix', title:'Preselect what most people pick',
+        body:'In this example, order data showed 9 in 10 people chose standard shipping to their own country. Those are now preselected, so most people just check and pay. Anyone can still change them.',
+        cta:'See the problem again' }
+    }},
   { n:4,  slug:'recognition-over-recall', title:'Recognition over recall', theme:'choices', status:'planned',
     problems:['forget-info','lost-in-nav'], screens:['forms','navigation'], synonyms:'memory remember recent history autocomplete',
     phrases:['people have to look things up to use the app','users keep retyping the same thing','I have to remember the account number','show recent items instead of asking again','people forget what to type'] },
@@ -759,6 +808,28 @@ function mount(lesson){
   };
   const step = () => lesson.steps[e.state];
 
+  // Preset primitive: [data-before]/[data-after] give a control's value in each state ("" = unset).
+  // [data-gate] buttons stay disabled while any choice on the screen is unset.
+  function gate(){
+    const unset = [...e.screen.querySelectorAll('[data-values] .v')].some(v => !v.textContent) ||
+      [...e.screen.querySelectorAll('.seg')].some(sg => !sg.querySelector('[aria-pressed="true"]'));
+    e.screen.querySelectorAll('[data-gate]').forEach(b => b.setAttribute('aria-disabled', String(unset)));
+  }
+  function presets(state, animate){
+    e.screen.querySelectorAll('[data-before],[data-after]').forEach(el => {
+      if (!el.hasAttribute('data-' + state)) return;
+      const val = el.getAttribute('data-' + state);
+      if (el.classList.contains('seg')) el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.textContent === val)));
+      else if (el.classList.contains('sw')) el.setAttribute('aria-checked', String(val === 'true'));
+      else {
+        const v = el.querySelector('.v'); if (!v || v.textContent === val) return;
+        v.textContent = val; v.classList.remove('pin');
+        if (animate && val) { void v.offsetWidth; v.classList.add('pin'); }
+      }
+    });
+    gate();
+  }
+
   function position(){
     const tipOn = e.tip.classList.contains('show');
     if (!tipOn && !e.beacon.classList.contains('show')) return;
@@ -795,7 +866,7 @@ function mount(lesson){
     clearTimeout(e.timer); hideAll(); e.state = next;
     e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
     root.dataset.state = next;
-    const apply = () => { phone.classList.toggle('after', next === 'after'); e.timer = setTimeout(showTip, reduce ? 60 : 980); };
+    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); e.timer = setTimeout(showTip, reduce ? 60 : 980); };
     if (e.screen.scrollTop > 0) { e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); e.timer = setTimeout(apply, reduce ? 0 : 340); }
     else e.timer = setTimeout(apply, reduce ? 0 : 220);
   }
@@ -809,13 +880,16 @@ function mount(lesson){
     if (t.closest('.cta')) return go(e.state === 'before' ? 'after' : 'before');
     if (t.closest('.beacon')) return showTip();
     const segB = t.closest('.seg button');
-    if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); return; }
+    if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); gate(); return; }
     const sw = t.closest('.sw');
     if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
     const cyc = t.closest('[data-values]');
-    if (cyc) { const vals = cyc.dataset.values.split('|'), v = cyc.querySelector('.v'); v.textContent = vals[(vals.indexOf(v.textContent)+1) % vals.length]; return; }
+    if (cyc) { const vals = cyc.dataset.values.split('|'), v = cyc.querySelector('.v'); v.textContent = vals[(vals.indexOf(v.textContent)+1) % vals.length]; v.classList.remove('pin'); gate(); return; }
     const done = t.closest('[data-done]');
-    if (done) { const orig = done.textContent; done.textContent = done.dataset.done; setTimeout(() => { done.textContent = orig; }, 1200); }
+    if (done && done.getAttribute('aria-disabled') !== 'true' && !done.dataset.busy) {
+      const orig = done.innerHTML; done.dataset.busy = '1'; done.textContent = done.dataset.done;
+      setTimeout(() => { done.innerHTML = orig; delete done.dataset.busy; }, 1200);
+    }
   });
   on(e.screen, 'scroll', position, { passive:true });
   on(window, 'resize', position);
@@ -827,6 +901,7 @@ function mount(lesson){
     if (ev.key === 'ArrowRight' && e.state === 'before') { ev.preventDefault(); go('after'); }
     if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
   });
+  presets('before', false);
   e.timer = setTimeout(showTip, reduce ? 0 : 700);
 }
 

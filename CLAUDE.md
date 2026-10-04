@@ -105,6 +105,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Text: `.val` with `.chev` (value with disclosure arrow), `.ph` (placeholder text), `.link`
 - Special: `.preview` and `.thumb` (photo row), `.steps-head` and `.progress` (stepper)
 - Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, and `data-done="Done"` on a button flashes that text when tapped.
+- Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg` or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**
 - Give each tooltip anchor an `id`, and make sure the anchor exists in that state (the Before anchor must not be inside a `good-only` block).
