@@ -56,7 +56,7 @@ Full entries, ready to build. Tooltips follow the writing rules in `CLAUDE.md`.
     before:{ anchor:'#g-delivery', label:'The problem', title:'6 choices before you can pay',
       body:'Shipping speed, country, gift wrap: nothing is selected, and Pay stays grey until every one is answered. Most people want the same answers, but each has to be picked by hand.',
       cta:'Show the fix' },
-    after:{ anchor:'#pay', label:'The fix', title:'Preselect what most people pick',
+    after:{ anchor:'#g-delivery', label:'The fix', title:'Preselect what most people pick',
       body:'In this example, order data showed 9 in 10 people chose standard shipping to their own country. Those are now preselected, so most people just check and pay. Anyone can still change them.',
       cta:'See the problem again' }
   }}
