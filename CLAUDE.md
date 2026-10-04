@@ -104,7 +104,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Controls: `.seg` with buttons and `aria-pressed`, `.sw` with `role="switch"` and `aria-checked`, `.primary` (main button)
 - Text: `.val` with `.chev` (value with disclosure arrow), `.ph` (placeholder text), `.link`
 - Special: `.preview` and `.thumb` (photo row), `.steps-head` and `.progress` (stepper)
-- Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, and `data-done="Done"` on a button flashes that text when tapped.
+- People and text: `.amount` (big centered amount with a caption), `.people` with buttons holding an `.avatar` (set its color with `--av`; `.avatar.add` for a "+" button), `.field` (a real text input inside a `<label class="row">`), `.hint` (small grey note under a card)
+- Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, `data-pick` on a group of buttons makes them single-select (like `.seg`), and `data-done="Done"` on a button flashes that text when tapped. Typed `.field` text and `data-pick` selections clear on every state change.
 - Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg` or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**

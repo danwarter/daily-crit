@@ -313,6 +313,19 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .progress i.on{background:var(--ios-blue)}
 .step-label{margin:12px 0 2px;font-size:13px;color:var(--ios-2)}
 .step-title{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.field{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;color:var(--ios-label);text-align:right;padding:0;outline:none}
+.field::placeholder{color:var(--ios-2)}
+.hint{margin:0;padding:8px 16px 0;font-size:13px;line-height:1.35;color:var(--ios-2)}
+.amount{padding:28px 0 4px;text-align:center}
+.amount b{display:block;font-size:46px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.amount span{font-size:14px;color:var(--ios-2)}
+.people{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;background:var(--ios-cell);border-radius:12px;padding:12px 8px}
+.people::-webkit-scrollbar{display:none}
+.people button{flex:1 0 54px;border:0;background:transparent;color:var(--ios-label);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0}
+.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:17px;font-weight:600;
+  background:var(--av,var(--ios-fill));transition:box-shadow .2s}
+.avatar.add{color:var(--ios-blue);font-size:26px;font-weight:400}
+.people button[aria-pressed="true"] .avatar{box-shadow:0 0 0 2px var(--ios-cell),0 0 0 4px var(--ios-blue)}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -563,6 +576,41 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" id="pay" data-gate data-done="Paid"><span class="swap"><span class="sa">Pay</span><span class="sb">Pay $48.00</span></span></button>
 </div>
 </template>
+<template id="tpl-recognition-over-recall">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Send Money</span><span></span></div>
+<div class="screen">
+  <div class="c bad-only" style="--d:0"><div><div class="pad">
+    <p class="ghead">Recipient</p>
+    <div class="card" id="g-recipient">
+      <div class="c"><div><label class="row">Name <input class="field" type="text" placeholder="Full name" autocomplete="off"></label></div></div>
+      <div class="c"><div><label class="row">Routing number <input class="field" type="text" inputmode="numeric" maxlength="9" placeholder="9 digits" autocomplete="off"></label></div></div>
+      <div class="c"><div><label class="row">Account number <input class="field" type="text" inputmode="numeric" maxlength="8" placeholder="8 digits" autocomplete="off"></label></div></div>
+    </div>
+    <p class="hint">Find these on a check or in their bank’s app. <span class="link">Where do I look?</span></p>
+  </div></div></div>
+
+  <div class="c good-only" style="--d:0"><div><div class="pad">
+    <p class="ghead">Recent</p>
+    <div class="people" id="recents" data-pick>
+      <button aria-pressed="false"><span class="avatar add">+</span>New</button>
+      <button aria-pressed="false"><span class="avatar" style="--av:#FF9F0A">M</span>Maya</button>
+      <button aria-pressed="false"><span class="avatar" style="--av:#5E5CE6">S</span>Sam</button>
+      <button aria-pressed="false"><span class="avatar" style="--av:#30B0C7">J</span>Jordan</button>
+      <button aria-pressed="false"><span class="avatar" style="--av:#FF375F">M</span>Mom</button>
+    </div>
+  </div></div></div>
+
+  <div class="c good-only" style="--d:1"><div><div class="pad">
+    <div class="card">
+      <div class="c"><div><label class="row"><input class="field" style="text-align:left" type="text" placeholder="Search name, email or phone" autocomplete="off"></label></div></div>
+    </div>
+  </div></div></div>
+
+  <div class="amount"><b>$120.00</b><span>From Checking •• 4821</span></div>
+
+  <button class="primary" id="send" data-done="Sent">Send $120.00</button>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -658,9 +706,20 @@ const LESSONS = [
         body:'In this example, order data showed 9 in 10 people chose standard shipping to their own country. Those are now preselected, so most people just check and pay. Anyone can still change them.',
         cta:'See the problem again' }
     }},
-  { n:4,  slug:'recognition-over-recall', title:'Recognition over recall', theme:'choices', status:'planned',
-    problems:['forget-info','lost-in-nav'], screens:['forms','navigation'], synonyms:'memory remember recent history autocomplete',
-    phrases:['people have to look things up to use the app','users keep retyping the same thing','I have to remember the account number','show recent items instead of asking again','people forget what to type'] },
+  { n:4, slug:'recognition-over-recall', title:'Making people remember what the app knows', theme:'choices', status:'live', frame:'Send money',
+    lede:'Remembering is harder than recognizing. If the app already knows something, show it, instead of asking people to recall it.',
+    tags:['Recognition over recall','Cognitive load'],
+    problems:['forget-info'], screens:['forms'],
+    synonyms:'memory remember recall recognize recent recents history autocomplete suggestions retype retyping payee recipient contacts bank transfer payment',
+    phrases:['people have to look things up to use the app','users keep retyping the same thing','I have to remember the account number','show recent items instead of asking again','people forget what to type'],
+    steps:{
+      before:{ anchor:'#g-recipient', label:'The problem', title:'17 digits typed from memory',
+        body:'To pay someone they\u2019ve paid before, people retype a routing and account number. Most have to leave the app to look them up, and one wrong digit sends money to the wrong place.',
+        cta:'Show the fix' },
+      after:{ anchor:'#recents', label:'The fix', title:'Pick from people you\u2019ve paid',
+        body:'Recent recipients appear as names and faces, so people recognize who they want instead of recalling numbers. Adding someone new is still one tap away. That\u2019s recognition over recall.',
+        cta:'See the problem again' }
+    }},
   { n:5,  slug:'progressive-onboarding', title:'Progressive onboarding', theme:'choices', status:'planned',
     problems:['drop-onboarding'], screens:['onboarding'], synonyms:'tutorial walkthrough first run welcome intro carousel',
     phrases:['everyone skips the tutorial','new users drop off after sign-up','our welcome carousel is not working','people do not know where anything is','how do I teach a new app without a tour'] },
@@ -816,6 +875,8 @@ function mount(lesson){
     e.screen.querySelectorAll('[data-gate]').forEach(b => b.setAttribute('aria-disabled', String(unset)));
   }
   function presets(state, animate){
+    e.screen.querySelectorAll('.field').forEach(f => { f.value = ''; });
+    e.screen.querySelectorAll('[data-pick] button').forEach(b => b.setAttribute('aria-pressed', 'false'));
     e.screen.querySelectorAll('[data-before],[data-after]').forEach(el => {
       if (!el.hasAttribute('data-' + state)) return;
       const val = el.getAttribute('data-' + state);
@@ -879,7 +940,7 @@ function mount(lesson){
     if (t.closest('.tip-close')) return dismiss();
     if (t.closest('.cta')) return go(e.state === 'before' ? 'after' : 'before');
     if (t.closest('.beacon')) return showTip();
-    const segB = t.closest('.seg button');
+    const segB = t.closest('.seg button, [data-pick] button');
     if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); gate(); return; }
     const sw = t.closest('.sw');
     if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
