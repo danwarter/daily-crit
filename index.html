@@ -326,6 +326,27 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   background:var(--av,var(--ios-fill));transition:box-shadow .2s}
 .avatar.add{color:var(--ios-blue);font-size:26px;font-weight:400}
 .people button[aria-pressed="true"] .avatar{box-shadow:0 0 0 2px var(--ios-cell),0 0 0 4px var(--ios-blue)}
+.nav .end{justify-self:end;color:var(--ios-blue)}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;text-align:center;padding:0 6px}
+.art{height:210px;margin:16px 0 22px;border-radius:24px;display:grid;place-items:center;color:#fff;background:var(--art,var(--ios-blue))}
+.art svg{width:76px;height:76px}
+.slide h3{margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.slide p{margin:0;font-size:16px;line-height:1.4;color:var(--ios-2)}
+.tick{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ios-sep);background:transparent;flex:none;position:relative;padding:0;transition:background .2s,border-color .2s}
+.tick[aria-checked="true"]{background:var(--ios-blue);border-color:var(--ios-blue)}
+.tick[aria-checked="true"]::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.icon-btn{border:0;background:transparent;padding:0;color:var(--ios-blue);display:grid;place-items:center;flex:none}
+.icon-btn svg{width:24px;height:24px}
+.apptip{position:relative;margin-top:10px;display:flex;gap:12px;align-items:flex-start;background:var(--ios-cell);border-radius:14px;padding:12px 10px 12px 14px;box-shadow:0 6px 20px -8px rgba(0,0,0,.25)}
+.apptip::before{content:"";position:absolute;top:-6px;right:22px;width:14px;height:14px;background:var(--ios-cell);transform:rotate(45deg);border-radius:2px}
+.apptip-ic{color:var(--ios-blue);flex:none;margin-top:1px}
+.apptip-ic svg{width:26px;height:26px}
+.apptip b{display:block;font-size:15px;font-weight:600;margin-bottom:2px;color:var(--ios-label)}
+.apptip-txt{font-size:14px;line-height:1.35;color:var(--ios-2)}
+.apptip [data-dismiss]{position:relative;border:0;background:transparent;color:var(--ios-2);font-size:20px;line-height:1;padding:0 4px;margin-left:auto}
+.phone .c.shut{grid-template-rows:0fr;opacity:0;--delay:0s}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -611,6 +632,53 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" id="send" data-done="Sent">Send $120.00</button>
 </div>
 </template>
+<template id="tpl-progressive-onboarding">
+<div class="nav"><span></span><span class="title"><span class="swap"><span class="sa">Welcome</span><span class="sb">Groceries</span></span></span><span class="end"><span class="swap"><span class="sa">Skip</span><span class="sb">Share</span></span></span></div>
+<div class="screen">
+  <div class="c bad-only" style="--d:0"><div data-carousel>
+    <div class="steps-head" id="tour">
+      <div class="progress"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+      <p class="step-label" data-count>1 of 5</p>
+    </div>
+    <div class="slides">
+      <div class="slide"><div class="art" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5z"/><path d="M8 9l4-6 4 6"/><path d="M9 13v4M15 13v4"/></svg></div>
+        <h3>Welcome to Basket</h3><p>Shared grocery lists that keep the whole household in sync.</p></div>
+      <div class="slide"><div class="art" style="--art:#007AFF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></div>
+        <h3>A list for every store</h3><p>Tap + to start a list, then add items as you think of them.</p></div>
+      <div class="slide"><div class="art" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.4 0 4 1.6 4.5 4.5"/></svg></div>
+        <h3>Shop together</h3><p>Invite family to a list and see what they add as they add it.</p></div>
+      <div class="slide"><div class="art" style="--art:#5E5CE6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3"/><path d="M7 8v8M10 8v8M13 8v8M16 8v8"/></svg></div>
+        <h3>Scan to add</h3><p>Point your camera at any barcode to add that exact product.</p></div>
+      <div class="slide"><div class="art" style="--art:#FF375F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg></div>
+        <h3>Never forget a thing</h3><p>Turn on reminders and we’ll nudge you when you’re near the store.</p></div>
+    </div>
+    <button class="primary" data-next="Next" data-last="Get Started" data-done="Opening…">Next</button>
+  </div></div>
+
+  <div class="c good-only" style="--d:0"><div><div class="pad"><div id="first-tip">
+    <div class="card">
+      <div class="c"><div><label class="row"><input class="field" style="text-align:left" type="text" placeholder="Add an item" autocomplete="off">
+        <button class="icon-btn" type="button" aria-label="Scan a barcode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3"/><path d="M7 8v8M10 8v8M13 8v8M16 8v8"/></svg></button></label></div></div>
+    </div>
+    <div class="c"><div style="padding-top:6px"><div class="apptip">
+      <span class="apptip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3"/><path d="M7 8v8M10 8v8M13 8v8M16 8v8"/></svg></span>
+      <span class="apptip-txt"><b>Scan instead of typing</b>Tap the barcode button to add the exact product in your hand.</span>
+      <button data-dismiss aria-label="Close tip">×</button>
+    </div></div></div>
+  </div></div></div></div>
+
+  <div class="c good-only" style="--d:1"><div><div class="pad">
+    <p class="ghead">To buy</p>
+    <div class="card">
+      <div class="c"><div><div class="row">Oat milk <button class="tick" role="checkbox" aria-checked="false" aria-label="Oat milk"></button></div></div></div>
+      <div class="c"><div><div class="row">Bananas <button class="tick" role="checkbox" aria-checked="false" aria-label="Bananas"></button></div></div></div>
+      <div class="c"><div><div class="row">Coffee beans <button class="tick" role="checkbox" aria-checked="false" aria-label="Coffee beans"></button></div></div></div>
+      <div class="c"><div><div class="row">Eggs <button class="tick" role="checkbox" aria-checked="false" aria-label="Eggs"></button></div></div></div>
+    </div>
+    <p class="hint">Added by Sam and Maya</p>
+  </div></div></div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -720,9 +788,20 @@ const LESSONS = [
         body:'Recent recipients appear as names and faces, so people recognize who they want instead of recalling numbers. Adding someone new is still one tap away. That\u2019s recognition over recall.',
         cta:'See the problem again' }
     }},
-  { n:5,  slug:'progressive-onboarding', title:'Progressive onboarding', theme:'choices', status:'planned',
-    problems:['drop-onboarding'], screens:['onboarding'], synonyms:'tutorial walkthrough first run welcome intro carousel',
-    phrases:['everyone skips the tutorial','new users drop off after sign-up','our welcome carousel is not working','people do not know where anything is','how do I teach a new app without a tour'] },
+  { n:5, slug:'progressive-onboarding', title:'New users have to sit through a tour first', theme:'choices', status:'live', frame:'Welcome',
+    lede:'People open a new app to do something, not to learn it. Teach each feature at the moment someone reaches for it.',
+    tags:['Paradox of the active user','Progressive disclosure','Just-in-time learning'],
+    problems:['drop-onboarding'], screens:['onboarding'],
+    synonyms:'tutorial walkthrough first run welcome intro carousel tour coach mark tooltip tips onboard',
+    phrases:['everyone skips the tutorial','new users drop off after sign-up','our welcome carousel is not working','people do not know where anything is','how do I teach a new app without a tour'],
+    steps:{
+      before:{ anchor:'#tour', label:'The problem', title:'5 screens before the app opens',
+        body:'A welcome tour explains features nobody has needed yet. Most people swipe through without reading, then still don\u2019t know where things are.',
+        cta:'Show the fix' },
+      after:{ anchor:'#first-tip', label:'The fix', title:'One tip, right when it\u2019s needed',
+        body:'In this example, user interviews showed people skipped the tour to get started. Now they land in the app, and a single tip appears the first time they reach for a feature.',
+        cta:'See the problem again' }
+    }},
   { n:6,  slug:'empty-states', title:'Helpful empty states', theme:'choices', status:'planned',
     problems:['looks-broken','drop-onboarding'], screens:['errors','feeds','dashboards'], synonyms:'empty blank nothing zero state first use',
     phrases:['new users see an empty screen','people think the app is broken','nothing shows up the first time','what should a page say when there is no data','users do not know what to do first'] },
@@ -874,8 +953,19 @@ function mount(lesson){
       [...e.screen.querySelectorAll('.seg')].some(sg => !sg.querySelector('[aria-pressed="true"]'));
     e.screen.querySelectorAll('[data-gate]').forEach(b => b.setAttribute('aria-disabled', String(unset)));
   }
+  // Carousel primitive: [data-carousel] holds .slides (swipe, or tap [data-next] to advance);
+  // its .progress and [data-count] follow the current slide, and [data-next] reads [data-last] on the last one.
+  function carousel(c){
+    const s = c.querySelector('.slides'), n = s.children.length, i = Math.round(s.scrollLeft / (s.clientWidth || 1));
+    c.querySelectorAll('.progress i').forEach((x, k) => x.classList.toggle('on', k <= i));
+    c.querySelectorAll('[data-count]').forEach(x => { x.textContent = (i + 1) + ' of ' + n; });
+    c.querySelectorAll('[data-next]').forEach(b => { if (!b.dataset.busy) b.textContent = i === n - 1 ? (b.dataset.last || b.dataset.next) : b.dataset.next; });
+    return { s, i, n };
+  }
   function presets(state, animate){
     e.screen.querySelectorAll('.field').forEach(f => { f.value = ''; });
+    e.screen.querySelectorAll('.shut').forEach(c => c.classList.remove('shut'));
+    e.screen.querySelectorAll('[data-carousel]').forEach(c => { c.querySelector('.slides').scrollLeft = 0; carousel(c); });
     e.screen.querySelectorAll('[data-pick] button').forEach(b => b.setAttribute('aria-pressed', 'false'));
     e.screen.querySelectorAll('[data-before],[data-after]').forEach(el => {
       if (!el.hasAttribute('data-' + state)) return;
@@ -942,7 +1032,12 @@ function mount(lesson){
     if (t.closest('.beacon')) return showTip();
     const segB = t.closest('.seg button, [data-pick] button');
     if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); gate(); return; }
-    const sw = t.closest('.sw');
+    const nx = t.closest('[data-next]');
+    if (nx) { const { s, i, n } = carousel(nx.closest('[data-carousel]'));
+      if (i < n - 1) { s.scrollTo({ left:(i + 1) * s.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); return; } }
+    const dm = t.closest('[data-dismiss]');
+    if (dm) { dm.closest('.c').classList.add('shut'); setTimeout(() => { if (eng === e) position(); }, 650); return; }
+    const sw = t.closest('.sw, .tick');
     if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
     const cyc = t.closest('[data-values]');
     if (cyc) { const vals = cyc.dataset.values.split('|'), v = cyc.querySelector('.v'); v.textContent = vals[(vals.indexOf(v.textContent)+1) % vals.length]; v.classList.remove('pin'); gate(); return; }
@@ -953,6 +1048,7 @@ function mount(lesson){
     }
   });
   on(e.screen, 'scroll', position, { passive:true });
+  on(e.screen, 'scroll', ev => { if (ev.target.classList.contains('slides')) carousel(ev.target.closest('[data-carousel]')); }, { capture:true, passive:true });
   on(window, 'resize', position);
   on(document, 'keydown', ev => {
     if (document.body.classList.contains('palette-open')) return;
