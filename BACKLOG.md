@@ -130,13 +130,13 @@ Lesson 1 lists progressive disclosure as a related tag; here the primary princip
   lede:'Every extra menu item makes all the others a little harder to find. Keep the few that people use most in view, and group the rest.',
   tags:['Hick’s law','Information architecture','Serial position effect'],
   problems:['lost-in-nav'], screens:['navigation'],
-  synonyms:'menu tab bar sidebar hamburger information architecture ia navigation bar',
+  synonyms:'menu tab bar tabbar tabs sidebar hamburger information architecture ia navigation bar nav bottom icons crowded',
   phrases:['people cannot find things in the menu','our tab bar is crowded','too many icons at the bottom','users get lost in the app','how many tabs is too many'],
   steps:{
     before:{ anchor:'#tabbar', label:'The problem', title:'9 tabs, each one a guess',
-      body:'Nine tiny icons are squeezed into the tab bar, plus a menu. Every extra item slows down every search, and the labels are too small to read.',
+      body:'Nine tiny icons share the tab bar, plus a menu up top. Every extra item slows down every search, and half the labels get cut off.',
       cta:'Show the fix' },
-    after:{ anchor:'#tabbar-fixed', label:'The fix', title:'4 tabs people actually use',
+    after:{ anchor:'#tabbar', label:'The fix', title:'4 tabs people actually use',
       body:'In this example, analytics showed four destinations got most visits. They stay in the tab bar, and the rest move into Account. Fewer choices means faster finding: that’s Hick’s law.',
       cta:'See the problem again' }
   }}
