@@ -117,8 +117,8 @@ Lesson 1 lists progressive disclosure as a related tag; here the primary princip
     before:{ anchor:'#empty-msg', label:'The problem', title:'“No items” and nothing else',
       body:'A new user opens their list and sees two grey words. They can’t tell whether something failed to load or what they’re supposed to do next.',
       cta:'Show the fix' },
-    after:{ anchor:'#add-first', label:'The fix', title:'Explain it, then offer the first step',
-      body:'The empty list says what will live here and puts one clear button in reach: Add your first task. An empty screen is a chance to teach, not a dead end.',
+    after:{ anchor:'#add-first', label:'The fix', title:'Explain it, then offer a first step',
+      body:'The list says what goes here and offers one clear first step. A blank screen is a chance to teach, not a dead end.',
       cta:'See the problem again' }
   }}
 ```

@@ -347,6 +347,13 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .apptip-txt{font-size:14px;line-height:1.35;color:var(--ios-2)}
 .apptip [data-dismiss]{position:relative;border:0;background:transparent;color:var(--ios-2);font-size:20px;line-height:1;padding:0 4px;margin-left:auto}
 .phone .c.shut{grid-template-rows:0fr;opacity:0;--delay:0s}
+.nav .add{font-size:28px;font-weight:300;line-height:1}
+.blank{min-height:500px;display:grid;place-items:center;font-size:15px;color:var(--ios-2)}
+.empty{text-align:center;padding:8px 12px 0}
+.empty .art{width:68px;height:68px;margin:0 auto 14px;border-radius:20px}
+.empty .art svg{width:34px;height:34px}
+.empty h3{margin:0 0 8px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.empty p{margin:0;font-size:16px;line-height:1.4;color:var(--ios-2)}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -679,6 +686,22 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div></div></div>
 </div>
 </template>
+<template id="tpl-empty-states">
+<div class="nav"><span class="cancel">Lists</span><span class="title">Tasks</span><span class="end add" aria-label="Add task">+</span></div>
+<div class="screen">
+  <div class="c bad-only" style="--d:0"><div><div class="blank"><span id="empty-msg">No items</span></div></div></div>
+
+  <div class="c good-only" style="--d:0"><div><div class="empty">
+    <div class="art" style="--art:#007AFF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 9l1.5 1.5L12 8M8 15l1.5 1.5L12 14M14.5 9.5H17M14.5 15.5H17"/></svg></div>
+    <h3>Nothing to do yet</h3>
+    <p>Tasks you add show up here. Check them off as you get them done.</p>
+  </div></div></div>
+
+  <div class="c good-only" style="--d:1"><div>
+    <button class="primary" id="add-first" data-done="New task added">Add your first task</button>
+  </div></div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -802,9 +825,20 @@ const LESSONS = [
         body:'In this example, user interviews showed people skipped the tour to get started. Now they land in the app, and a single tip appears the first time they reach for a feature.',
         cta:'See the problem again' }
     }},
-  { n:6,  slug:'empty-states', title:'Helpful empty states', theme:'choices', status:'planned',
-    problems:['looks-broken','drop-onboarding'], screens:['errors','feeds','dashboards'], synonyms:'empty blank nothing zero state first use',
-    phrases:['new users see an empty screen','people think the app is broken','nothing shows up the first time','what should a page say when there is no data','users do not know what to do first'] },
+  { n:6, slug:'empty-states', title:'The screen is blank, so it looks broken', theme:'choices', status:'live', frame:'Tasks',
+    lede:'A blank screen looks like an error to someone new. Use it to explain what goes here and how to add the first thing.',
+    tags:['Empty states','Visibility of system status'],
+    problems:['looks-broken'], screens:['feeds'],
+    synonyms:'empty blank nothing zero state first use no data no results',
+    phrases:['new users see an empty screen','people think the app is broken','nothing shows up the first time','what should a page say when there is no data','users do not know what to do first'],
+    steps:{
+      before:{ anchor:'#empty-msg', label:'The problem', title:'\u201cNo items\u201d and nothing else',
+        body:'A new user opens their list and sees two grey words. They can\u2019t tell whether something failed to load or what they\u2019re supposed to do next.',
+        cta:'Show the fix' },
+      after:{ anchor:'#add-first', label:'The fix', title:'Explain it, then offer a first step',
+        body:'The list says what goes here and offers one clear first step. A blank screen is a chance to teach, not a dead end.',
+        cta:'See the problem again' }
+    }},
   { n:7,  slug:'navigation-overload', title:'Too many navigation items', theme:'choices', status:'planned',
     problems:['lost-in-nav','too-many-options'], screens:['navigation'], synonyms:'menu tab bar sidebar hamburger information architecture ia',
     phrases:['people cannot find things in the menu','our tab bar is crowded','too many icons at the bottom','users get lost in the app','how many tabs is too many'] },
