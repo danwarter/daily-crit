@@ -130,19 +130,19 @@ Lesson 1 lists progressive disclosure as a related tag; here the primary princip
   lede:'Every extra menu item makes all the others a little harder to find. Keep the few that people use most in view, and group the rest.',
   tags:['Hick’s law','Information architecture','Serial position effect'],
   problems:['lost-in-nav'], screens:['navigation'],
-  synonyms:'menu tab bar sidebar hamburger information architecture ia navigation bar',
-  phrases:['people cannot find things in the menu','our tab bar is crowded','too many icons at the bottom','users get lost in the app','how many tabs is too many'],
+  synonyms:'menu tab bar tabbar tabs more tab overflow sidebar hamburger information architecture ia navigation bar nav bottom icons crowded hidden',
+  phrases:['people cannot find things in the menu','our tab bar is crowded','too many icons at the bottom','users get lost in the app','how many tabs is too many','too much is hidden under the more tab'],
   steps:{
-    before:{ anchor:'#tabbar', label:'The problem', title:'9 tabs, each one a guess',
-      body:'Nine tiny icons are squeezed into the tab bar, plus a menu. Every extra item slows down every search, and the labels are too small to read.',
+    before:{ anchor:'#more-list', label:'The problem', title:'8 places hidden behind More',
+      body:'The app outgrew its tab bar, so the extras sit behind a More tab. To find Orders, people have to guess it isn’t a tab, then scan a flat list of eight.',
       cta:'Show the fix' },
-    after:{ anchor:'#tabbar-fixed', label:'The fix', title:'4 tabs people actually use',
-      body:'In this example, analytics showed four destinations got most visits. They stay in the tab bar, and the rest move into Account. Fewer choices means faster finding: that’s Hick’s law.',
+    after:{ anchor:'#tabbar', label:'The fix', title:'4 tabs people actually use',
+      body:'In this example, analytics showed four destinations got most visits. They stay as tabs, and Account sorts the rest into two short groups. Fewer choices means faster finding: that’s Hick’s law.',
       cta:'See the problem again' }
   }}
 ```
 
-Same primary principle as lesson 1, with a different bad UI: app navigation instead of an export sheet.
+Same primary principle as lesson 1, with a different bad UI: an iOS More tab hiding eight destinations in a flat list, instead of an export sheet. iOS shows at most five tabs, so an overloaded tab bar really looks like this.
 
 ## Later
 

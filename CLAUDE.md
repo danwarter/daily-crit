@@ -93,6 +93,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - `class="c"` (no modifier) is shared and always visible
 - `style="--d:N"` staggers timing; use 0 to 4 in reading order
 
+**Transition primitive: collapse/expand sideways.** Inside a flex row (like a tab bar), add `cx` plus `bad-only` or `good-only` to an item, with `--d` for stagger. It shrinks to zero width or grows in, and its neighbors widen to fill the gap.
+
 **Transition primitive: text swap.** Swap text between states:
 
 ```html
@@ -107,9 +109,10 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - People and text: `.amount` (big centered amount with a caption), `.people` with buttons holding an `.avatar` (set its color with `--av`; `.avatar.add` for a "+" button), `.field` (a real text input inside a `<label class="row">`), `.hint` (small grey note under a card)
 - Lists and tips: `.tick` (round checkbox with `role="checkbox"` and `aria-checked`, toggles on tap), `.icon-btn` (a blue icon button inside a row), `.apptip` (an in-app tip card with an arrow, holding `.apptip-ic` and `.apptip-txt`), `.nav .end` (a blue right-hand nav item)
 - Empty states: `.blank` (a tall, centered grey note filling the screen, the bare empty state) and `.empty` (a centered empty state holding an `.art` icon tile, an `h3` and a `p`; follow it with a `.primary`). `.nav .add` makes a right-hand nav item a large "+".
+- Tabs and menus: `.lead` (groups a row's leading icon or avatar with its label) and `.ri` (a small colored icon tile for a menu row, like iOS Settings; set its color with `--art`). `.tabbar` goes after `.screen` in the template and pins to the bottom; it holds `.tabs` with `.tab` buttons (an icon `svg` plus a `span` label). Put `data-pick` and `data-before`/`data-after` (a tab's label) on `.tabs` to set the selected tab.
 - Carousel: a `[data-carousel]` wrapper holding `.slides` with `.slide` children (each can use `.art` with `--art` for a colored illustration panel). People can swipe, or tap a `data-next="Next"` button to advance; it reads `data-last` on the last slide. A `.progress` and a `[data-count]` label inside the wrapper follow along. Carousels go back to the first slide on every state change.
 - Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, `data-pick` on a group of buttons makes them single-select (like `.seg`), `data-dismiss` on a button collapses its nearest `.c` (like closing a tip), and `data-done="Done"` on a button flashes that text when tapped. Typed `.field` text, `data-pick` selections and dismissed blocks reset on every state change.
-- Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg` or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
+- Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg`, a `data-pick` group or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**
 - Give each tooltip anchor an `id`, and make sure the anchor exists in that state (the Before anchor must not be inside a `good-only` block).
