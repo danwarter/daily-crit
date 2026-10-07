@@ -1053,6 +1053,8 @@ function mount(lesson){
     switches: root.querySelectorAll('.switch button')
   };
   const step = () => lesson.steps[e.state];
+  // Let people look at the screen before the tooltip starts explaining it (the After transition adds 500ms).
+  const LOOK = 2000;
 
   // Preset primitive: [data-before]/[data-after] give a control's value in each state ("" = unset).
   // [data-gate] buttons stay disabled while any choice on the screen is unset.
@@ -1125,7 +1127,7 @@ function mount(lesson){
     clearTimeout(e.timer); hideAll(); e.state = next;
     e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
     root.dataset.state = next;
-    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); e.timer = setTimeout(showTip, reduce ? 60 : 980); };
+    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); e.timer = setTimeout(showTip, reduce ? LOOK : LOOK + 500); };
     if (e.screen.scrollTop > 0) { e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); e.timer = setTimeout(apply, reduce ? 0 : 340); }
     else e.timer = setTimeout(apply, reduce ? 0 : 220);
   }
@@ -1167,7 +1169,7 @@ function mount(lesson){
     if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
   });
   presets('before', false);
-  e.timer = setTimeout(showTip, reduce ? 0 : 700);
+  e.timer = setTimeout(showTip, LOOK);
 }
 
 const DAILY_FIVE_URL = 'https://apps.apple.com/app/id6766068712';
