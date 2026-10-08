@@ -22,14 +22,14 @@ In order:
 2. Header markup and command palette markup.
 3. `<template id="tpl-SLUG">` blocks: one per built lesson, containing that lesson's screen.
 4. `<script>`, in this order:
-   - **Data:** `THEMES`, `PROBLEM_GROUPS`, `PROBLEMS`, `SCREENS`, `LESSONS`
+   - **Data:** `THEMES`, `PROBLEM_GROUPS`, `PROBLEMS`, `SCREENS`, `LESSONS`, `PRINCIPLES`
    - **Search:** stopwords, stemming, weighted index, `search()`
    - **Lesson engine:** `mount()` / `unmount()`, which handle the before/after state, tooltip, highlight ring, "?" beacon, arrow keys and mock UI interactions
    - **Render helpers and pages:** `pageHome`, `pageLesson`, `pageFind`, `pageProblem`, `pageScreen`, `pageTheme`, `pageTag`, `pageAbout`
    - **Command palette** (⌘K, `/`, or any `[data-palette]` element)
    - **Router**
 
-Most daily work touches only two places: the lesson's entry in `LESSONS` and its `<template>`.
+Most daily work touches only two places: the lesson's entry in `LESSONS` and its `<template>`, plus a `PRINCIPLES` definition for any new tag.
 
 ## Design system
 
@@ -69,6 +69,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 
 - `title` is the plain-language problem, the way someone would say it in a crit ("This form is way too long"), not the principle's name.
 - `tags` are formal principle names. The first is the primary principle the lesson teaches; the rest are related.
+- Every tag needs a definition in `PRINCIPLES`, keyed by the tag's slug (`'hicks-law'`). It shows under the title on the principle page, above the lesson count. Write one or two plain-language sentences, about 25 words: what the principle says, not how a lesson uses it. Before adding one, check that the tag isn't already defined.
+- Write apostrophes in tags as `\u2019` (`'Hick\u2019s law'`) so the name displays the same everywhere.
 - `problems` holds one id: one problem per lesson. If two lessons share a primary principle, their bad UI examples must be different.
 - `phrases` lists 4 to 6 other ways people phrase the same problem. Search matches on them.
 - `status` moves `planned` → `draft` → `live`. The highest-numbered `live` lesson is automatically "Today's crit" on the home page.
@@ -150,6 +152,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - [ ] Before and After both look right at 375px wide and on desktop, in light and dark mode
 - [ ] Both tooltips point at the right element and don't cover the key part of the fix
 - [ ] The highlight ring, "?" beacon (close the tooltip, then reopen it) and arrow keys all work
+- [ ] Every tag has a `PRINCIPLES` definition, and it reads well on the tag page
 - [ ] The lesson appears on the home page, in the 30-tile grid, on its theme, tag, problem and screen pages, and in search
 - [ ] No horizontal page scroll on mobile
 
