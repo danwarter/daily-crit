@@ -172,7 +172,7 @@ Bad UI: a cart whose bottom bar has Apply coupon, Check out, Save for later and 
 ### 9. Labels look like they belong to the wrong field
 
 ```js
-{ n:9, slug:'proximity', title:'Labels look like they belong to the wrong field', theme:'hierarchy', status:'draft', frame:'Shipping address',
+{ n:9, slug:'proximity', title:'Labels look like they belong to the wrong field', theme:'hierarchy', status:'live', frame:'Shipping address',
   lede:'People decide what belongs together by how close things sit. When a label is as close to the wrong field as to its own, they guess, and sometimes guess wrong.',
   tags:['Law of proximity','Common region'],
   problems:['form-errors'], screens:['forms'],
