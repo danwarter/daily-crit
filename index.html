@@ -296,9 +296,10 @@ a.lrow:hover .ltitle{color:var(--accent)}
 @keyframes pin{from{opacity:0;transform:translateX(6px)}}
 .primary{transition:background .3s,color .3s}
 .primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
-/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors and spacing animate) */
+/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors, spacing, type size and width animate) */
 .phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay),
-  margin .62s var(--ease) var(--delay),padding .62s var(--ease) var(--delay),gap .62s var(--ease) var(--delay);
+  margin .62s var(--ease) var(--delay),padding .62s var(--ease) var(--delay),gap .62s var(--ease) var(--delay),
+  font-size .62s var(--ease) var(--delay),letter-spacing .62s var(--ease) var(--delay),width .62s var(--ease) var(--delay),opacity .38s ease var(--delay);
   --delay:calc(.12s + var(--d,0) * 60ms)}
 .after [data-bad],.after [data-good]{--delay:calc(.24s + var(--d,0) * 60ms)}
 
@@ -398,7 +399,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .mini.plain{background:transparent;color:var(--ios-blue)}
 .pimg{width:52px;height:52px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;background:var(--art,var(--ios-blue))}
 .pimg svg{width:28px;height:28px}
-.price{font-variant-numeric:tabular-nums}
+.price{font-variant-numeric:tabular-nums;white-space:nowrap}
 .dock{position:relative;z-index:1;flex:none;background:var(--ios-bg);padding:10px 16px 24px}
 .dock::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
 .dock .primary{margin-top:10px}
@@ -410,6 +411,13 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .fbox{display:block;width:100%;height:44px;padding:0 14px;border-radius:10px;background:var(--ios-cell);text-align:left}
 .pair{display:flex;gap:8px;margin-top:8px}
 .pair .primary{flex:1 1 0;min-width:0;font-size:16px}
+.huge{display:block;font-size:40px;font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--ios-label);font-variant-numeric:tabular-nums}
+.kicker{font-size:13px;font-weight:400;color:var(--ios-2)}
+.quiet{font-size:15px;font-weight:400;margin:0;color:var(--ios-2)}
+.ri.mute{background:var(--ios-fill);color:var(--ios-2)}
+.ri.gone{width:0;margin-right:-12px;opacity:0;overflow:hidden}
+.deck{display:grid;gap:12px}
+.row.roomy{padding-top:16px;padding-bottom:18px}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -850,6 +858,30 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" data-done="Saved">Save Address</button>
 </div>
 </template>
+<template id="tpl-visual-hierarchy">
+<div class="nav"><span></span><span class="title">Home</span><span></span></div>
+<div class="screen">
+  <div class="pad"><div class="deck" id="cards">
+    <div class="card" id="balance"><div class="row" data-bad="" data-good="roomy"><div class="lead"><span class="ri" style="--art:#007AFF" data-bad="" data-good="gone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1" fill="currentColor"/></svg></span><div><p class="pname" data-bad="" data-good="kicker">Checking •• 4821</p><span class="sub"><span data-bad="" data-good="huge">$2,481.20</span></span></div></div><span class="chev"></span></div></div>
+    <div class="card"><div class="row"><div class="lead"><span class="ri" style="--art:#FF9F0A;--d:1" data-bad="" data-good="mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/></svg></span><div><p class="pname" data-bad="" data-good="quiet" style="--d:1">Earn 2% cash back</p><div class="c bad-only" style="--d:1"><div><span class="sub">Upgrade to Gold today</span></div></div></div></div><span class="chev"></span></div></div>
+    <div class="card"><div class="row"><div class="lead"><span class="ri" style="--art:#34C759;--d:2" data-bad="" data-good="mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></span><div><p class="pname" data-bad="" data-good="quiet" style="--d:2">Tip: turn on autopay</p><div class="c bad-only" style="--d:2"><div><span class="sub">Never miss a bill again</span></div></div></div></div><span class="chev"></span></div></div>
+  </div></div>
+  <div class="pad"><p class="ghead">Recent activity</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#FF3B30"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2 11h10.5l2-8H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg></span><span><p class="pname">Trader Joe’s</p><span class="sub">Today</span></span></span><span class="price">−$42.18</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span><span><p class="pname">Payroll</p><span class="sub">Yesterday</span></span></span><span class="price">+$1,850.00</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#AF52DE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M10.5 8.5v5l4-2.5z"/><path d="M8 20h8"/></svg></span><span><p class="pname">Netflix</p><span class="sub">Oct 6</span></span></span><span class="price">−$15.49</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#A2845E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5v2M11 3v2.5"/></svg></span><span><p class="pname">Blue Bottle</p><span class="sub">Oct 5</span></span></span><span class="price">−$6.50</span></div></div></div>
+  </div></div>
+</div>
+<div class="tabbar">
+  <div class="tabs" data-pick data-before="Home" data-after="Home">
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z"/></svg><span>Home</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14l-3-3M20 16H6l3 3"/></svg><span>Pay</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg><span>Cards</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg><span>Account</span></button>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1029,9 +1061,20 @@ const LESSONS = [
         body:'Now each label hugs the box it names, with a wider gap before the next pair. Things that sit close together look like they belong together: that\u2019s the law of proximity.',
         cta:'See the problem again' }
     }},
-  { n:10, slug:'visual-hierarchy', title:'Visual hierarchy', theme:'hierarchy', status:'planned',
-    problems:['miss-main-action','skim-past','cluttered'], screens:['dashboards','feeds'], synonyms:'emphasis contrast size weight focus attention',
-    phrases:['nothing stands out','I do not know where to look first','the dashboard is a mess','everything is the same size','how do I make the important part pop'] },
+  { n:10, slug:'visual-hierarchy', title:'Everything on the screen looks equally important', theme:'hierarchy', status:'live', frame:'Bank home',
+    lede:'When everything on a screen is the same size and weight, people have to read it all to find what they came for. Make the most important thing the biggest, and let the rest step back.',
+    tags:['Visual hierarchy','Contrast'],
+    problems:['cluttered'], screens:['dashboards'],
+    synonyms:'emphasis contrast size weight focus attention bank banking balance account home screen big number type scale font size bold muted grey gray quiet loud promo banner cards',
+    phrases:['nothing stands out','I do not know where to look first','the dashboard is a mess','everything is the same size','how do I make the important part pop','people cannot find their balance'],
+    steps:{
+      before:{ anchor:'#cards', label:'The problem', title:'Your balance, in 14px grey',
+        body:'It\u2019s the reason people open the app, yet it looks just like the ad and the tip below it. Every card asks for the same attention, so nothing gets it first.',
+        cta:'Show the fix' },
+      after:{ anchor:'#cards', label:'The fix', title:'40px balance, quieter everything else',
+        body:'The balance is big and bold, so the eye lands there first. The promo and tip shrink to quiet grey rows. Size and contrast set the reading order: that\u2019s visual hierarchy.',
+        cta:'See the problem again' }
+    }},
   { n:11, slug:'scannable-text', title:'Scannable text', theme:'hierarchy', status:'planned',
     problems:['skim-past'], screens:['feeds','onboarding'], synonyms:'reading wall of text copy headings f-pattern long text',
     phrases:['people do not read the instructions','users skip the important part','this text is too long','how do I get people to read this','they miss the key detail in the paragraph'] },
@@ -1113,6 +1156,7 @@ const PRINCIPLES = {
   'von-restorff-effect': 'When several similar things appear together, the one that looks different is the one people notice and remember.',
   'visual-hierarchy': 'Using size, color, weight and position to show what matters most, so people see things in the order you intend.',
   'law-of-proximity': 'Things that sit close together look like they belong together. Spacing alone tells people what is grouped, before they read a word.',
+  'contrast': 'Making things clearly different in size, color, weight or shape, so the difference itself tells people what matters and what belongs together.',
   'common-region': 'Things inside the same boundary, like a card or a box, look like one group, even when they sit apart or look different.'
 };
 

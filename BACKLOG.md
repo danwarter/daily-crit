@@ -193,14 +193,23 @@ Bad UI: a shipping address form where every label sits 18px from the box above a
 ### 10. Everything on the screen looks equally important
 
 ```js
-{ n:10, slug:'visual-hierarchy', title:'Everything on the screen looks equally important', theme:'hierarchy', status:'planned',
+{ n:10, slug:'visual-hierarchy', title:'Everything on the screen looks equally important', theme:'hierarchy', status:'live', frame:'Bank home',
+  lede:'When everything on a screen is the same size and weight, people have to read it all to find what they came for. Make the most important thing the biggest, and let the rest step back.',
   tags:['Visual hierarchy','Contrast'],
   problems:['cluttered'], screens:['dashboards'],
-  synonyms:'emphasis contrast size weight focus attention',
-  phrases:['nothing stands out','I do not know where to look first','the dashboard is a mess','everything is the same size','how do I make the important part pop'] }
+  synonyms:'emphasis contrast size weight focus attention bank banking balance account home screen big number type scale font size bold muted grey gray quiet loud promo banner cards',
+  phrases:['nothing stands out','I do not know where to look first','the dashboard is a mess','everything is the same size','how do I make the important part pop','people cannot find their balance'],
+  steps:{
+    before:{ anchor:'#cards', label:'The problem', title:'Your balance, in 14px grey',
+      body:'It\u2019s the reason people open the app, yet it looks just like the ad and the tip below it. Every card asks for the same attention, so nothing gets it first.',
+      cta:'Show the fix' },
+    after:{ anchor:'#cards', label:'The fix', title:'40px balance, quieter everything else',
+      body:'The balance is big and bold, so the eye lands there first. The promo and tip shrink to quiet grey rows. Size and contrast set the reading order: that\u2019s visual hierarchy.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a banking home screen where balance, promos, tips and transactions are all the same size and weight. Fix: a large balance, everything else visibly quieter.
+Bad UI: a banking home screen where the balance, a Gold card promo and an autopay tip are three identical cards, each a bold title over a small grey line, so the balance is just "$2,481.20" in 14px grey. Fix: the balance grows to 40px black with a small label above it; the promo and tip lose their colored icons and second lines and become quiet grey rows. Built with restyle, which now animates type size and width too (`.huge`, `.kicker`, `.quiet`, `.ri.mute`, `.ri.gone`).
 
 ### 11. Nobody reads this wall of text
 
