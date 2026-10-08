@@ -235,14 +235,23 @@ Bad UI: a "What's New" sheet written as three dense paragraphs (146 words), with
 ### 12. The layout looks messy and I can't say why
 
 ```js
-{ n:12, slug:'alignment', title:'The layout looks messy and I can’t say why', theme:'hierarchy', status:'planned',
+{ n:12, slug:'alignment', title:'The layout looks messy and I can’t say why', theme:'hierarchy', status:'draft', frame:'Profile',
+  lede:'When things almost line up, a screen looks messy even if nobody can say why. Pick one edge and start everything on it, and the same content suddenly looks deliberate.',
   tags:['Alignment','Grid systems'],
   problems:['cluttered'], screens:['settings'],
-  synonyms:'grid layout messy edges uneven ragged',
-  phrases:['it looks off but I do not know why','the screen feels sloppy','things do not line up','why does this look unprofessional','how do I tidy up a layout'] }
+  synonyms:'grid layout messy edges uneven ragged align aligned alignment line up lined up left edge margin margins padding indent indented sloppy tidy neat clean profile column columns guides',
+  phrases:['it looks off but I do not know why','the screen feels sloppy','things do not line up','why does this look unprofessional','how do I tidy up a layout'],
+  steps:{
+    before:{ anchor:'#profile', label:'The problem', title:'4 left edges, a few pixels apart',
+      body:'The name, bio, follower count and buttons each start at a different spot (the pink lines). Nobody can say what\u2019s wrong, but the ragged edge makes the profile feel sloppy.',
+      cta:'Show the fix' },
+    after:{ anchor:'#profile', label:'The fix', title:'Everything on 1 shared edge',
+      body:'Every block now starts on the same line, so the eye runs straight down it and the screen feels calm. That\u2019s alignment: fewer edges, less visual noise.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a profile screen with left edges at four different positions. Fix: everything on one shared edge.
+Bad UI: a social profile where the name, bio, follower line and buttons start 14, 6, 24 and 0px off the screen margin, with pink layout guides marking each edge. Fix: every block glides onto one shared edge and the four guides merge into one. Built with restyle; added `.shift`, `.guides`/`.guide`, `.ptop`, `.meta`, `.primary.outline`, `.utabs` and `.post`.
 
 ### 13. The same kind of control works differently on one screen
 
