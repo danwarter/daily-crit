@@ -144,8 +144,9 @@ a.week-name:hover{color:var(--accent)}
 .tile .tn{font-family:var(--display);font-weight:900;font-size:32px;line-height:1;letter-spacing:-.03em}
 .tile .tt{overflow-wrap:anywhere;hyphens:auto;font-size:13px;font-weight:500;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .tile .ts{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700}
-.tile.live{background:var(--accent);color:#fff}
-.tile.draft{background:var(--surface)}
+.tile.live{background:var(--surface)}
+.tile.today{background:var(--accent);color:#fff}
+.tile.draft{background:var(--surface);outline:1px dashed var(--ink-2);outline-offset:-1px}
 .tile.draft .ts{color:var(--ink-2)}
 .tile.planned{box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2)}
 .tile.planned .tn{color:var(--line)}
@@ -161,7 +162,7 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .why{display:block;font-size:14px;color:var(--ink-2);margin-top:3px}
 .lrow.planned{opacity:.5}
 .lstatus{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--chip)}
-.lstatus.live{background:var(--accent);color:#fff}
+.lstatus.today{background:var(--accent);color:#fff}
 .lstatus.soon{background:transparent;font-weight:500;padding:0;color:var(--ink-2)}
 .prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .3s var(--ease)}
 .prow:hover{padding-left:8px}
@@ -1189,7 +1190,8 @@ const ICON_SEARCH = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" 
 const ICON_PROBLEM = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.5M10 13.6v.1"/></svg>';
 
 function statusChip(l){
-  if (l.status === 'live') return '<span class="lstatus live">Live</span>';
+  if (l === latestLive()) return '<span class="lstatus today">Today</span>';
+  if (l.status === 'live') return '';
   if (l.status === 'draft') return '<span class="lstatus">Draft</span>';
   return '<span class="lstatus soon">Upcoming</span>';
 }
@@ -1212,7 +1214,7 @@ function tile(l){
   const today = latestLive();
   const st = l === today ? 'Today' : l.status === 'draft' ? 'Draft' : '';
   const inner = `<span class="tn">${l.n}</span>${st ? `<span class="ts">${st}</span>` : ''}<span class="tt">${esc(l.title)}</span>`;
-  return visible(l) ? `<a class="tile ${l.status}" href="#/lessons/${l.slug}">${inner}</a>`
+  return visible(l) ? `<a class="tile ${l.status}${l === today ? ' today' : ''}" href="#/lessons/${l.slug}">${inner}</a>`
                     : `<div class="tile planned" title="Coming soon">${inner}</div>`;
 }
 function month(){
@@ -1384,7 +1386,7 @@ function palRender(){
     const ls = res.lessons.slice(0, 6);
     if (ls.length) groups.push({ title:'Lessons', items: ls.map(l => ({
       href: visible(l) ? `#/lessons/${l.slug}` : `#/problems/${l.problems[0]}`,
-      ic:`<span class="pal-ic ${l.status === 'live' ? 'live' : ''}">${l.n}</span>`, t:l.title,
+      ic:`<span class="pal-ic ${l === latestLive() ? 'live' : ''}">${l.n}</span>`, t:l.title,
       s: visible(l) ? themeById(l.theme).title : 'Coming soon, see related problem' })) });
     groups.push({ title:'', items:[{ href:`#/find?q=${encodeURIComponent(q)}`, ic:`<span class="pal-ic">${ICON_SEARCH}</span>`, t:`See all results for \u201c${q}\u201d`, s:'Open the Find page' }] });
   }
