@@ -483,7 +483,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .alert-btns::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
 .alert-btns button{flex:1 1 0;min-width:0;height:44px;border:0;background:transparent;color:var(--ios-blue);font-size:17px;position:relative}
 .alert-btns button+button::before{content:"";position:absolute;top:0;bottom:0;left:0;width:1px;background:var(--ios-sep);transform:scaleX(.5);transform-origin:left}
-.alert-btns button:active{background:var(--ios-fill)}
+.alert-btns button:active,.alert-btns button.tap{background:var(--ios-fill)}
 .alert-btns .bold{font-weight:600}
 
 /* ---------- Coach marks ---------- */
@@ -1021,7 +1021,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 <div class="nav"><span class="brand">Moments</span><span></span><span class="end"><button class="icon-btn" aria-label="Activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg></button></span></div>
 <div class="screen">
   <div class="stories">
-    <button class="me"><span class="avatar" style="--av:#FF9F0A">JR</span><span>Your story</span></button>
+    <button class="me" id="your-story"><span class="avatar" style="--av:#FF9F0A">JR</span><span>Your story</span></button>
     <button><span class="avatar" style="--av:#5E5CE6">ML</span><span>maya.lin</span></button>
     <button><span class="avatar" style="--av:#34C759">SK</span><span>sam.k</span></button>
     <button><span class="avatar" style="--av:#FF375F">LP</span><span>leo.p</span></button>
@@ -1048,7 +1048,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
     <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg><span>Profile</span></button>
   </div>
 </div>
-<div class="modal bad-only">
+<div class="modal bad-only" data-auto="500">
   <div class="alerts" id="popups">
     <div class="alert" role="alertdialog" aria-label="Rate Moments">
       <h3>Enjoying Moments?</h3>
@@ -1312,8 +1312,8 @@ const LESSONS = [
     synonyms:'modal modals popup popups pop-up pop-ups interstitial alert alerts dialog banner blindness annoying ignored ignore dismiss dismissed close closed reflex autopilot announcement announce new feature whats new rate us rating review notifications permission prompt',
     phrases:['nobody reads our announcement','people tap X straight away','users ignore the banner','our popups are annoying people','how do I tell people about a new feature','too many modals when the app opens'],
     steps:{
-      before:{ anchor:'#popups', label:'The problem', title:'3 popups before the feed',
-        body:'Rate us, allow notifications, then a new feature, back to back. By the third, people tap on reflex and close the one that matters unread.',
+      before:{ anchor:'#your-story', label:'The problem', title:'3 popups before the feed',
+        body:'Rate us, allow notifications, then a new feature, back to back. People tap through on reflex, so nobody learns Your story now has Close Friends.',
         cta:'Show the fix' },
       after:{ anchor:'#cf-tip', label:'The fix', title:'1 note, next to the feature',
         body:'No popups, just a note by Your story, where the feature works. People tune out anything that looks like a popup (banner blindness), but they read this.',
@@ -1440,7 +1440,7 @@ function search(q){
 let eng = null;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function unmount(){ if (!eng) return; clearTimeout(eng.timer); eng.ac.abort(); eng = null; }
+function unmount(){ if (!eng) return; clearTimeout(eng.timer); eng.auto.forEach(clearTimeout); eng.ac.abort(); eng = null; }
 
 function mount(lesson){
   const root = app.querySelector('[data-lesson-root]');
@@ -1461,7 +1461,7 @@ function mount(lesson){
   const ac = new AbortController();
   const on = (el, ev, fn, opts) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, opts || {}));
   const e = eng = {
-    lesson, ac, state:'before', timer:null, root, phone,
+    lesson, ac, state:'before', timer:null, auto:[], root, phone,
     screen: sheet.querySelector('.screen'),
     tip: phone.querySelector('.tip'), arrow: phone.querySelector('.arrow'),
     ring: phone.querySelector('.ring'), beacon: phone.querySelector('.beacon'),
@@ -1512,6 +1512,24 @@ function mount(lesson){
     gate();
   }
 
+  // Modal autoplay: a .modal[data-auto="ms"] plays itself in the state it shows in. Each open alert stays up
+  // for that long, then its first [data-dismiss] button is tapped. Returns when the dialogs are done (0 if none),
+  // so the tooltip waits for them.
+  function autoplay(state, lead){
+    e.auto.forEach(clearTimeout); e.auto = [];
+    const m = sheet.querySelector('.modal[data-auto]');
+    if (!m || m.classList.contains(state === 'after' ? 'bad-only' : 'good-only')) return 0;
+    const hold = +m.dataset.auto || 500, appear = reduce ? 0 : 600;
+    let t = reduce ? 0 : lead || 0;
+    m.querySelectorAll('.alert').forEach((a, i) => {
+      t += (i ? appear : 0) + hold;
+      const b = a.querySelector('[data-dismiss]'), at = t;
+      e.auto.push(setTimeout(() => b && b.classList.add('tap'), at - 160));
+      e.auto.push(setTimeout(() => { if (b) b.classList.remove('tap'); a.classList.add('shut'); }, at));
+    });
+    return t + (reduce ? 0 : 400);
+  }
+
   function position(){
     const tipOn = e.tip.classList.contains('show');
     if (!tipOn && !e.beacon.classList.contains('show')) return;
@@ -1548,7 +1566,7 @@ function mount(lesson){
     clearTimeout(e.timer); hideAll(); e.state = next;
     e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
     root.dataset.state = next;
-    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); e.timer = setTimeout(showTip, reduce ? LOOK : LOOK + 500); };
+    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); const done = autoplay(next, 400); e.timer = setTimeout(showTip, Math.max(reduce ? LOOK : LOOK + 500, done + 600)); };
     if (e.screen.scrollTop > 0) { e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); e.timer = setTimeout(apply, reduce ? 0 : 340); }
     else e.timer = setTimeout(apply, reduce ? 0 : 220);
   }
@@ -1590,7 +1608,7 @@ function mount(lesson){
     if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
   });
   presets('before', false);
-  e.timer = setTimeout(showTip, LOOK);
+  e.timer = setTimeout(showTip, Math.max(LOOK, autoplay('before') + 600));
 }
 
 // Paste your newsletter's form address here (Buttondown: https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME).
