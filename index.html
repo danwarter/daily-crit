@@ -418,6 +418,27 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .ri.gone{width:0;margin-right:-12px;opacity:0;overflow:hidden}
 .deck{display:grid;gap:12px}
 .row.roomy{padding-top:16px;padding-bottom:18px}
+.shift{margin-left:var(--x,0)}
+.guides{position:absolute;inset:0;z-index:2;pointer-events:none}
+.guide{position:absolute;top:0;bottom:0;left:0;width:0;border-left:1px solid rgba(255,45,85,.5)}
+.ptop{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0 12px}
+.ptop h3{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.ptop div span{font-size:15px;color:var(--ios-2)}
+.avatar.lg{width:64px;height:64px;font-size:22px}
+.meta{display:flex;align-items:center;gap:6px;padding:2px 0 4px;font-size:15px;color:var(--ios-2)}
+.meta b{font-weight:600;color:var(--ios-label)}
+.meta svg{width:16px;height:16px;flex:none}
+.meta.link{color:var(--ios-blue)}
+.primary.outline{background:transparent;color:var(--ios-label);box-shadow:inset 0 0 0 1px var(--ios-sep);height:38px;border-radius:10px;font-size:15px}
+.pair .outline{margin-top:6px}
+.utabs{display:flex;margin-top:18px}
+.utabs button{flex:1 1 0;border:0;background:transparent;padding:10px 0;font-size:15px;font-weight:600;color:var(--ios-2);box-shadow:inset 0 -1px 0 var(--ios-sep)}
+.utabs button[aria-pressed="true"]{color:var(--ios-label);box-shadow:inset 0 -2px 0 var(--ios-label)}
+.post{display:flex;gap:12px;padding:14px 0;font-size:15px;line-height:1.4}
+.post .avatar{flex:none;width:36px;height:36px;font-size:14px}
+.post b{font-weight:600}
+.post time{color:var(--ios-2);margin-left:6px}
+.post p{margin:2px 0 0}
 .bigtitle{margin:16px 0 16px;font-size:30px;line-height:1.12;font-weight:700;letter-spacing:-.02em;text-align:center}
 .para{margin:0;padding-bottom:12px;font-size:15px;line-height:1.45;color:var(--ios-label)}
 .feat{display:flex;gap:12px;align-items:flex-start;padding:8px 4px 8px 2px}
@@ -904,6 +925,31 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 </div>
 <div class="dock"><button class="primary" data-done="Opening Lists…">Continue</button></div>
 </template>
+<template id="tpl-alignment">
+<div class="nav"><span></span><span class="title">Profile</span><span class="end">Share</span></div>
+<div class="screen">
+  <div style="position:relative">
+    <div class="guides" aria-hidden="true">
+      <i class="guide"></i>
+      <i class="guide" data-bad="shift" data-good="" style="--x:14px;--d:0"></i>
+      <i class="guide" data-bad="shift" data-good="" style="--x:6px;--d:1"></i>
+      <i class="guide" data-bad="shift" data-good="" style="--x:24px;--d:2"></i>
+    </div>
+    <div id="profile">
+      <div class="ptop" data-bad="shift" data-good="" style="--x:14px;--d:0"><div><h3>Jordan Reyes</h3><span>@jordan.makes</span></div><span class="avatar lg" style="--av:#FF9F0A">JR</span></div>
+      <p class="para" data-bad="shift" data-good="" style="--x:6px;--d:1">Product designer in Lisbon. Sketching interfaces, shooting film and drinking too much coffee.</p>
+      <div data-bad="shift" data-good="" style="--x:24px;--d:2">
+        <div class="meta"><span><b>2,418</b> followers</span><span>·</span><span><b>312</b> following</span></div>
+        <div class="meta link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>jordanreyes.design</div>
+      </div>
+      <div class="pair"><button class="primary outline" data-done="Opening…">Edit profile</button><button class="primary outline" data-done="Link copied">Share profile</button></div>
+    </div>
+    <div class="utabs" data-pick data-before="Posts" data-after="Posts"><button>Posts</button><button>Replies</button><button>Reposts</button></div>
+    <div class="post"><span class="avatar" style="--av:#FF9F0A">JR</span><div><b>jordan.makes</b><time>2h</time><p>Shot a roll of film on the coast this weekend. Scans coming soon.</p></div></div>
+    <div class="post"><span class="avatar" style="--av:#FF9F0A">JR</span><div><b>jordan.makes</b><time>1d</time><p>Hot take: every settings screen needs a search bar.</p></div></div>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1111,9 +1157,20 @@ const LESSONS = [
         body:'What people must do comes first, in bold, and each change gets a heading and one line. That\u2019s the inverted pyramid: the point first, the details after.',
         cta:'See the problem again' }
     }},
-  { n:12, slug:'alignment', title:'Alignment', theme:'hierarchy', status:'planned',
-    problems:['cluttered'], screens:['forms','dashboards'], synonyms:'grid layout messy edges',
-    phrases:['it looks off but I do not know why','the screen feels sloppy','things do not line up','why does this look unprofessional','how do I tidy up a layout'] },
+  { n:12, slug:'alignment', title:'The layout looks messy and I can\u2019t say why', theme:'hierarchy', status:'live', frame:'Profile',
+    lede:'When things almost line up, a screen looks messy even if nobody can say why. Pick one edge and start everything on it, and the same content suddenly looks deliberate.',
+    tags:['Alignment','Grid systems'],
+    problems:['cluttered'], screens:['settings'],
+    synonyms:'grid layout messy edges uneven ragged align aligned alignment line up lined up left edge margin margins padding indent indented sloppy tidy neat clean profile column columns guides',
+    phrases:['it looks off but I do not know why','the screen feels sloppy','things do not line up','why does this look unprofessional','how do I tidy up a layout'],
+    steps:{
+      before:{ anchor:'#profile', label:'The problem', title:'4 left edges, a few pixels apart',
+        body:'The name, bio, follower count and buttons each start at a different spot (the pink lines). Nobody can say what\u2019s wrong, but the ragged edge makes the profile feel sloppy.',
+        cta:'Show the fix' },
+      after:{ anchor:'#profile', label:'The fix', title:'Everything on 1 shared edge',
+        body:'Every block now starts on the same line, so the eye runs straight down it and the screen feels calm. That\u2019s alignment: fewer edges, less visual noise.',
+        cta:'See the problem again' }
+    }},
   { n:13, slug:'consistency', title:'Consistency', theme:'hierarchy', status:'planned',
     problems:['lost-in-nav','unclear-buttons'], screens:['navigation','dialogs'], synonyms:'consistent patterns standards design system',
     phrases:['every screen does it differently','people are not sure how to turn this on','we use toggles and checkboxes for the same thing','users expect it to work like other apps','why is Save in a different place here'] },
@@ -1192,7 +1249,9 @@ const PRINCIPLES = {
   'contrast': 'Making things clearly different in size, color, weight or shape, so the difference itself tells people what matters and what belongs together.',
   'common-region': 'Things inside the same boundary, like a card or a box, look like one group, even when they sit apart or look different.',
   'f-shaped-reading-pattern': 'On text-heavy screens, people read the first line or two, then scan down the left edge. Words further along a line, or deep in a paragraph, often go unseen.',
-  'inverted-pyramid': 'Put the most important information first, then the details, so people get the point even if they stop reading early.'
+  'inverted-pyramid': 'Put the most important information first, then the details, so people get the point even if they stop reading early.',
+  'alignment': 'Lining things up along shared edges or centers. Fewer, cleaner edges give the eye a clear line to follow, so a layout looks orderly and intentional.',
+  'grid-systems': 'A shared set of columns, margins and spacing that every element snaps to, so screens stay aligned and consistent without measuring each one by hand.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
