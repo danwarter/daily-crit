@@ -14,7 +14,7 @@
   --accent:#2B2BFF; --tip:#000000; --tip-ink:#FFFFFF; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.3);
   --bezel:#1B1D20; --dim:#3A3D42;
   --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
-  --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC;
+  --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC; --ios-alert:rgba(242,242,242,.94);
   --ease:cubic-bezier(.32,.72,0,1);
   --display:"Outfit","Space Grotesk",system-ui,sans-serif;
   box-sizing:border-box;
@@ -27,7 +27,7 @@
     --accent:#5A5AFF; --tip:#FFFFFF; --tip-ink:#000000; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.45);
     --bezel:#2C3035; --dim:#0E0F10;
     --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
-    --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A;
+    --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
   }
 }
 :root[data-theme="dark"]{
@@ -35,7 +35,7 @@
   --accent:#5A5AFF; --tip:#FFFFFF; --tip-ink:#000000; --tip-2:#8A8A8A; --scrim:rgba(0,0,0,.45);
   --bezel:#2C3035; --dim:#0E0F10;
   --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
-  --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A;
+  --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -449,6 +449,42 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .feat-ic svg{width:28px;height:28px}
 .feat b{display:block;font-size:16px;font-weight:600;margin-bottom:2px}
 .feat span{display:block;font-size:15px;line-height:1.35;color:var(--ios-2)}
+.nav .brand{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.stories{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding:10px 0 4px;margin:0 -16px;padding-left:16px;padding-right:16px}
+.stories::-webkit-scrollbar{display:none}
+.stories button{flex:none;width:62px;border:0;background:transparent;padding:0;color:var(--ios-label);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.stories .avatar{width:56px;height:56px;font-size:18px;box-shadow:0 0 0 2px var(--ios-bg),0 0 0 4px #FF2D55}
+.stories .me .avatar{position:relative;box-shadow:none}
+.stories .me .avatar::after{content:"+";position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:var(--ios-blue);color:#fff;
+  box-shadow:0 0 0 2px var(--ios-bg);font-size:16px;font-weight:600;line-height:20px;text-align:center}
+.stories button>span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.photo{height:170px;margin-top:8px;border-radius:12px;background:var(--art,var(--ios-fill))}
+.apptip.left::before{left:24px;right:auto}
+/* Transition primitive: modal (.modal overlay after .screen holds .alert dialogs; only the first open one shows,
+   [data-dismiss] closes it and the next appears; the dimmed overlay fades out when none are left; bad-only/good-only pick the state.
+   Dialogs sit a little below center, leaving room for the lesson tooltip above them) */
+.modal{position:absolute;inset:0;z-index:3;display:grid;place-items:center;padding-top:80px;border-radius:12px 12px 0 0;background:rgba(0,0,0,.32);
+  transition:opacity .35s ease,visibility 0s linear 0s}
+.modal:not(:has(.alert:not(.shut))),.after .modal.bad-only,.modal.good-only{opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s linear .35s}
+.after .modal.good-only:has(.alert:not(.shut)){opacity:1;visibility:visible;transition:opacity .35s ease .3s,visibility 0s linear 0s}
+.alerts{position:relative;display:grid;width:270px;max-width:calc(100% - 28px)}
+.alert{grid-area:1/1;align-self:center;width:100%;border-radius:14px;overflow:hidden;text-align:center;background:var(--ios-alert);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);transition:opacity .25s ease .2s,transform .4s var(--ease) .2s}
+.alert:not(.shut)~.alert,.alert.shut:not(:last-child){position:absolute}
+.alert:not(.shut)~.alert{opacity:0;transform:scale(1.12);pointer-events:none}
+.alert.shut{opacity:0;pointer-events:none;transition-delay:0s}
+.alert .ri{width:44px;height:44px;border-radius:11px;margin:20px auto -6px}
+.alert .ri svg{width:26px;height:26px}
+.alert h3{margin:0;padding:19px 16px 0;font-size:17px;font-weight:600;line-height:1.3}
+.alert p{margin:0;padding:3px 16px 0;font-size:13px;line-height:1.35}
+.alert .stars{display:flex;justify-content:center;gap:6px;padding:12px 0 2px;color:var(--ios-blue)}
+.alert .stars svg{width:26px;height:26px}
+.alert-btns{display:flex;margin-top:19px;position:relative}
+.alert-btns::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
+.alert-btns button{flex:1 1 0;min-width:0;height:44px;border:0;background:transparent;color:var(--ios-blue);font-size:17px;position:relative}
+.alert-btns button+button::before{content:"";position:absolute;top:0;bottom:0;left:0;width:1px;background:var(--ios-sep);transform:scaleX(.5);transform-origin:left}
+.alert-btns button:active,.alert-btns button.tap{background:var(--ios-fill)}
+.alert-btns .bold{font-weight:600}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -981,6 +1017,59 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" id="apply" data-done="Showing places…"><span class="swap"><span class="sa">Apply</span><span class="sb">Show 38 places</span></span></button>
 </div>
 </template>
+<template id="tpl-interruptions">
+<div class="nav"><span class="brand">Moments</span><span></span><span class="end"><button class="icon-btn" aria-label="Activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg></button></span></div>
+<div class="screen">
+  <div class="stories">
+    <button class="me" id="your-story"><span class="avatar" style="--av:#FF9F0A">JR</span><span>Your story</span></button>
+    <button><span class="avatar" style="--av:#5E5CE6">ML</span><span>maya.lin</span></button>
+    <button><span class="avatar" style="--av:#34C759">SK</span><span>sam.k</span></button>
+    <button><span class="avatar" style="--av:#FF375F">LP</span><span>leo.p</span></button>
+    <button><span class="avatar" style="--av:#007AFF">AN</span><span>ana.n</span></button>
+  </div>
+
+  <div class="c good-only" style="--d:0"><div style="padding:4px 0 2px"><div class="apptip left" id="cf-tip">
+    <span class="apptip-ic" style="color:#34C759"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg></span>
+    <span class="apptip-txt"><b>New: Close Friends</b>Press and hold Your story to share it with just the people you pick.</span>
+    <button data-dismiss aria-label="Close tip">×</button>
+  </div></div></div>
+
+  <div class="post"><span class="avatar" style="--av:#5E5CE6">ML</span><div style="flex:1;min-width:0"><b>maya.lin</b><time>2h</time><p>First swim of the season. Freezing, but worth it.</p>
+    <div class="photo" style="--art:linear-gradient(to bottom,#9AD4F5 0%,#5FB3E6 52%,#2E86C1 53%,#1F6FA3 100%)"></div></div></div>
+  <div class="post"><span class="avatar" style="--av:#34C759">SK</span><div style="flex:1;min-width:0"><b>sam.k</b><time>5h</time><p>Sunday market haul.</p>
+    <div class="photo" style="--art:linear-gradient(135deg,#FFB86B 0%,#F4845F 50%,#C8553D 100%)"></div></div></div>
+</div>
+<div class="tabbar">
+  <div class="tabs" data-pick data-before="Home" data-after="Home">
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z"/></svg><span>Home</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg><span>Post</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg><span>Activity</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg><span>Profile</span></button>
+  </div>
+</div>
+<div class="modal bad-only" data-auto="1000">
+  <div class="alerts" id="popups">
+    <div class="alert" role="alertdialog" aria-label="Rate Moments">
+      <h3>Enjoying Moments?</h3>
+      <p>Tap a star to rate it on the App Store.</p>
+      <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg></div>
+      <div class="alert-btns"><button data-dismiss>Not Now</button></div>
+    </div>
+    <div class="alert" role="alertdialog" aria-label="Notifications">
+      <h3>“Moments” Would Like to Send You Notifications</h3>
+      <p>Notifications may include alerts, sounds and icon badges. These can be configured in Settings.</p>
+      <div class="alert-btns"><button data-dismiss>Don’t Allow</button><button class="bold" data-dismiss>Allow</button></div>
+    </div>
+    <div class="alert" role="alertdialog" aria-label="New: Close Friends">
+      <span class="ri" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2l2.6 5.5 6 .7-4.4 4.1 1.2 5.9L12 16.4l-5.4 3 1.2-5.9-4.4-4.1 6-.7z"/></svg></span>
+      <h3>New: Close Friends</h3>
+      <p>Press and hold Your story to share it with just the people you pick.</p>
+      <div class="alert-btns"><button class="bold" data-dismiss>OK</button></div>
+    </div>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1216,9 +1305,20 @@ const LESSONS = [
         body:'Every yes/no filter is now a switch, like in iOS Settings, and one button shows the results. This creates consistency and follows Jakob\u2019s Law by using familiar interaction patterns.',
         cta:'See the problem again' }
     }},
-  { n:14, slug:'interruptions', title:'Interruptions and popups', theme:'hierarchy', status:'planned',
-    problems:['skim-past','feel-tricked'], screens:['dialogs','feeds'], synonyms:'modal popup pop-up interstitial banner blindness annoying',
-    phrases:['nobody reads our announcement','people tap X straight away','users ignore the banner','our popups are annoying people','how do I tell people about a new feature'] },
+  { n:14, slug:'interruptions', title:'People close the popup without reading it', theme:'hierarchy', status:'live', frame:'Feed',
+    lede:'Every popup teaches people to close the next one faster. Ask for ratings and permissions at a moment that earns them, and explain a new feature where it lives, so the message that matters gets read.',
+    tags:['Banner blindness','Habituation'],
+    problems:['skim-past'], screens:['dialogs','feeds'],
+    synonyms:'modal modals popup popups pop-up pop-ups interstitial alert alerts dialog banner blindness annoying ignored ignore dismiss dismissed close closed reflex autopilot announcement announce new feature whats new rate us rating review notifications permission prompt',
+    phrases:['nobody reads our announcement','people tap X straight away','users ignore the banner','our popups are annoying people','how do I tell people about a new feature','too many modals when the app opens'],
+    steps:{
+      before:{ anchor:'#popups', label:'The problem', title:'3 popups before the feed',
+        body:'Rate us, then allow notifications, then this. By the third popup, people tap OK on reflex and miss the one that matters.',
+        cta:'Show the fix' },
+      after:{ anchor:'#cf-tip', label:'The fix', title:'1 note, next to the feature',
+        body:'No popups, just a note by Your story, where the feature works. People tune out anything that looks like a popup (banner blindness), but they read this.',
+        cta:'See the problem again' }
+    }},
   { n:15, slug:'system-status', title:'Show system status', theme:'feedback', status:'planned',
     problems:['unsure-it-worked','quit-midway'], screens:['checkout','dashboards'], synonyms:'loading spinner progress feedback waiting slow saved save sent submitted know whether confirmation',
     phrases:['people tap the button twice','did my order go through','users get duplicate orders','nothing happens when I tap pay','how do I show something is loading'] },
@@ -1295,7 +1395,9 @@ const PRINCIPLES = {
   'alignment': 'Lining things up along shared edges or centers. Fewer, cleaner edges give the eye a clear line to follow, so a layout looks orderly and intentional.',
   'grid-systems': 'A shared set of columns, margins and spacing that every element snaps to, so screens stay aligned and consistent without measuring each one by hand.',
   'consistency-and-standards': 'The same kind of thing should look and work the same way everywhere, so once people learn it in one place, they know it in every other.',
-  'jakobs-law': 'People spend most of their time in other apps and sites, so they expect yours to work the same way as the ones they already know.'
+  'jakobs-law': 'People spend most of their time in other apps and sites, so they expect yours to work the same way as the ones they already know.',
+  'banner-blindness': 'People learn to skip anything that looks like an ad or a promo, such as banners and popups, without reading it, even when it holds something useful.',
+  'habituation': 'When people see the same thing again and again, they stop noticing it and respond on autopilot, like tapping OK on a dialog without reading it.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -1338,7 +1440,7 @@ function search(q){
 let eng = null;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function unmount(){ if (!eng) return; clearTimeout(eng.timer); eng.ac.abort(); eng = null; }
+function unmount(){ if (!eng) return; clearTimeout(eng.timer); eng.auto.forEach(clearTimeout); eng.ac.abort(); eng = null; }
 
 function mount(lesson){
   const root = app.querySelector('[data-lesson-root]');
@@ -1359,7 +1461,7 @@ function mount(lesson){
   const ac = new AbortController();
   const on = (el, ev, fn, opts) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, opts || {}));
   const e = eng = {
-    lesson, ac, state:'before', timer:null, root, phone,
+    lesson, ac, state:'before', timer:null, auto:[], root, phone,
     screen: sheet.querySelector('.screen'),
     tip: phone.querySelector('.tip'), arrow: phone.querySelector('.arrow'),
     ring: phone.querySelector('.ring'), beacon: phone.querySelector('.beacon'),
@@ -1410,6 +1512,25 @@ function mount(lesson){
     gate();
   }
 
+  // Modal autoplay: a .modal[data-auto="ms"] plays itself in the state it shows in. Each alert but the last stays up
+  // for that long, then its first [data-dismiss] button is tapped; the last one waits for the person. Returns when
+  // the last one is showing (0 if none), so the tooltip waits for it.
+  function autoplay(state, lead){
+    e.auto.forEach(clearTimeout); e.auto = [];
+    const m = sheet.querySelector('.modal[data-auto]');
+    if (!m || m.classList.contains(state === 'after' ? 'bad-only' : 'good-only')) return 0;
+    const hold = +m.dataset.auto || 500, appear = reduce ? 0 : 600;
+    let t = reduce ? 0 : lead || 0;
+    const alerts = [...m.querySelectorAll('.alert')];
+    alerts.slice(0, -1).forEach((a, i) => {
+      t += (i ? appear : 0) + hold;
+      const b = a.querySelector('[data-dismiss]'), at = t;
+      e.auto.push(setTimeout(() => b && b.classList.add('tap'), at - 160));
+      e.auto.push(setTimeout(() => { if (b) b.classList.remove('tap'); a.classList.add('shut'); }, at));
+    });
+    return alerts.length > 1 ? t + appear : 0;
+  }
+
   function position(){
     const tipOn = e.tip.classList.contains('show');
     if (!tipOn && !e.beacon.classList.contains('show')) return;
@@ -1446,7 +1567,7 @@ function mount(lesson){
     clearTimeout(e.timer); hideAll(); e.state = next;
     e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
     root.dataset.state = next;
-    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); e.timer = setTimeout(showTip, reduce ? LOOK : LOOK + 500); };
+    const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); const done = autoplay(next, 400); e.timer = setTimeout(showTip, Math.max(reduce ? LOOK : LOOK + 500, done + 600)); };
     if (e.screen.scrollTop > 0) { e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); e.timer = setTimeout(apply, reduce ? 0 : 340); }
     else e.timer = setTimeout(apply, reduce ? 0 : 220);
   }
@@ -1465,7 +1586,7 @@ function mount(lesson){
     if (nx) { const { s, i, n } = carousel(nx.closest('[data-carousel]'));
       if (i < n - 1) { s.scrollTo({ left:(i + 1) * s.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); return; } }
     const dm = t.closest('[data-dismiss]');
-    if (dm) { dm.closest('.c').classList.add('shut'); setTimeout(() => { if (eng === e) position(); }, 650); return; }
+    if (dm) { dm.closest('.alert, .c').classList.add('shut'); setTimeout(() => { if (eng === e) position(); }, 650); return; }
     const sw = t.closest('.sw, .tick');
     if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
     const cyc = t.closest('[data-values]');
@@ -1488,7 +1609,7 @@ function mount(lesson){
     if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
   });
   presets('before', false);
-  e.timer = setTimeout(showTip, LOOK);
+  e.timer = setTimeout(showTip, Math.max(LOOK, autoplay('before') + 600));
 }
 
 // Paste your newsletter's form address here (Buttondown: https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME).
