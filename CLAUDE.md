@@ -103,7 +103,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 <span class="swap"><span class="sa">Before text</span><span class="sb">After text</span></span>
 ```
 
-**Transition primitive: restyle.** Change how an element looks without moving it (emphasis, contrast). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change, and its colors and shadow fade across. Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
+**Transition primitive: restyle.** Change how an element looks or how much space it keeps around it (emphasis, contrast, spacing). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change; colors and shadow fade across, and margin, padding and gap glide, so restyle can also re-space a layout (spacing, proximity). Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
 
 **iOS kit classes:**
 - Layout: `.pad` (group spacing), `.ghead` (group header), `.card`, `.row`
@@ -111,6 +111,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Text: `.val` with `.chev` (value with disclosure arrow), `.ph` (placeholder text), `.link`
 - Special: `.preview` and `.thumb` (photo row), `.steps-head` and `.progress` (stepper)
 - People and text: `.amount` (big centered amount with a caption), `.people` with buttons holding an `.avatar` (set its color with `--av`; `.avatar.add` for a "+" button), `.field` (a real text input inside a `<label class="row">`), `.hint` (small grey note under a card)
+- Stacked forms: `.stack` holds `.flabel` labels (above their field, 28px above and 6px below; `.flabel.loose` spaces them evenly, 18px each side) and `<input class="field fbox">` (a full-width rounded input box)
 - Lists and tips: `.tick` (round checkbox with `role="checkbox"` and `aria-checked`, toggles on tap), `.icon-btn` (a blue icon button inside a row), `.apptip` (an in-app tip card with an arrow, holding `.apptip-ic` and `.apptip-txt`), `.nav .end` (a blue right-hand nav item)
 - Empty states: `.blank` (a tall, centered grey note filling the screen, the bare empty state) and `.empty` (a centered empty state holding an `.art` icon tile, an `h3` and a `p`; follow it with a `.primary`). `.nav .add` makes a right-hand nav item a large "+".
 - Tabs and menus: `.lead` (groups a row's leading icon or avatar with its label) and `.ri` (a small colored icon tile for a menu row, like iOS Settings; set its color with `--art`). `.tabbar` goes after `.screen` in the template and pins to the bottom; it holds `.tabs` with `.tab` buttons (an icon `svg` plus a `span` label). Put `data-pick` and `data-before`/`data-after` (a tab's label) on `.tabs` to set the selected tab.
