@@ -172,14 +172,23 @@ Bad UI: a cart whose bottom bar has Apply coupon, Check out, Save for later and 
 ### 9. Labels look like they belong to the wrong field
 
 ```js
-{ n:9, slug:'proximity', title:'Labels look like they belong to the wrong field', theme:'hierarchy', status:'planned',
+{ n:9, slug:'proximity', title:'Labels look like they belong to the wrong field', theme:'hierarchy', status:'live', frame:'Shipping address',
+  lede:'People decide what belongs together by how close things sit. When a label is as close to the wrong field as to its own, they guess, and sometimes guess wrong.',
   tags:['Law of proximity','Common region'],
   problems:['form-errors'], screens:['forms'],
-  synonyms:'gestalt spacing whitespace group related',
-  phrases:['people type in the wrong box','I cannot tell which label goes with which field','the spacing on this form is off','related things are too far apart','how much space between form fields'] }
+  synonyms:'gestalt spacing space whitespace white group grouping related label labels field fields input box gap margin padding close together far apart address wrong',
+  phrases:['people type in the wrong box','I cannot tell which label goes with which field','the spacing on this form is off','related things are too far apart','how much space between form fields','users fill in the wrong field'],
+  steps:{
+    before:{ anchor:'#city-pair', label:'The problem', title:'18px above, 18px below',
+      body:'Each label sits exactly between two boxes. Does \u201cCity\u201d name the one above or the one below? In this example, session recordings showed people typing their city into the wrong one.',
+      cta:'Show the fix' },
+    after:{ anchor:'#city-pair', label:'The fix', title:'28px above, 6px below',
+      body:'Now each label hugs the box it names, with a wider gap before the next pair. Things that sit close together look like they belong together: that\u2019s the law of proximity.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: an address form where each label sits halfway between two fields, so people type the city into the ZIP field. Fix: labels tight to their fields, more space between field groups.
+Bad UI: a shipping address form where every label sits 18px from the box above and 18px from its own box, so it is unclear which box “City” names. Fix: labels 6px from their own box, 28px from the box above. Built with restyle, which now animates spacing too (`.stack`, `.flabel`, `.fbox`).
 
 ### 10. Everything on the screen looks equally important
 

@@ -296,8 +296,9 @@ a.lrow:hover .ltitle{color:var(--accent)}
 @keyframes pin{from{opacity:0;transform:translateX(6px)}}
 .primary{transition:background .3s,color .3s}
 .primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
-/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state) */
-.phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay);
+/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors and spacing animate) */
+.phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay),
+  margin .62s var(--ease) var(--delay),padding .62s var(--ease) var(--delay),gap .62s var(--ease) var(--delay);
   --delay:calc(.12s + var(--d,0) * 60ms)}
 .after [data-bad],.after [data-good]{--delay:calc(.24s + var(--d,0) * 60ms)}
 
@@ -402,6 +403,11 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .dock::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
 .dock .primary{margin-top:10px}
 .dock .pair .primary{margin-top:0}
+.stack{padding-top:0}
+.stack>.flabel:first-child{margin-top:16px}
+.flabel{display:block;margin:28px 4px 6px;font-size:15px;line-height:16px;font-weight:500;color:var(--ios-label)}
+.flabel.loose{margin:18px 4px}
+.fbox{display:block;width:100%;height:44px;padding:0 14px;border-radius:10px;background:var(--ios-cell);text-align:left}
 .pair{display:flex;gap:8px;margin-top:8px}
 .pair .primary{flex:1 1 0;min-width:0;font-size:16px}
 
@@ -824,6 +830,26 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </div>
 </template>
+<template id="tpl-proximity">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Shipping Address</span><span></span></div>
+<div class="screen">
+  <div class="stack">
+    <label class="flabel" for="px-name" data-bad="loose" data-good="" style="--d:0">Full name</label>
+    <input class="field fbox" id="px-name" type="text" autocomplete="off">
+    <label class="flabel" for="px-street" data-bad="loose" data-good="" style="--d:1">Street address</label>
+    <div id="city-pair">
+      <input class="field fbox" id="px-street" type="text" autocomplete="off">
+      <label class="flabel" for="px-city" data-bad="loose" data-good="" style="--d:2">City</label>
+      <input class="field fbox" id="px-city" type="text" autocomplete="off">
+    </div>
+    <label class="flabel" for="px-zip" data-bad="loose" data-good="" style="--d:3">ZIP code</label>
+    <input class="field fbox" id="px-zip" type="text" inputmode="numeric" autocomplete="off">
+    <label class="flabel" for="px-phone" data-bad="loose" data-good="" style="--d:4">Phone</label>
+    <input class="field fbox" id="px-phone" type="tel" autocomplete="off">
+  </div>
+  <button class="primary" data-done="Saved">Save Address</button>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -989,9 +1015,20 @@ const LESSONS = [
         body:'Check out is the only filled button, so the eye lands on it first. The others become text links: still there, no longer competing. That’s the Von Restorff effect.',
         cta:'See the problem again' }
     }},
-  { n:9,  slug:'proximity', title:'Proximity and grouping', theme:'hierarchy', status:'planned',
-    problems:['cluttered','form-errors'], screens:['forms','dashboards'], synonyms:'gestalt spacing whitespace group related',
-    phrases:['people type in the wrong box','I cannot tell which label goes with which field','the spacing on this form is off','related things are too far apart','how much space between form fields'] },
+  { n:9, slug:'proximity', title:'Labels look like they belong to the wrong field', theme:'hierarchy', status:'live', frame:'Shipping address',
+    lede:'People decide what belongs together by how close things sit. When a label is as close to the wrong field as to its own, they guess, and sometimes guess wrong.',
+    tags:['Law of proximity','Common region'],
+    problems:['form-errors'], screens:['forms'],
+    synonyms:'gestalt spacing space whitespace white group grouping related label labels field fields input box gap margin padding close together far apart address wrong',
+    phrases:['people type in the wrong box','I cannot tell which label goes with which field','the spacing on this form is off','related things are too far apart','how much space between form fields','users fill in the wrong field'],
+    steps:{
+      before:{ anchor:'#city-pair', label:'The problem', title:'18px above, 18px below',
+        body:'Each label sits exactly between two boxes. Does \u201cCity\u201d name the one above or the one below? In this example, session recordings showed people typing their city into the wrong one.',
+        cta:'Show the fix' },
+      after:{ anchor:'#city-pair', label:'The fix', title:'28px above, 6px below',
+        body:'Now each label hugs the box it names, with a wider gap before the next pair. Things that sit close together look like they belong together: that\u2019s the law of proximity.',
+        cta:'See the problem again' }
+    }},
   { n:10, slug:'visual-hierarchy', title:'Visual hierarchy', theme:'hierarchy', status:'planned',
     problems:['miss-main-action','skim-past','cluttered'], screens:['dashboards','feeds'], synonyms:'emphasis contrast size weight focus attention',
     phrases:['nothing stands out','I do not know where to look first','the dashboard is a mess','everything is the same size','how do I make the important part pop'] },
@@ -1074,7 +1111,9 @@ const PRINCIPLES = {
   'information-architecture': 'How content is organized, grouped and labeled, so people can find what they need and know where they are.',
   'serial-position-effect': 'People remember the first and last items in a list best, and the ones in the middle least.',
   'von-restorff-effect': 'When several similar things appear together, the one that looks different is the one people notice and remember.',
-  'visual-hierarchy': 'Using size, color, weight and position to show what matters most, so people see things in the order you intend.'
+  'visual-hierarchy': 'Using size, color, weight and position to show what matters most, so people see things in the order you intend.',
+  'law-of-proximity': 'Things that sit close together look like they belong together. Spacing alone tells people what is grouped, before they read a word.',
+  'common-region': 'Things inside the same boundary, like a card or a box, look like one group, even when they sit apart or look different.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
