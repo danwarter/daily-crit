@@ -284,8 +284,8 @@ Bad UI: a restaurant app's filter sheet where four yes/no filters use a switch, 
   synonyms:'modal modals popup popups pop-up pop-ups interstitial alert alerts dialog banner blindness annoying ignored ignore dismiss dismissed close closed reflex autopilot announcement announce new feature whats new rate us rating review notifications permission prompt',
   phrases:['nobody reads our announcement','people tap X straight away','users ignore the banner','our popups are annoying people','how do I tell people about a new feature','too many modals when the app opens'],
   steps:{
-    before:{ anchor:'#your-story', label:'The problem', title:'3 popups before the feed',
-      body:'Rate us, allow notifications, then a new feature, back to back. People tap through on reflex, so nobody learns Your story now has Close Friends.',
+    before:{ anchor:'#popups', label:'The problem', title:'3 popups before the feed',
+      body:'Rate us, then allow notifications, then this. By the third popup, people tap OK on reflex and miss the one that matters.',
       cta:'Show the fix' },
     after:{ anchor:'#cf-tip', label:'The fix', title:'1 note, next to the feature',
       body:'No popups, just a note by Your story, where the feature works. People tune out anything that looks like a popup (banner blindness), but they read this.',
@@ -293,7 +293,7 @@ Bad UI: a restaurant app's filter sheet where four yes/no filters use a switch, 
   }}
 ```
 
-Bad UI: a photo app's feed that opens with three dialogs in a row: a "Rate us" prompt, the iOS notifications permission alert, then "New: Close Friends." They tap themselves closed half a second apart (`data-auto`), the way people dismiss them on reflex, and then the tooltip points at Your story. Fix: no dialogs; a small in-app note under the story row, pointing at Your story, explains Close Friends where it's used. Built with a new modal primitive (`.modal` holding `.alert` dialogs, dismissed one at a time) and new kit pieces `.stories`, `.photo`, `.apptip.left` and `.nav .brand`.
+Bad UI: a photo app's feed that opens with three dialogs in a row: a "Rate us" prompt, the iOS notifications permission alert, then "New: Close Friends." The first two tap themselves closed a second apart (`data-auto`), the way people dismiss them on reflex, and the tooltip points at the third, still open. Fix: no dialogs; a small in-app note under the story row, pointing at Your story, explains Close Friends where it's used. Built with a new modal primitive (`.modal` holding `.alert` dialogs, dismissed one at a time) and new kit pieces `.stories`, `.photo`, `.apptip.left` and `.nav .brand`.
 
 ### 15. People can't tell if it worked
 
