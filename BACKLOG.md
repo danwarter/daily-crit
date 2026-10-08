@@ -256,7 +256,7 @@ Bad UI: a social profile where the name, bio, follower line and buttons start 14
 ### 13. The same kind of control works differently on one screen
 
 ```js
-{ n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'draft', frame:'Filter sheet',
+{ n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'live', frame:'Filter sheet',
   lede:'When the same kind of choice looks different every time, people need to think about each one. Use one control for one job, and one button to finish, and the screen explains itself.',
   tags:['Consistency and standards','Jakob’s law'],
   problems:['unclear-buttons'], screens:['dialogs'],
