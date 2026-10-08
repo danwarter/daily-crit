@@ -277,7 +277,7 @@ Bad UI: a restaurant app's filter sheet where four yes/no filters use a switch, 
 ### 14. People close the popup without reading it
 
 ```js
-{ n:14, slug:'interruptions', title:'People close the popup without reading it', theme:'hierarchy', status:'draft', frame:'Feed',
+{ n:14, slug:'interruptions', title:'People close the popup without reading it', theme:'hierarchy', status:'live', frame:'Feed',
   lede:'Every popup teaches people to close the next one faster. Ask for ratings and permissions at a moment that earns them, and explain a new feature where it lives, so the message that matters gets read.',
   tags:['Banner blindness','Habituation'],
   problems:['skim-past'], screens:['dialogs','feeds'],
