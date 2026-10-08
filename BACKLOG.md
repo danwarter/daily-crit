@@ -257,7 +257,7 @@ Bad UI: a social profile where the name, bio, follower line and buttons start 14
 
 ```js
 { n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'draft', frame:'Filter sheet',
-  lede:'When the same kind of choice looks different every time, people stop and work out each one. Use one control for one job, and one button to finish, and the screen explains itself.',
+  lede:'When the same kind of choice looks different every time, people need to think about each one. Use one control for one job, and one button to finish, and the screen explains itself.',
   tags:['Consistency and standards','Jakob’s law'],
   problems:['unclear-buttons'], screens:['dialogs'],
   synonyms:'consistent consistency inconsistent patterns standards design system mixed controls toggle toggles switch switches checkbox checkboxes segmented yes no filter filters sheet apply done save conventions familiar same',
@@ -267,7 +267,7 @@ Bad UI: a social profile where the name, bio, follower line and buttons start 14
       body:'A switch, a checkbox and a Yes/No toggle do the same job, so every row needs figuring out. And Done and Apply both close the sheet. Which one saves?',
       cta:'Show the fix' },
     after:{ anchor:'#filters', label:'The fix', title:'1 kind of control, 1 button',
-      body:'Every yes/no filter is now a switch, like in iOS Settings, and one button shows the results. That\u2019s consistency, and matching familiar apps is Jakob\u2019s law.',
+      body:'Every yes/no filter is now a switch, like in iOS Settings, and one button shows the results. This creates consistency and follows Jakob\u2019s Law by using familiar interaction patterns.',
       cta:'See the problem again' }
   }}
 ```
