@@ -296,6 +296,10 @@ a.lrow:hover .ltitle{color:var(--accent)}
 @keyframes pin{from{opacity:0;transform:translateX(6px)}}
 .primary{transition:background .3s,color .3s}
 .primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
+/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state) */
+.phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay);
+  --delay:calc(.12s + var(--d,0) * 60ms)}
+.after [data-bad],.after [data-good]{--delay:calc(.24s + var(--d,0) * 60ms)}
 
 /* iOS kit */
 .preview{margin-top:6px;background:var(--ios-cell);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center}
@@ -388,6 +392,18 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .tab svg{width:24px;height:24px;flex:none}
 .tab span{max-width:100%;padding:0 1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tab[aria-pressed="true"]{color:var(--ios-blue)}
+.plain{background:transparent;color:var(--ios-blue)}
+.mini{flex:none;height:32px;border:0;border-radius:8px;padding:0 12px;font-size:15px;font-weight:600;background:var(--ios-blue);color:#fff}
+.mini.plain{background:transparent;color:var(--ios-blue)}
+.pimg{width:52px;height:52px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;background:var(--art,var(--ios-blue))}
+.pimg svg{width:28px;height:28px}
+.price{font-variant-numeric:tabular-nums}
+.dock{position:relative;z-index:1;flex:none;background:var(--ios-bg);padding:10px 16px 24px}
+.dock::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
+.dock .primary{margin-top:10px}
+.dock .pair .primary{margin-top:0}
+.pair{display:flex;gap:8px;margin-top:8px}
+.pair .primary{flex:1 1 0;min-width:0;font-size:16px}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -785,6 +801,29 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </div>
 </template>
+<template id="tpl-one-primary-action">
+<div class="nav"><span class="cancel">Close</span><span class="title">Cart</span><span></span></div>
+<div class="screen">
+  <div class="pad"><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#5856D6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3.5" y="14" width="4" height="6" rx="1.5"/><rect x="16.5" y="14" width="4" height="6" rx="1.5"/></svg></span><span><p class="pname">Headphones</p><span class="sub">Black · Qty 1</span></span></span><span class="price">$129.00</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h10l-1 14H7z"/><path d="M5 6h12M8 3h6M16 9h1.5a2 2 0 0 1 0 4H15.6"/></svg></span><span><p class="pname">Travel mug</p><span class="sub">Orange · Qty 1</span></span></span><span class="price">$19.00</span></div></div></div>
+  </div></div>
+
+  <div class="pad"><div class="card">
+    <div class="c"><div><div class="row"><span>Subtotal</span><span class="price">$148.00</span></div></div></div>
+    <div class="c"><div><div class="row"><span>Shipping</span><span class="ph">Free</span></div></div></div>
+    <div class="c"><div><div class="row"><b>Total</b><b class="price">$148.00</b></div></div></div>
+  </div></div>
+</div>
+<div class="dock" id="actions">
+  <div class="card"><label class="row"><input class="field" type="text" placeholder="Promo code" aria-label="Promo code" style="text-align:left"><button class="mini" data-bad="" data-good="plain" data-done="Applied">Apply coupon</button></label></div>
+  <button class="primary" id="checkout" data-done="Placing order…">Check out</button>
+  <div class="pair">
+    <button class="primary" data-bad="" data-good="plain" style="--d:1" data-done="Saved">Save for later</button>
+    <button class="primary" data-bad="" data-good="plain" style="--d:2">Keep shopping</button>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -936,9 +975,20 @@ const LESSONS = [
         body:'In this example, analytics showed four destinations got most visits. They stay as tabs, and Account sorts the rest into two short groups. Fewer choices means faster finding: that\u2019s Hick\u2019s law.',
         cta:'See the problem again' }
     }},
-  { n:8,  slug:'one-primary-action', title:'One primary action', theme:'hierarchy', status:'planned',
-    problems:['miss-main-action','slow-decisions'], screens:['checkout','dialogs','sign-up'], synonyms:'cta call to action primary secondary button competing buttons',
-    phrases:['people cannot find the checkout button','every button is blue','users click the wrong button','which button should stand out','our main call to action gets ignored'] },
+  { n:8, slug:'one-primary-action', title:'Too many buttons look like the main one', theme:'hierarchy', status:'live', frame:'Cart',
+    lede:'When every button shouts, people have to read them all to find the one that matters. Make the main action look different, and let the rest step back.',
+    tags:['Von Restorff effect','Visual hierarchy','Hick’s law'],
+    problems:['miss-main-action'], screens:['checkout'],
+    synonyms:'cta call to action primary secondary tertiary button buttons competing filled solid outline ghost text link emphasis stand out checkout cart isolation effect',
+    phrases:['people cannot find the checkout button','every button is blue','users click the wrong button','which button should stand out','our main call to action gets ignored','all the buttons look the same'],
+    steps:{
+      before:{ anchor:'#actions', label:'The problem', title:'4 blue buttons, 1 that matters',
+        body:'Apply coupon, Check out, Save for later and Keep shopping all look the same. To finish the order, people have to stop and read every label.',
+        cta:'Show the fix' },
+      after:{ anchor:'#actions', label:'The fix', title:'1 filled button, 3 quiet links',
+        body:'Check out is the only filled button, so the eye lands on it first. The others become text links: still there, no longer competing. That’s the Von Restorff effect.',
+        cta:'See the problem again' }
+    }},
   { n:9,  slug:'proximity', title:'Proximity and grouping', theme:'hierarchy', status:'planned',
     problems:['cluttered','form-errors'], screens:['forms','dashboards'], synonyms:'gestalt spacing whitespace group related',
     phrases:['people type in the wrong box','I cannot tell which label goes with which field','the spacing on this form is off','related things are too far apart','how much space between form fields'] },
@@ -1022,7 +1072,9 @@ const PRINCIPLES = {
   'empty-states': 'What a screen shows when there is nothing in it yet. A good one explains what belongs there and how to add the first item.',
   'visibility-of-system-status': 'Keep people informed about what is going on, with clear feedback at the right moment.',
   'information-architecture': 'How content is organized, grouped and labeled, so people can find what they need and know where they are.',
-  'serial-position-effect': 'People remember the first and last items in a list best, and the ones in the middle least.'
+  'serial-position-effect': 'People remember the first and last items in a list best, and the ones in the middle least.',
+  'von-restorff-effect': 'When several similar things appear together, the one that looks different is the one people notice and remember.',
+  'visual-hierarchy': 'Using size, color, weight and position to show what matters most, so people see things in the order you intend.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -1117,6 +1169,12 @@ function mount(lesson){
     sheet.querySelectorAll('.shut').forEach(c => c.classList.remove('shut'));
     sheet.querySelectorAll('[data-carousel]').forEach(c => { c.querySelector('.slides').scrollLeft = 0; carousel(c); });
     sheet.querySelectorAll('[data-pick] button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    // Restyle primitive: [data-bad]/[data-good] list the classes an element wears in each state; CSS transitions the change.
+    sheet.querySelectorAll('[data-bad],[data-good]').forEach(el => {
+      const cls = k => (el.dataset[k] || '').split(' ').filter(Boolean);
+      el.classList.remove(...cls(state === 'after' ? 'bad' : 'good'));
+      el.classList.add(...cls(state === 'after' ? 'good' : 'bad'));
+    });
     sheet.querySelectorAll('[data-before],[data-after]').forEach(el => {
       if (!el.hasAttribute('data-' + state)) return;
       const val = el.getAttribute('data-' + state);

@@ -103,6 +103,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 <span class="swap"><span class="sa">Before text</span><span class="sb">After text</span></span>
 ```
 
+**Transition primitive: restyle.** Change how an element looks without moving it (emphasis, contrast). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change, and its colors and shadow fade across. Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
+
 **iOS kit classes:**
 - Layout: `.pad` (group spacing), `.ghead` (group header), `.card`, `.row`
 - Controls: `.seg` with buttons and `aria-pressed`, `.sw` with `role="switch"` and `aria-checked`, `.primary` (main button)
@@ -114,6 +116,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Tabs and menus: `.lead` (groups a row's leading icon or avatar with its label) and `.ri` (a small colored icon tile for a menu row, like iOS Settings; set its color with `--art`). `.tabbar` goes after `.screen` in the template and pins to the bottom; it holds `.tabs` with `.tab` buttons (an icon `svg` plus a `span` label). Put `data-pick` and `data-before`/`data-after` (a tab's label) on `.tabs` to set the selected tab.
 - Carousel: a `[data-carousel]` wrapper holding `.slides` with `.slide` children (each can use `.art` with `--art` for a colored illustration panel). People can swipe, or tap a `data-next="Next"` button to advance; it reads `data-last` on the last slide. A `.progress` and a `[data-count]` label inside the wrapper follow along. Carousels go back to the first slide on every state change.
 - Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, `data-pick` on a group of buttons makes them single-select (like `.seg`), `data-dismiss` on a button collapses its nearest `.c` (like closing a tip), and `data-done="Done"` on a button flashes that text when tapped. Typed `.field` text, `data-pick` selections and dismissed blocks reset on every state change.
+- Buttons and carts: `.plain` turns a `.primary` or `.mini` into a blue text button; `.mini` is a small filled button for inside a row; `.pair` puts two `.primary` buttons side by side; `.pimg` is a product image tile (set its color with `--art`) and `.price` keeps prices aligned; `.dock` goes after `.screen` in the template and pins its content (like a cart's checkout buttons) to the bottom.
 - Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg`, a `data-pick` group or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**
@@ -166,7 +169,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 
 ## Roadmap
 
-- **Next transition primitives:** restyle (hierarchy, contrast), move/resize (Fitts's law, thumb zone), reorder (grouping).
+- **Next transition primitives:** move/resize (Fitts's law, thumb zone), reorder (grouping).
 - **Principle pages:** a page per principle with a one-line definition, origin (who, when, what research), a ready-to-use "how to say it in a review" sentence, honest limits (for example, Miller's 7±2 is often misapplied), and links to its lessons. These make search results citable.
 - **Analytics:** lesson views and search terms are logged in Google Analytics. Next: review them weekly to decide what to build.
 - **After 30 days:** migrate to Astro with real URLs for SEO.

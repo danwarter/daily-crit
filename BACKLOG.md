@@ -151,14 +151,23 @@ Same primary principle as lesson 1, with a different bad UI: an iOS More tab hid
 ### 8. Too many buttons look like the main one
 
 ```js
-{ n:8, slug:'one-primary-action', title:'Too many buttons look like the main one', theme:'hierarchy', status:'planned',
+{ n:8, slug:'one-primary-action', title:'Too many buttons look like the main one', theme:'hierarchy', status:'live', frame:'Cart',
+  lede:'When every button shouts, people have to read them all to find the one that matters. Make the main action look different, and let the rest step back.',
   tags:['Von Restorff effect','Visual hierarchy','Hick’s law'],
   problems:['miss-main-action'], screens:['checkout'],
-  synonyms:'cta call to action primary secondary button competing buttons',
-  phrases:['people cannot find the checkout button','every button is blue','users click the wrong button','which button should stand out','our main call to action gets ignored'] }
+  synonyms:'cta call to action primary secondary tertiary button buttons competing filled solid outline ghost text link emphasis stand out checkout cart isolation effect',
+  phrases:['people cannot find the checkout button','every button is blue','users click the wrong button','which button should stand out','our main call to action gets ignored','all the buttons look the same'],
+  steps:{
+    before:{ anchor:'#actions', label:'The problem', title:'4 blue buttons, 1 that matters',
+      body:'Apply coupon, Check out, Save for later and Keep shopping all look the same. To finish the order, people have to stop and read every label.',
+      cta:'Show the fix' },
+    after:{ anchor:'#actions', label:'The fix', title:'1 filled button, 3 quiet links',
+      body:'Check out is the only filled button, so the eye lands on it first. The others become text links: still there, no longer competing. That’s the Von Restorff effect.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a cart with Apply coupon, Save for later, Keep shopping and Checkout all as filled blue buttons. Fix: one filled Checkout button, the rest as text links.
+Bad UI: a cart whose bottom bar has Apply coupon, Check out, Save for later and Keep shopping, all as filled blue buttons. Fix: one filled Check out button, the rest as text links. Built with the new restyle primitive (`data-bad` / `data-good`).
 
 ### 9. Labels look like they belong to the wrong field
 
