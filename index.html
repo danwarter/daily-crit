@@ -418,6 +418,13 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .ri.gone{width:0;margin-right:-12px;opacity:0;overflow:hidden}
 .deck{display:grid;gap:12px}
 .row.roomy{padding-top:16px;padding-bottom:18px}
+.bigtitle{margin:16px 0 16px;font-size:30px;line-height:1.12;font-weight:700;letter-spacing:-.02em;text-align:center}
+.para{margin:0;padding-bottom:12px;font-size:15px;line-height:1.45;color:var(--ios-label)}
+.feat{display:flex;gap:12px;align-items:flex-start;padding:8px 4px 8px 2px}
+.feat-ic{flex:none;color:var(--ios-blue);margin-top:1px}
+.feat-ic svg{width:28px;height:28px}
+.feat b{display:block;font-size:16px;font-weight:600;margin-bottom:2px}
+.feat span{display:block;font-size:15px;line-height:1.35;color:var(--ios-2)}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -882,6 +889,21 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </div>
 </template>
+<template id="tpl-scannable-text">
+<div class="screen">
+  <h3 class="bigtitle">What’s New</h3>
+  <div id="notes">
+    <div class="c bad-only" style="--d:0"><div><p class="para">Thanks for using Lists! Version 5.0 is our biggest update yet. We’ve spent the past year listening to your feedback and rebuilding the app from the ground up, with a fresh new look, faster search and lots of small improvements that make everyday lists a little easier.</p></div></div>
+    <div class="c good-only" style="--d:0"><div><div class="card" id="summary"><div class="row"><div><p class="pname">Sign in by Oct 31</p><span class="sub">Or syncing stops</span></div><button class="mini" data-done="Done">Sign In</button></div></div><div style="height:10px"></div></div></div>
+    <div class="c bad-only" style="--d:1"><div><p class="para">You can now share any list with family and friends, and everyone sees changes as they happen. To make this possible, we’ve moved syncing to a new service, so <span id="deadline">you’ll need to sign in again by October 31 or your lists will stop syncing between your devices.</span> Reminders are smarter too, and can now alert you when you arrive at or leave a place.</p></div></div>
+    <div class="c good-only" style="--d:1"><div><div class="feat"><span class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.3"/><path d="M3 19.5c.8-3.4 3.2-5.2 6-5.2s5.2 1.8 6 5.2"/><path d="M15.5 5.6a3.2 3.2 0 0 1 0 6M17.5 14.6c1.8.7 3 2.3 3.5 4.9"/></svg></span><div><b>Shared lists</b><span>Edit together, in real time.</span></div></div></div></div>
+    <div class="c good-only" style="--d:2"><div><div class="feat"><span class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span><div><b>Location reminders</b><span>Get nudged when you arrive.</span></div></div></div></div>
+    <div class="c bad-only" style="--d:2"><div><p class="para">We’ve also fixed dozens of bugs, improved battery life and made Lists work better with larger text sizes and VoiceOver. As always, if anything seems off, you can reach us any time from Settings. Enjoy!</p></div></div>
+    <div class="c good-only" style="--d:3"><div><div class="feat"><span class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/></svg></span><div><b>Faster and smoother</b><span>Faster search, better battery.</span></div></div></div></div>
+  </div>
+</div>
+<div class="dock"><button class="primary" data-done="Opening Lists…">Continue</button></div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1075,9 +1097,20 @@ const LESSONS = [
         body:'The balance is big and bold, so the eye lands there first. The promo and tip shrink to quiet grey rows. Size and contrast set the reading order: that\u2019s visual hierarchy.',
         cta:'See the problem again' }
     }},
-  { n:11, slug:'scannable-text', title:'Scannable text', theme:'hierarchy', status:'planned',
-    problems:['skim-past'], screens:['feeds','onboarding'], synonyms:'reading wall of text copy headings f-pattern long text',
-    phrases:['people do not read the instructions','users skip the important part','this text is too long','how do I get people to read this','they miss the key detail in the paragraph'] },
+  { n:11, slug:'scannable-text', title:'Nobody reads this wall of text', theme:'hierarchy', status:'live', frame:'What\u2019s new sheet',
+    lede:'People skim screens; they rarely read them. If the one thing they need is buried in a paragraph, they\u2019ll miss it. Lead with it, then break the rest into short, labeled lines.',
+    tags:['F-shaped reading pattern','Inverted pyramid'],
+    problems:['skim-past'], screens:['onboarding'],
+    synonyms:'reading read wall of text copy copywriting headings heading f-pattern long text paragraphs paragraph skim skimming scan scanning bold summary bullet bullets whats new release notes update changelog announcement',
+    phrases:['people do not read the instructions','users skip the important part','this text is too long','how do I get people to read this','they miss the key detail in the paragraph','nobody reads our release notes'],
+    steps:{
+      before:{ anchor:'#deadline', label:'The problem', title:'1 deadline, buried 79 words deep',
+        body:'The one thing people must do, sign in by Oct 31, sits mid-paragraph. People skim the first lines and the left edge, so in this example most tapped Continue without seeing it.',
+        cta:'Show the fix' },
+      after:{ anchor:'#notes', label:'The fix', title:'The deadline first, then 3 short lines',
+        body:'What people must do comes first, in bold, and each change gets a heading and one line. That\u2019s the inverted pyramid: the point first, the details after.',
+        cta:'See the problem again' }
+    }},
   { n:12, slug:'alignment', title:'Alignment', theme:'hierarchy', status:'planned',
     problems:['cluttered'], screens:['forms','dashboards'], synonyms:'grid layout messy edges',
     phrases:['it looks off but I do not know why','the screen feels sloppy','things do not line up','why does this look unprofessional','how do I tidy up a layout'] },
@@ -1157,7 +1190,9 @@ const PRINCIPLES = {
   'visual-hierarchy': 'Using size, color, weight and position to show what matters most, so people see things in the order you intend.',
   'law-of-proximity': 'Things that sit close together look like they belong together. Spacing alone tells people what is grouped, before they read a word.',
   'contrast': 'Making things clearly different in size, color, weight or shape, so the difference itself tells people what matters and what belongs together.',
-  'common-region': 'Things inside the same boundary, like a card or a box, look like one group, even when they sit apart or look different.'
+  'common-region': 'Things inside the same boundary, like a card or a box, look like one group, even when they sit apart or look different.',
+  'f-shaped-reading-pattern': 'On text-heavy screens, people read the first line or two, then scan down the left edge. Words further along a line, or deep in a paragraph, often go unseen.',
+  'inverted-pyramid': 'Put the most important information first, then the details, so people get the point even if they stop reading early.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
