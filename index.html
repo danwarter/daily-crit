@@ -178,6 +178,10 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .page-intro p.count{margin:14px 0 0;font-size:15px;font-weight:500;color:var(--ink-2)}
 .prose{max-width:62ch;font-size:18px;line-height:1.65;margin:0 0 64px}
 .prose p{margin:0 0 18px}
+.prose h2{margin:40px 0 12px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.prose .reach{display:inline-flex;align-items:center;gap:10px;margin-top:6px;font-weight:700;font-size:16px;text-decoration:none;background:var(--ink);color:var(--page);border-radius:999px;padding:13px 22px;transition:background .2s}
+.prose .reach:hover,.prose .reach:focus-visible{background:var(--accent);color:#fff}
+.prose .reach svg{width:18px;height:18px}
 
 /* ---------- Find page ---------- */
 .bigsearch{position:relative;max-width:720px;margin:0 0 56px}
@@ -1392,12 +1396,15 @@ function pageScreen(id){
 }
 function pageAbout(){
   return { html: `
-    <section class="page-intro"><h1>Design principles, shown in real UI.</h1>
-      <p class="big">Each day, a flawed screen fixes itself in front of you, with notes on what went wrong and why the fix works.</p></section>
+    <section class="page-intro"><h1>Hi, I\u2019m Dan.</h1>
+      <p class="big">I\u2019m a UX design manager who loves what I do. Daily Crit is how I share what I\u2019ve learned, and keep learning, one small lesson at a time.</p></section>
     <div class="prose">
-      <p>Daily Crit is a short design review you can watch. Most design principles are taught with a definition and a diagram. Here, each one starts as a real-looking screen with a real problem. A note explains what is wrong, then the screen fixes itself and a second note explains why the fix works.</p>
-      <p>Tap around in the before version. The friction is the lesson.</p>
-      <p>A new lesson goes up every day for 30 days, organized into four weekly themes. After that, the library keeps growing.</p>
+      <p>The best moment in any design crit is when someone names exactly why a screen isn\u2019t working, and suddenly everyone in the room can see it. Daily Crit tries to capture that moment and hand it to you.</p>
+      <p>Most design principles are taught with a definition and a diagram. Here, each one starts as a real-looking screen with a real problem. A note explains what\u2019s wrong, then the screen fixes itself and a second note explains why the fix works. Tap around in the before version. The friction is the lesson.</p>
+      <p>A new lesson goes up every day for 30 days, across four weekly themes. After that, the library keeps growing.</p>
+      <h2>Let\u2019s learn from each other</h2>
+      <p>I\u2019m curious how you approach these problems too. If a lesson sparked an idea, you have a better example, or you think I got something wrong, I\u2019d love to hear from you.</p>
+      <a class="reach" href="https://www.linkedin.com/in/danielwarter" target="_blank" rel="noopener">Say hi on LinkedIn<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     </div>${newsletter()}` };
 }
 
