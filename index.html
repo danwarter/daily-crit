@@ -218,7 +218,11 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .nl.sent .nl-form{display:none}
 .nl.sent .nl-msg{grid-column:3;margin:0;padding:0;font-size:15px;color:var(--ink)}
 
-.site-foot{max-width:1160px;margin:0 auto;padding:28px 32px 48px;color:var(--ink-2);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.site-foot{max-width:1160px;margin:0 auto;padding:28px 32px 48px;color:var(--ink-2);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.foot-end{display:flex;align-items:center;gap:14px}
+.foot-li{display:grid;place-items:center;width:32px;height:32px;margin:-6px 0;border-radius:8px;color:var(--ink-2);transition:color .2s}
+.foot-li:hover,.foot-li:focus-visible{color:var(--accent)}
+.foot-li svg{width:18px;height:18px}
 
 /* ---------- Command palette ---------- */
 .pal-backdrop{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
@@ -483,7 +487,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </header>
 <main id="app" class="page"></main>
-<footer class="site-foot"><span>Daily Crit. One design crit a day, in real UI. dailycrit.app</span><span>Lesson screens are fictional examples.</span></footer>
+<footer class="site-foot"><span>Daily Crit. One design crit a day, in real UI. dailycrit.app</span><span class="foot-end"><span>Lesson screens are fictional examples.</span><a class="foot-li" href="https://www.linkedin.com/in/danielwarter" target="_blank" rel="noopener" aria-label="Dan Warter on LinkedIn" title="Dan Warter on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></span></footer>
 
 <div class="pal-backdrop" data-pal-close></div>
 <div class="palette" role="dialog" aria-modal="true" aria-label="Search problems and lessons">
