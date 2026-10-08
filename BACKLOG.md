@@ -256,14 +256,23 @@ Bad UI: a social profile where the name, bio, follower line and buttons start 14
 ### 13. The same kind of control works differently on one screen
 
 ```js
-{ n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'planned',
+{ n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'draft', frame:'Filter sheet',
+  lede:'When the same kind of choice looks different every time, people stop and work out each one. Use one control for one job, and one button to finish, and the screen explains itself.',
   tags:['Consistency and standards','Jakob’s law'],
   problems:['unclear-buttons'], screens:['dialogs'],
-  synonyms:'consistent patterns standards design system mixed controls',
-  phrases:['every screen does it differently','people are not sure how to turn this on','we use toggles and checkboxes for the same thing','users expect it to work like other apps','why is Save in a different place here'] }
+  synonyms:'consistent consistency inconsistent patterns standards design system mixed controls toggle toggles switch switches checkbox checkboxes segmented yes no filter filters sheet apply done save conventions familiar same',
+  phrases:['every screen does it differently','people are not sure how to turn this on','we use toggles and checkboxes for the same thing','users expect it to work like other apps','why is Save in a different place here'],
+  steps:{
+    before:{ anchor:'#filters', label:'The problem', title:'4 yes/no filters, 3 kinds of control',
+      body:'A switch, a checkbox and a Yes/No toggle do the same job, so every row needs figuring out. And Done and Apply both close the sheet. Which one saves?',
+      cta:'Show the fix' },
+    after:{ anchor:'#filters', label:'The fix', title:'1 kind of control, 1 button',
+      body:'Every yes/no filter is now a switch, like in iOS Settings, and one button shows the results. That\u2019s consistency, and matching familiar apps is Jakob\u2019s law.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a filter sheet that mixes switches, checkboxes and segmented controls for the same yes/no choices, with both Apply and Done buttons. Fix: one control type, one button.
+Bad UI: a restaurant app's filter sheet where four yes/no filters use a switch, two checkboxes and a Yes/No segmented control, with Done in the nav bar and Apply at the bottom. Fix: every filter becomes a switch, Done disappears, and the bottom button reads "Show 38 places". Sort by keeps its own control because it's a different kind of choice. Built with text swap; swaps can now hold controls (`.swap.end`), and `.tick` takes `data-before`/`data-after`.
 
 ### 14. People close the popup without reading it
 

@@ -285,6 +285,9 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .swap .sb{opacity:0}
 .after .swap .sa{opacity:0;transition-delay:0s}
 .after .swap .sb{opacity:1}
+.swap .sb,.after .swap .sa{pointer-events:none}
+.after .swap .sb{pointer-events:auto}
+.swap.end{justify-items:end;align-items:center}
 /* Transition primitive: collapse / expand sideways (.cx with bad-only or good-only, inside a flex row) */
 .cx{flex:1 1 0;min-width:0;overflow:hidden;transition:flex-grow .62s var(--ease) var(--delay,0s),opacity .38s ease var(--delay,0s)}
 .after .cx.bad-only,.cx.good-only{flex-grow:0}
@@ -950,6 +953,34 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </div>
 </template>
+<template id="tpl-consistency">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Filters</span><span class="end"><span class="swap"><span class="sa">Done</span><span class="sb"></span></span></span></div>
+<div class="screen">
+  <div class="pad">
+    <div class="card" id="filters">
+      <div class="c"><div><div class="row">Open now <button class="sw" role="switch" aria-label="Open now" data-before="true" data-after="true"></button></div></div></div>
+      <div class="c"><div><div class="row">Takes reservations <span class="swap end">
+        <span class="sa"><button class="tick" role="checkbox" aria-label="Takes reservations" data-before="true"></button></span>
+        <span class="sb"><button class="sw" role="switch" aria-label="Takes reservations" data-after="true"></button></span></span></div></div></div>
+      <div class="c"><div><div class="row">Outdoor seating <span class="swap end">
+        <span class="sa"><span class="seg" data-before="No"><button aria-pressed="false">Yes</button><button aria-pressed="false">No</button></span></span>
+        <span class="sb"><button class="sw" role="switch" aria-label="Outdoor seating" data-after="false"></button></span></span></div></div></div>
+      <div class="c"><div><div class="row">Free delivery <span class="swap end">
+        <span class="sa"><button class="tick" role="checkbox" aria-label="Free delivery" data-before="false"></button></span>
+        <span class="sb"><button class="sw" role="switch" aria-label="Free delivery" data-after="false"></button></span></span></div></div></div>
+    </div>
+  </div>
+
+  <div class="pad">
+    <div class="card">
+      <div class="c"><div><button class="row" data-values="Distance|Rating|Price, low to high">Sort by <span class="val"><b class="v">Distance</b><span class="chev"></span></span></button></div></div>
+    </div>
+  </div>
+</div>
+<div class="dock">
+  <button class="primary" id="apply" data-done="Showing places…"><span class="swap"><span class="sa">Apply</span><span class="sb">Show 38 places</span></span></button>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1171,9 +1202,20 @@ const LESSONS = [
         body:'Every block now starts on the same line, so the eye runs straight down it and the screen feels calm. That\u2019s alignment: fewer edges, less visual noise.',
         cta:'See the problem again' }
     }},
-  { n:13, slug:'consistency', title:'Consistency', theme:'hierarchy', status:'planned',
-    problems:['lost-in-nav','unclear-buttons'], screens:['navigation','dialogs'], synonyms:'consistent patterns standards design system',
-    phrases:['every screen does it differently','people are not sure how to turn this on','we use toggles and checkboxes for the same thing','users expect it to work like other apps','why is Save in a different place here'] },
+  { n:13, slug:'consistency', title:'The same kind of control works differently on one screen', theme:'hierarchy', status:'draft', frame:'Filter sheet',
+    lede:'When the same kind of choice looks different every time, people stop and work out each one. Use one control for one job, and one button to finish, and the screen explains itself.',
+    tags:['Consistency and standards','Jakob\u2019s law'],
+    problems:['unclear-buttons'], screens:['dialogs'],
+    synonyms:'consistent consistency inconsistent patterns standards design system mixed controls toggle toggles switch switches checkbox checkboxes segmented yes no filter filters sheet apply done save conventions familiar same',
+    phrases:['every screen does it differently','people are not sure how to turn this on','we use toggles and checkboxes for the same thing','users expect it to work like other apps','why is Save in a different place here'],
+    steps:{
+      before:{ anchor:'#filters', label:'The problem', title:'4 yes/no filters, 3 kinds of control',
+        body:'A switch, a checkbox and a Yes/No toggle do the same job, so every row needs figuring out. And Done and Apply both close the sheet. Which one saves?',
+        cta:'Show the fix' },
+      after:{ anchor:'#filters', label:'The fix', title:'1 kind of control, 1 button',
+        body:'Every yes/no filter is now a switch, like in iOS Settings, and one button shows the results. That\u2019s consistency, and matching familiar apps is Jakob\u2019s law.',
+        cta:'See the problem again' }
+    }},
   { n:14, slug:'interruptions', title:'Interruptions and popups', theme:'hierarchy', status:'planned',
     problems:['skim-past','feel-tricked'], screens:['dialogs','feeds'], synonyms:'modal popup pop-up interstitial banner blindness annoying',
     phrases:['nobody reads our announcement','people tap X straight away','users ignore the banner','our popups are annoying people','how do I tell people about a new feature'] },
@@ -1251,7 +1293,9 @@ const PRINCIPLES = {
   'f-shaped-reading-pattern': 'On text-heavy screens, people read the first line or two, then scan down the left edge. Words further along a line, or deep in a paragraph, often go unseen.',
   'inverted-pyramid': 'Put the most important information first, then the details, so people get the point even if they stop reading early.',
   'alignment': 'Lining things up along shared edges or centers. Fewer, cleaner edges give the eye a clear line to follow, so a layout looks orderly and intentional.',
-  'grid-systems': 'A shared set of columns, margins and spacing that every element snaps to, so screens stay aligned and consistent without measuring each one by hand.'
+  'grid-systems': 'A shared set of columns, margins and spacing that every element snaps to, so screens stay aligned and consistent without measuring each one by hand.',
+  'consistency-and-standards': 'The same kind of thing should look and work the same way everywhere, so once people learn it in one place, they know it in every other.',
+  'jakobs-law': 'People spend most of their time in other apps and sites, so they expect yours to work the same way as the ones they already know.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -1356,7 +1400,7 @@ function mount(lesson){
       if (!el.hasAttribute('data-' + state)) return;
       const val = el.getAttribute('data-' + state);
       if (el.classList.contains('seg') || el.hasAttribute('data-pick')) el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.textContent.trim() === val)));
-      else if (el.classList.contains('sw')) el.setAttribute('aria-checked', String(val === 'true'));
+      else if (el.matches('.sw, .tick')) el.setAttribute('aria-checked', String(val === 'true'));
       else {
         const v = el.querySelector('.v'); if (!v || v.textContent === val) return;
         v.textContent = val; v.classList.remove('pin');
