@@ -214,7 +214,7 @@ Bad UI: a banking home screen where the balance, a Gold card promo and an autopa
 ### 11. Nobody reads this wall of text
 
 ```js
-{ n:11, slug:'scannable-text', title:'Nobody reads this wall of text', theme:'hierarchy', status:'draft', frame:'What\u2019s new sheet',
+{ n:11, slug:'scannable-text', title:'Nobody reads this wall of text', theme:'hierarchy', status:'live', frame:'What\u2019s new sheet',
   lede:'People skim screens; they rarely read them. If the one thing they need is buried in a paragraph, they\u2019ll miss it. Lead with it, then break the rest into short, labeled lines.',
   tags:['F-shaped reading pattern','Inverted pyramid'],
   problems:['skim-past'], screens:['onboarding'],
