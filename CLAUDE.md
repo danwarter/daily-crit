@@ -103,7 +103,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 <span class="swap"><span class="sa">Before text</span><span class="sb">After text</span></span>
 ```
 
-**Transition primitive: restyle.** Change how an element looks or how much space it keeps around it (emphasis, contrast, spacing). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change; colors and shadow fade across, and margin, padding and gap glide, so restyle can also re-space a layout (spacing, proximity). Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
+**Transition primitive: restyle.** Change how an element looks or how much space it keeps around it (emphasis, contrast, spacing). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change; colors, shadow and opacity fade across, and margin, padding, gap, font size and width glide, so restyle can also re-space a layout (spacing, proximity) or change emphasis (hierarchy). Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
 
 **iOS kit classes:**
 - Layout: `.pad` (group spacing), `.ghead` (group header), `.card`, `.row`
@@ -118,6 +118,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Carousel: a `[data-carousel]` wrapper holding `.slides` with `.slide` children (each can use `.art` with `--art` for a colored illustration panel). People can swipe, or tap a `data-next="Next"` button to advance; it reads `data-last` on the last slide. A `.progress` and a `[data-count]` label inside the wrapper follow along. Carousels go back to the first slide on every state change.
 - Mock behaviors: `data-values="A|B|C"` on a row makes it cycle values on tap, `data-pick` on a group of buttons makes them single-select (like `.seg`), `data-dismiss` on a button collapses its nearest `.c` (like closing a tip), and `data-done="Done"` on a button flashes that text when tapped. Typed `.field` text, `data-pick` selections and dismissed blocks reset on every state change.
 - Buttons and carts: `.plain` turns a `.primary` or `.mini` into a blue text button; `.mini` is a small filled button for inside a row; `.pair` puts two `.primary` buttons side by side; `.pimg` is a product image tile (set its color with `--art`) and `.price` keeps prices aligned; `.dock` goes after `.screen` in the template and pins its content (like a cart's checkout buttons) to the bottom.
+- Emphasis (restyle targets): `.huge` (a 40px bold figure, like a balance), `.kicker` (a small grey label above it), `.quiet` (a 15px grey, regular-weight title), `.ri.mute` (a grey icon tile), `.ri.gone` (an icon tile that shrinks away), `.row.roomy` (a taller row). `.deck` stacks cards with a 12px gap.
 - Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg`, a `data-pick` group or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**
