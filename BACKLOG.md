@@ -214,14 +214,23 @@ Bad UI: a banking home screen where the balance, a Gold card promo and an autopa
 ### 11. Nobody reads this wall of text
 
 ```js
-{ n:11, slug:'scannable-text', title:'Nobody reads this wall of text', theme:'hierarchy', status:'planned',
+{ n:11, slug:'scannable-text', title:'Nobody reads this wall of text', theme:'hierarchy', status:'draft', frame:'What\u2019s new sheet',
+  lede:'People skim screens; they rarely read them. If the one thing they need is buried in a paragraph, they\u2019ll miss it. Lead with it, then break the rest into short, labeled lines.',
   tags:['F-shaped reading pattern','Inverted pyramid'],
   problems:['skim-past'], screens:['onboarding'],
-  synonyms:'reading wall of text copy headings f-pattern long text paragraphs',
-  phrases:['people do not read the instructions','users skip the important part','this text is too long','how do I get people to read this','they miss the key detail in the paragraph'] }
+  synonyms:'reading read wall of text copy copywriting headings heading f-pattern long text paragraphs paragraph skim skimming scan scanning bold summary bullet bullets whats new release notes update changelog announcement',
+  phrases:['people do not read the instructions','users skip the important part','this text is too long','how do I get people to read this','they miss the key detail in the paragraph','nobody reads our release notes'],
+  steps:{
+    before:{ anchor:'#deadline', label:'The problem', title:'1 deadline, buried 79 words deep',
+      body:'The one thing people must do, sign in by Oct 31, sits mid-paragraph. People skim the first lines and the left edge, so in this example most tapped Continue without seeing it.',
+      cta:'Show the fix' },
+    after:{ anchor:'#notes', label:'The fix', title:'The deadline first, then 3 short lines',
+      body:'What people must do comes first, in bold, and each change gets a heading and one line. That\u2019s the inverted pyramid: the point first, the details after.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a "What's new" sheet written as three dense paragraphs. Fix: a bolded summary line, short headings and one line per change.
+Bad UI: a "What's New" sheet written as three dense paragraphs (146 words), with the one thing people must do, sign in again by Oct 31 or syncing stops, buried 79 words in. Fix: that action leads as a bold card with a Sign In button, and each change becomes a heading with one short line. Built with collapse/expand; added `.bigtitle`, `.para` and `.feat`.
 
 ### 12. The layout looks messy and I can't say why
 
