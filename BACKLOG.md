@@ -151,7 +151,7 @@ Same primary principle as lesson 1, with a different bad UI: an iOS More tab hid
 ### 8. Too many buttons look like the main one
 
 ```js
-{ n:8, slug:'one-primary-action', title:'Too many buttons look like the main one', theme:'hierarchy', status:'draft', frame:'Cart',
+{ n:8, slug:'one-primary-action', title:'Too many buttons look like the main one', theme:'hierarchy', status:'live', frame:'Cart',
   lede:'When every button shouts, people have to read them all to find the one that matters. Make the main action look different, and let the rest step back.',
   tags:['Von Restorff effect','Visual hierarchy','Hick’s law'],
   problems:['miss-main-action'], screens:['checkout'],
