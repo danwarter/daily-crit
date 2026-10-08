@@ -193,7 +193,7 @@ Bad UI: a shipping address form where every label sits 18px from the box above a
 ### 10. Everything on the screen looks equally important
 
 ```js
-{ n:10, slug:'visual-hierarchy', title:'Everything on the screen looks equally important', theme:'hierarchy', status:'draft', frame:'Bank home',
+{ n:10, slug:'visual-hierarchy', title:'Everything on the screen looks equally important', theme:'hierarchy', status:'live', frame:'Bank home',
   lede:'When everything on a screen is the same size and weight, people have to read it all to find what they came for. Make the most important thing the biggest, and let the rest step back.',
   tags:['Visual hierarchy','Contrast'],
   problems:['cluttered'], screens:['dashboards'],
