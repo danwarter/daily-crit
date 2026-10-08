@@ -235,7 +235,7 @@ Bad UI: a "What's New" sheet written as three dense paragraphs (146 words), with
 ### 12. The layout looks messy and I can't say why
 
 ```js
-{ n:12, slug:'alignment', title:'The layout looks messy and I can’t say why', theme:'hierarchy', status:'draft', frame:'Profile',
+{ n:12, slug:'alignment', title:'The layout looks messy and I can’t say why', theme:'hierarchy', status:'live', frame:'Profile',
   lede:'When things almost line up, a screen looks messy even if nobody can say why. Pick one edge and start everything on it, and the same content suddenly looks deliberate.',
   tags:['Alignment','Grid systems'],
   problems:['cluttered'], screens:['settings'],
