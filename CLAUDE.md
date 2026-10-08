@@ -6,7 +6,7 @@ Two kinds of visitors:
 1. **Daily learners** watch today's crit, then browse other lessons.
 2. **Problem-solvers** arrive with a problem in plain words ("people quit my sign-up form") and leave with a named principle they can cite in a design review.
 
-Sibling product: **The Daily Five** (iOS app, App Store id 6766068712). Daily Crit shares its fonts and palette and promotes it quietly.
+Newsletter: **The weekly crit**, one email a week with this week's lessons and a peek at next week's. It runs on Buttondown; the signup card's form address is `NEWSLETTER_URL` near the top of the script.
 
 ## Current state
 
@@ -18,7 +18,7 @@ Sibling product: **The Daily Five** (iOS app, App Store id 6766068712). Daily Cr
 ## Map of index.html
 
 In order:
-1. `<style>`: design tokens, header, home, lesson module and canvas, tiles, lists, find page, Daily Five card, command palette, device/phone, transition primitives, iOS kit, coach marks, responsive rules.
+1. `<style>`: design tokens, header, home, lesson module and canvas, tiles, lists, find page, newsletter card, command palette, device/phone, transition primitives, iOS kit, coach marks, responsive rules.
 2. Header markup and command palette markup.
 3. `<template id="tpl-SLUG">` blocks: one per built lesson, containing that lesson's screen.
 4. `<script>`, in this order:
@@ -157,7 +157,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 
 - Keep the site a single self-contained `index.html` until the planned Astro migration.
 - External resources: Google Fonts only. No other network requests, trackers or scripts unless intentionally adding analytics.
-- Daily Five promotion stays a quiet card and the App Store smart banner. No popups or interstitials, since a site teaching good UX can't interrupt people.
+- Newsletter promotion stays a quiet card at the bottom of each page. No popups or interstitials, since a site teaching good UX can't interrupt people. The only request it makes is the signup itself, when someone presses Subscribe.
 - Don't rename existing slugs, problem ids or screen ids. They are URLs.
 
 ## Roadmap
@@ -165,6 +165,5 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - **Next transition primitives:** restyle (hierarchy, contrast), move/resize (Fitts's law, thumb zone), reorder (grouping).
 - **Principle pages:** a page per principle with a one-line definition, origin (who, when, what research), a ready-to-use "how to say it in a review" sentence, honest limits (for example, Miller's 7±2 is often misapplied), and links to its lessons. These make search results citable.
 - **Analytics:** log lesson views and search terms, which show what to build next.
-- **Email signup** for the daily crit.
 - **After 30 days:** migrate to Astro with real URLs for SEO.
 - **Later:** AI help for describing a problem or critiquing a screenshot. Start with a free "copy this prompt into your AI" handoff that includes the principle catalog, and add a hosted, rate-limited option only if people use it.

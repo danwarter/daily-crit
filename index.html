@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-itunes-app" content="app-id=6766068712">
 <title>Daily Crit</title>
 <meta name="description" content="A daily design crit: a flawed screen fixes itself in real UI, with the principle behind the fix.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,14 +194,24 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .screens{margin:0 0 72px}
 .empty-note{margin:0 0 40px;padding:20px 0;color:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 
-/* ---------- Daily Five ---------- */
-.d5{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;background:var(--surface);border-radius:28px;padding:24px 26px;margin:0 0 56px}
-.d5-icon{width:64px;height:64px;border-radius:16px;background:var(--ink);color:var(--page);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:34px;position:relative}
-.d5-icon::after{content:"";position:absolute;right:11px;top:11px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
-.d5 h3{margin:0 0 4px;font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em}
-.d5 p{margin:0;font-size:15px;line-height:1.45;color:var(--ink-2);max-width:48ch}
-.d5-btn{background:var(--ink);color:var(--page);text-decoration:none;font-weight:700;font-size:15px;border-radius:999px;padding:13px 20px;white-space:nowrap;transition:background .2s}
-.d5-btn:hover{background:var(--accent);color:#fff}
+/* ---------- Newsletter ---------- */
+.nl{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,360px);gap:22px;align-items:center;background:var(--surface);border-radius:28px;padding:24px 26px;margin:0 0 56px}
+.nl-icon{width:64px;height:64px;border-radius:16px;background:var(--ink);color:var(--page);display:grid;place-items:center;position:relative}
+.nl-icon svg{width:30px;height:30px}
+.nl-icon::after{content:"";position:absolute;right:11px;top:11px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.nl h3{margin:0 0 4px;font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em}
+.nl p{margin:0;font-size:15px;line-height:1.45;color:var(--ink-2);max-width:48ch}
+.nl-form{display:flex;gap:8px;min-width:0}
+.nl-form input{flex:1;min-width:0;font:inherit;font-size:15px;color:var(--ink);background:var(--page);border:1px solid transparent;border-radius:999px;padding:12px 18px;outline:none;transition:border-color .2s}
+.nl-form input::placeholder{color:var(--ink-2)}
+.nl-form input:focus{border-color:var(--accent)}
+.nl-form button{font:inherit;font-weight:700;font-size:15px;background:var(--ink);color:var(--page);border:0;border-radius:999px;padding:13px 20px;white-space:nowrap;cursor:pointer;transition:background .2s}
+.nl-form button:hover,.nl-form button:focus-visible{background:var(--accent);color:#fff}
+.nl-form button:disabled{opacity:.5;cursor:default}
+.nl-msg{grid-column:3;margin:-16px 0 0;padding-left:18px;font-size:14px;color:var(--ink-2)}
+.nl-msg:empty{display:none}
+.nl.sent .nl-form{display:none}
+.nl.sent .nl-msg{grid-column:3;margin:0;padding:0;font-size:15px;color:var(--ink)}
 
 .site-foot{max-width:1160px;margin:0 auto;padding:28px 32px 48px;color:var(--ink-2);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
@@ -428,8 +437,9 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   .sec-head{flex-direction:column;gap:4px}
   .pager{grid-template-columns:1fr}
   .pager .next{justify-content:flex-start;text-align:left;flex-direction:row-reverse}
-  .d5{grid-template-columns:auto minmax(0,1fr);padding:20px}
-  .d5-btn{grid-column:1/-1;text-align:center}
+  .nl{grid-template-columns:auto minmax(0,1fr);padding:20px}
+  .nl-form,.nl-msg,.nl.sent .nl-msg{grid-column:1/-1}
+  .nl-msg{padding-left:18px}
   .page-intro{padding:36px 0 32px}
   .page-intro p.big{font-size:17px}
   .site-foot{padding:24px 20px 40px}
@@ -1173,7 +1183,8 @@ function mount(lesson){
   e.timer = setTimeout(showTip, LOOK);
 }
 
-const DAILY_FIVE_URL = 'https://apps.apple.com/app/id6766068712';
+// Paste your newsletter's form address here (Buttondown: https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME).
+const NEWSLETTER_URL = '';
 
 /* ---------- helpers ---------- */
 const app = document.getElementById('app');
@@ -1228,11 +1239,15 @@ function month(){
     </div>`).join('')}
   </section>`;
 }
-function dailyFive(){
-  return `<aside class="d5" aria-label="The Daily Five app">
-    <div class="d5-icon" aria-hidden="true">5</div>
-    <div><h3>The Daily Five</h3><p>Five handpicked design reads and videos every day, chosen for designers early in their careers.</p></div>
-    <a class="d5-btn" href="${DAILY_FIVE_URL}" target="_blank" rel="noopener">Get the app</a>
+function newsletter(){
+  return `<aside class="nl" aria-labelledby="nl-h">
+    <div class="nl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></div>
+    <div><h3 id="nl-h">The weekly crit</h3><p>One email a week: this week\u2019s lessons, plus a sneak peek at next week\u2019s. Unsubscribe anytime.</p></div>
+    <form class="nl-form" data-newsletter novalidate>
+      <input type="email" name="email" required autocomplete="email" placeholder="you@email.com" aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="nl-msg" role="status" aria-live="polite"></p>
   </aside>`;
 }
 const statusBar = `<div class="status"><span>9:41</span><span class="icons"><span class="bars"><i style="height:4px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:11px"></i></span><span class="batt"><i></i></span></span></div>`;
@@ -1275,13 +1290,13 @@ function pageHome(){
     <button class="find-pill" data-palette>${ICON_SEARCH}<span class="fp-text"><b>Stuck on something?</b> <span class="fp-more">Describe the problem</span></span><kbd>${MOD_K}</kbd></button>
     ${lessonModule(today, true)}
     ${month()}
-    ${dailyFive()}`, lesson: today };
+    ${newsletter()}`, lesson: today };
 }
 function pageLessons(){
   return { html: `
     <section class="page-intro"><h1>Lessons</h1>
       <p class="big">Four weekly themes, one principle a day. Each lesson takes about a minute.</p></section>
-    ${month()}${dailyFive()}` };
+    ${month()}${newsletter()}` };
 }
 function pageLesson(slug){
   const l = LESSONS.find(x => x.slug === slug && visible(x));
@@ -1294,13 +1309,13 @@ function pageLesson(slug){
     return visible(x) ? `<a class="${cls}" href="#/lessons/${x.slug}">${inner}</a>` : `<div class="${cls} muted">${inner}</div>`;
   };
   return { html: `<div style="height:40px"></div>${lessonModule(l, false)}${helpsBlock(l)}
-    <nav class="pager" aria-label="Lessons">${card(prev,'prev')}${card(next,'next')}</nav>${dailyFive()}`, lesson: l };
+    <nav class="pager" aria-label="Lessons">${card(prev,'prev')}${card(next,'next')}</nav>${newsletter()}`, lesson: l };
 }
 function pageTheme(id){
   const t = themeById(id); if (!t) return null;
   return { html: `
     <section class="page-intro"><p class="crumb"><a href="#/lessons">Lessons</a> / ${t.wk}</p><h1>${esc(t.title)}</h1><p class="big">${esc(t.desc)}</p></section>
-    ${lessonRows(LESSONS.filter(l => l.theme === t.id))}${dailyFive()}` };
+    ${lessonRows(LESSONS.filter(l => l.theme === t.id))}${newsletter()}` };
 }
 function pageTag(slug){
   const name = allTags().get(slug); if (!name) return null;
@@ -1308,7 +1323,7 @@ function pageTag(slug){
   return { html: `
     <section class="page-intro"><p class="crumb"><a href="#/lessons">Lessons</a> / Principle</p><h1>${esc(name)}</h1>
       <p class="big">${list.length} lesson${list.length === 1 ? '' : 's'} so far.</p></section>
-    ${lessonRows(list)}${dailyFive()}` };
+    ${lessonRows(list)}${newsletter()}` };
 }
 function browseAll(){
   return `<div class="groups">${PROBLEM_GROUPS.map(g => `<section class="group"><h3>${esc(g.title)}</h3>${problemRows(PROBLEMS.filter(p => p.group === g.id))}</section>`).join('')}</div>
@@ -1344,14 +1359,14 @@ function pageProblem(id){
     <section class="page-intro"><p class="crumb"><a href="#/find">Problems</a> / ${esc(g.title)}</p><h1>${esc(p.label)}</h1>
       <p class="big">${list.length} principle${list.length === 1 ? '' : 's'} that help, each with a lesson showing the fix.</p></section>
     ${lessonRows(list)}
-    ${related.length ? `<p class="sub-h">Related problems</p>${problemRows(related)}` : ''}${dailyFive()}` };
+    ${related.length ? `<p class="sub-h">Related problems</p>${problemRows(related)}` : ''}${newsletter()}` };
 }
 function pageScreen(id){
   const x = screenById(id); if (!x) return null;
   return { html: `
     <section class="page-intro"><p class="crumb"><a href="#/find">Screens</a></p><h1>${esc(x.title)}</h1>
       <p class="big">Principles that come up most when designing ${esc(x.title.toLowerCase())}.</p></section>
-    ${lessonRows(lessonsFor('screens', x.id))}${dailyFive()}` };
+    ${lessonRows(lessonsFor('screens', x.id))}${newsletter()}` };
 }
 function pageAbout(){
   return { html: `
@@ -1361,7 +1376,7 @@ function pageAbout(){
       <p>Daily Crit is a short design review you can watch. Most design principles are taught with a definition and a diagram. Here, each one starts as a real-looking screen with a real problem. A note explains what is wrong, then the screen fixes itself and a second note explains why the fix works.</p>
       <p>Tap around in the before version. The friction is the lesson.</p>
       <p>A new lesson goes up every day for 30 days, organized into four weekly themes. After that, the library keeps growing.</p>
-    </div>${dailyFive()}` };
+    </div>${newsletter()}` };
 }
 
 /* =========================================================
@@ -1474,7 +1489,20 @@ function route(){
     });
   }
 }
-document.addEventListener('submit', ev => { if (ev.target.closest('[data-search]')) ev.preventDefault(); });
+document.addEventListener('submit', ev => {
+  if (ev.target.closest('[data-search]')) ev.preventDefault();
+  const form = ev.target.closest('[data-newsletter]');
+  if (!form) return;
+  ev.preventDefault();
+  const box = form.closest('.nl'), msg = box.querySelector('.nl-msg'), input = form.elements.email, btn = form.querySelector('button');
+  const email = input.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'That email doesn\u2019t look quite right.'; input.focus(); return; }
+  if (!NEWSLETTER_URL) { msg.textContent = 'Signups open soon.'; return; }
+  btn.disabled = true; msg.textContent = '';
+  fetch(NEWSLETTER_URL, { method:'POST', mode:'no-cors', body:new URLSearchParams({ email }) })
+    .then(() => { box.classList.add('sent'); msg.textContent = 'Almost done. Check your inbox to confirm.'; })
+    .catch(() => { btn.disabled = false; msg.textContent = 'Couldn\u2019t subscribe just now. Please try again.'; });
+});
 window.addEventListener('hashchange', route);
 route();
 })();
