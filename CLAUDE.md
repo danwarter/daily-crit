@@ -159,7 +159,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 ## Constraints
 
 - Keep the site a single self-contained `index.html` until the planned Astro migration.
-- External resources: Google Fonts only. No other network requests, trackers or scripts unless intentionally adding analytics.
+- External resources: Google Fonts and Google Analytics only. No other network requests, trackers or scripts.
+- Analytics: Google Analytics 4, set by `GA_ID` near the top of the script, and only on dailycrit.app (not previews). The router sends a page view per hash route as a clean path (`/lessons/slug`), and searches in the palette and on `#/find` send a `search` event once typing pauses. In GA, "Page changes based on browser history events" must stay off, or every route counts twice.
 - Newsletter promotion stays a quiet card at the bottom of each page. No popups or interstitials, since a site teaching good UX can't interrupt people. The only request it makes is the signup itself, when someone presses Subscribe.
 - Don't rename existing slugs, problem ids or screen ids. They are URLs.
 
@@ -167,6 +168,6 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 
 - **Next transition primitives:** restyle (hierarchy, contrast), move/resize (Fitts's law, thumb zone), reorder (grouping).
 - **Principle pages:** a page per principle with a one-line definition, origin (who, when, what research), a ready-to-use "how to say it in a review" sentence, honest limits (for example, Miller's 7±2 is often misapplied), and links to its lessons. These make search results citable.
-- **Analytics:** log lesson views and search terms, which show what to build next.
+- **Analytics:** lesson views and search terms are logged in Google Analytics. Next: review them weekly to decide what to build.
 - **After 30 days:** migrate to Astro with real URLs for SEO.
 - **Later:** AI help for describing a problem or critiquing a screenshot. Start with a free "copy this prompt into your AI" handoff that includes the principle catalog, and add a hosted, rate-limited option only if people use it.
