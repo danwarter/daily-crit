@@ -103,6 +103,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 <span class="swap"><span class="sa">Before text</span><span class="sb">After text</span></span>
 ```
 
+A swap can also hold controls: only the visible side takes taps. Add `end` (`.swap.end`) to right-align both sides, so a row's trailing control can turn into another (a checkbox into a switch).
+
 **Transition primitive: restyle.** Change how an element looks or how much space it keeps around it (emphasis, contrast, spacing). Put the classes it wears in each state in `data-bad` and `data-good` (either can be empty), with `--d` for stagger. The engine swaps them on every state change; colors, shadow and opacity fade across, and margin, padding, gap, font size and width glide, so restyle can also re-space a layout (spacing, proximity) or change emphasis (hierarchy). Example: `<button class="primary" data-bad="" data-good="plain">` turns a filled button into a text link.
 
 **iOS kit classes:**
@@ -121,7 +123,7 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Text screens: `.bigtitle` (a 30px bold centered title, like a "What's New" sheet), `.para` (a 15px body paragraph), `.feat` (a feature row: a blue `.feat-ic` icon beside a bold `b` heading and a grey `span` line).
 - Emphasis (restyle targets): `.huge` (a 40px bold figure, like a balance), `.kicker` (a small grey label above it), `.quiet` (a 15px grey, regular-weight title), `.ri.mute` (a grey icon tile), `.ri.gone` (an icon tile that shrinks away), `.row.roomy` (a taller row). `.deck` stacks cards with a 12px gap.
 - Alignment and profiles: `.shift` offsets an element's left edge by `--x` (use it as a restyle class, `data-bad="shift" data-good=""`, to knock things off a shared edge). `.guides` (inside a `position:relative` wrapper) holds `.guide` lines, thin pink layout guides like a design tool's; give each guide the same `.shift` and `--x` as the element it marks, so the lines glide together in After. `.ptop` (a profile header: `h3` name, grey `span` handle, `.avatar.lg` on the right), `.meta` (a small grey stats line; `.meta.link` for a blue link), `.primary.outline` (an outlined button, good in a `.pair`), `.utabs` (underlined tabs; use `data-pick`), `.post` (a feed post with a small avatar, bold name, `time` and `p`).
-- Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg`, a `data-pick` group or a `.sw` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
+- Preset values: `data-before` and `data-after` on a `data-values` row, a `.seg`, a `data-pick` group, a `.sw` or a `.tick` set its value in each state (an empty value shows a blue "Choose"). Values reset on every state change and animate in. Add `data-gate` to a button to keep it disabled while any row or segmented control on the screen is unset.
 
 **Rules:**
 - Give each tooltip anchor an `id`, and make sure the anchor exists in that state (the Before anchor must not be inside a `good-only` block).
