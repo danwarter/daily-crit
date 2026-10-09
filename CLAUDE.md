@@ -186,7 +186,7 @@ Each issue is generated from `LESSONS`, so there is nothing to write by hand.
 - Keep the site a single self-contained `index.html` until the planned Astro migration.
 - External resources: Google Fonts and Google Analytics only. No other network requests, trackers or scripts.
 - Analytics: Google Analytics 4, set by `GA_ID` near the top of the script, and only on dailycrit.app (not previews). The router sends a page view per hash route as a clean path (`/lessons/slug`), and searches in the palette and on `#/find` send a `search` event once typing pauses. In GA, "Page changes based on browser history events" must stay off, or every route counts twice.
-- Newsletter promotion stays a quiet card at the bottom of each page. No popups or interstitials, since a site teaching good UX can't interrupt people. The only request it makes is the signup itself, when someone presses Subscribe.
+- Newsletter promotion stays a quiet card at the bottom of each page. No popups or interstitials, since a site teaching good UX can't interrupt people. The only request it makes is the signup itself, when someone presses Subscribe. The signup is a plain form post that opens Buttondown in a new tab. Keep it that way: Buttondown's docs say not to call its subscribe address with `fetch`, because people sometimes have to pass a check on Buttondown's page.
 - Don't rename existing slugs, problem ids or screen ids. They are URLs.
 
 ## Roadmap
