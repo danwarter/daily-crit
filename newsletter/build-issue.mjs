@@ -176,7 +176,11 @@ ${peekTiles}
 </table>
 </td></tr></table>
 </td></tr></table>
-`.replace(/\n{2,}/g, '\n'); // a blank line would end the HTML block in Markdown
+`.replace(/\n{2,}/g, '\n') // a blank line would end the HTML block in Markdown
+  // Buttondown's template (and some mail apps) force their own link colour onto <a>.
+  // Mark each link's colour !important and repeat it on a <span> inside, which link rules don't touch.
+  .replace(/<a ([^>]*?style="[^"]*?)color:(#[0-9A-Fa-f]{6});([^"]*")>([^<]*)<\/a>/g,
+    (m, pre, color, post, text) => `<a ${pre}color:${color} !important;${post}><span style="color:${color} !important;">${text}</span></a>`);
 
 const subject = featured.title;
 const description = `${featured.lede.split(/(?<=[.!?])\s/)[0]}${others.length ? ` Plus ${others.length} more lesson${others.length > 1 ? 's' : ''}` : ''}${peek.length ? `${others.length ? ' and' : ' Plus'} a peek at next week` : ''}${others.length || peek.length ? '.' : ''}`;
