@@ -149,6 +149,19 @@ A swap can also hold controls: only the visible side takes taps. Add `end` (`.sw
 - A new lesson is searchable as soon as its fields are filled in.
 - After adding a lesson, test 3 or 4 plain-language queries in the ⌘K palette and on `#/find` to confirm it shows up. Add synonyms or phrases if it doesn't.
 
+## The weekly crit (newsletter)
+
+Each issue is generated from `LESSONS`, so there is nothing to write by hand.
+
+- `node newsletter/build-issue.mjs` builds the next issue: the newest live lesson featured with Before and After screenshots and both tooltips, the other lessons that went live since the last issue, and a sneak peek of the next three planned lessons (their problem in plain words, principle held back).
+- Output: `newsletter/issues/issue-NN.html` (paste into a Buttondown email in Markdown mode) and two PNGs in `newsletter/img/`. The email loads those PNGs from `dailycrit.app/newsletter/img/`, so they must be on `main` before the issue is sent.
+- Options: `--feature N`, `--from N --to N`, `--issue N`, `--date "Oct 12"`, `--draft` (creates a Buttondown draft; needs `BUTTONDOWN_API_KEY`), `--mark-sent` (records the issue in `newsletter/state.json`), `--no-screenshots`.
+- `newsletter/state.json` holds the last issue number and the last lesson that went out. The first run takes the latest seven live lessons.
+- `.github/workflows/weekly-crit.yml` runs this every Sunday with `--draft --mark-sent` and commits the screenshots. It never sends: the draft waits in Buttondown for review.
+- First time on a new machine: `cd newsletter && npm install && npx playwright install chromium`.
+- The email is table-based HTML with inline styles, because email clients drop most CSS. Keep it that way, and keep the body free of blank lines (Markdown would end the HTML block).
+- The sneak peek shows a planned lesson's `PROBLEMS` label, never its title, because planned titles can name the principle.
+
 ## Daily workflow
 
 1. Pick the next planned lesson in `BACKLOG.md`.

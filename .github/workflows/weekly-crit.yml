@@ -1,0 +1,46 @@
+# Builds "The weekly crit" every Sunday and leaves it as a DRAFT in Buttondown.
+# Nothing is sent from here: review the draft in Buttondown and press send yourself.
+#
+# Setup, once: GitHub repo > Settings > Secrets and variables > Actions > New repository secret
+#   BUTTONDOWN_API_KEY = your key from Buttondown > Settings > API
+#
+# If no lesson has gone live since the last issue, the run does nothing.
+name: Weekly crit
+
+on:
+  schedule:
+    - cron: '0 16 * * 0' # Sundays 16:00 UTC (9am Pacific in summer, 8am in winter)
+  workflow_dispatch:
+    inputs:
+      feature:
+        description: 'Lesson number to feature (blank = newest)'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        working-directory: newsletter
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Build the issue and create the Buttondown draft
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          FEATURE: ${{ inputs.feature }}
+        run: node newsletter/build-issue.mjs --draft --mark-sent ${FEATURE:+--feature "$FEATURE"}
+      - name: Publish the screenshots and record the issue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add newsletter
+          git diff --cached --quiet || git commit -m "Weekly crit: issue $(node -p "require('./newsletter/state.json').lastIssue")"
+          git push
