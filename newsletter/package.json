@@ -1,0 +1,7 @@
+{
+  "name": "daily-crit-newsletter",
+  "private": true,
+  "type": "module",
+  "scripts": { "issue": "node build-issue.mjs" },
+  "devDependencies": { "playwright": "^1.56.0" }
+}
