@@ -73,7 +73,8 @@ Most daily work touches only two places: the lesson's entry in `LESSONS` and its
 - Write apostrophes in tags as `\u2019` (`'Hick\u2019s law'`) so the name displays the same everywhere.
 - `problems` holds one id: one problem per lesson. If two lessons share a primary principle, their bad UI examples must be different.
 - `phrases` lists 4 to 6 other ways people phrase the same problem. Search matches on them.
-- `status` moves `planned` → `draft` → `live`. The highest-numbered `live` lesson is automatically "Today's crit" on the home page.
+- `status` moves `planned` → `draft` → `ready` → `live`. `planned` and `ready` are hidden from visitors (shown as "Upcoming"); `draft` is visible with a Draft badge, so drafts stay on a branch. The highest-numbered `live` lesson is automatically "Today's crit" on the home page.
+- `ready` means built, checked and waiting for its release day. Never set `live` by hand for a queued lesson: the daily release job does it.
 - `frame` is the canvas label ("Export sheet / Before").
 - Planned lessons already exist in `LESSONS` with `problems`, `screens`, `synonyms` and `phrases` filled in. `BACKLOG.md` holds the plan for each one: title, tags, single problem, phrases and the bad UI example, plus full drafts for the next few. Building one means copying its backlog entry (title, `tags`, `problems`), then adding `lede`, `frame` and `steps`, plus its template.
 - Only add a new entry to `PROBLEMS` or `SCREENS` if nothing existing fits. Problems are written from the user's point of view, in plain language: "People abandon a long form," not "Form abandonment."
@@ -153,7 +154,7 @@ A swap can also hold controls: only the visible side takes taps. Add `end` (`.sw
 
 Each issue is generated from `LESSONS`, so there is nothing to write by hand.
 
-- `node newsletter/build-issue.mjs` builds the next issue: the newest live lesson featured with Before and After screenshots and both tooltips, the other lessons that went live since the last issue, and a sneak peek of the next three planned lessons (their problem in plain words, principle held back).
+- `node newsletter/build-issue.mjs` builds the next issue: the newest live lesson featured with Before and After screenshots and both tooltips, the other lessons that went live since the last issue, and a sneak peek of the next three lessons that are not live yet (their problem in plain words, principle held back).
 - Output: `newsletter/issues/issue-NN.html` (paste into a Buttondown email in Markdown mode) and two PNGs in `newsletter/img/`. The email loads those PNGs from `dailycrit.app/newsletter/img/`, so they must be on `main` before the issue is sent.
 - Options: `--feature N`, `--from N --to N`, `--issue N`, `--date "Oct 12"`, `--draft` (creates a Buttondown draft; needs `BUTTONDOWN_API_KEY`), `--mark-sent` (records the issue in `newsletter/state.json`), `--no-screenshots`.
 - `newsletter/state.json` holds the last issue number and the last lesson that went out. The first run takes the latest seven live lessons.
@@ -169,7 +170,19 @@ Each issue is generated from `LESSONS`, so there is nothing to write by hand.
 3. Choose a screen people recognize instantly (checkout, settings, sign-up, feed).
 4. Build the template, then fill in the data entry with `status:'draft'`.
 5. Run the checklist below.
-6. Push to a branch for a preview URL, check it on a phone, then merge to `main` and set `status:'live'`.
+6. Push to a branch for a preview URL and check it on a phone while it is still `status:'draft'`.
+7. Set `status:'ready'` and merge to `main`. The lesson stays hidden until the release job publishes it.
+
+## Releasing lessons
+
+Lessons are built in batches and released one a day.
+
+- `.github/workflows/release-lesson.yml` runs every morning at about 6am Pacific. It runs `scripts/release-lesson.mjs`, which sets the lowest-numbered `ready` lesson to `live` and commits "Release lesson N: title". Vercel then deploys it.
+- One lesson a day at most. With nothing `ready`, the job does nothing.
+- A `ready` lesson with no tooltip `steps` or no `<template>` is refused, and the run fails.
+- To hold a lesson back, set it to `draft` on a branch or back to `planned`. To release one early, use "Run workflow" on the Release lesson workflow, or run `node scripts/release-lesson.mjs --force` and push.
+- `node scripts/release-lesson.mjs --check` says which lesson is next without changing anything.
+- Batch work: build a week of lessons as `draft` on one branch, review them all on its preview URL, then change them all to `ready` and merge once.
 
 ## Checklist before publishing
 

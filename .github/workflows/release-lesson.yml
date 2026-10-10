@@ -1,0 +1,45 @@
+# Releases one finished lesson a day at about 6am Pacific.
+# It takes the lowest-numbered lesson marked status:'ready' in index.html and sets it to 'live'.
+# With nothing marked ready, it does nothing.
+#
+# GitHub schedules run on UTC, so this fires at both 13:00 and 14:00 UTC. The script only acts
+# from 6am Pacific and at most once a day, which keeps the release at 6am in summer and winter.
+# "Run workflow" releases the next ready lesson straight away.
+name: Release lesson
+
+on:
+  schedule:
+    - cron: '0 13 * * *'
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: release-lesson
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 40
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Release the next ready lesson
+        id: release
+        env:
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && '--force' || '' }}
+        run: echo "message=$(node scripts/release-lesson.mjs $FORCE)" >> "$GITHUB_OUTPUT"
+      - name: Publish
+        if: steps.release.outputs.message != ''
+        env:
+          MESSAGE: ${{ steps.release.outputs.message }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "$MESSAGE"
+          git pull --rebase
+          git push
