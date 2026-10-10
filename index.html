@@ -1649,7 +1649,7 @@ const app = document.getElementById('app');
 const slugify = s => s.toLowerCase().replace(/['\u2019]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const themeById = id => THEMES.find(t => t.id === id);
-const visible = l => l.status !== 'planned';
+const visible = l => l.status !== 'planned' && l.status !== 'ready'; // ready: built and checked, waiting for its release day
 const latestLive = () => [...LESSONS].reverse().find(l => l.status === 'live');
 const allTags = () => { const m = new Map(); LESSONS.filter(visible).forEach(l => (l.tags||[]).forEach(t => m.set(slugify(t), t))); return m; };
 const MOD_K = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent) ? '⌘K' : 'Ctrl K';
