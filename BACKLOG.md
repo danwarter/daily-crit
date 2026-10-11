@@ -298,7 +298,7 @@ Bad UI: a photo app's feed that opens with three dialogs in a row: a "Rate us" p
 ### 15. People can't tell if it worked
 
 ```js
-{ n:15, slug:'system-status', title:'People can’t tell if it worked', theme:'feedback', status:'draft', frame:'Order review',
+{ n:15, slug:'system-status', title:'People can’t tell if it worked', theme:'feedback', status:'ready', frame:'Order review',
   lede:'When a tap gets no response, people assume it didn’t work and tap again. Show that something is happening straight away, then say clearly when it’s done.',
   tags:['Visibility of system status','Feedback'],
   problems:['unsure-it-worked'], screens:['checkout'],
@@ -319,7 +319,7 @@ Bad UI: an order review screen whose Place Order button looks exactly the same f
 ### 16. One wrong tap and it's gone
 
 ```js
-{ n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'draft', frame:'Inbox',
+{ n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'ready', frame:'Inbox',
   lede:'People tap through “Are you sure?” on reflex, so the dialog slows down every delete and still doesn’t stop the wrong one. Let the action happen, and make it easy to take back.',
   tags:['User control and freedom','Forgiveness','Habituation'],
   problems:['accidental-delete'], screens:['feeds'],
@@ -340,7 +340,7 @@ Bad UI: a mail inbox with a trash button on every row, each one asking "Are you 
 ### 17. People only find out what's wrong after they submit
 
 ```js
-{ n:17, slug:'inline-errors', title:'People only find out what’s wrong after they submit', theme:'feedback', status:'draft', frame:'Create account',
+{ n:17, slug:'inline-errors', title:'People only find out what’s wrong after they submit', theme:'feedback', status:'ready', frame:'Create account',
   lede:'An error at the end of a form sends people hunting for what went wrong. Check each field as they finish it, and say what to fix right where the mistake is.',
   tags:['Inline validation','Error recovery'],
   problems:['form-errors'], screens:['sign-up'],
