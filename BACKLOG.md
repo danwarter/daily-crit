@@ -309,12 +309,12 @@ Bad UI: a photo app's feed that opens with three dialogs in a row: a "Rate us" p
       body:'Place Order looks the same while the payment goes through, so people tap it again. In this example, the second tap placed a second order.',
       cta:'Show the fix' },
     after:{ anchor:'#place', label:'The fix', title:'1 tap, 1 order, a clear answer',
-      body:'The button shows it’s working straight away and ignores extra taps, then says the order is placed. Keeping people informed like this is called visibility of system status.',
+      body:'The button shows it’s working straight away and ignores extra taps, then the screen confirms the order. Keeping people informed like this is called visibility of system status.',
       cta:'See the problem again' }
   }}
 ```
 
-Bad UI: an order review screen whose Place Order button looks exactly the same for the three seconds the payment takes. The mock taps it twice by itself, and the screen then reports "2 orders placed. Your card was charged 2 times." (every extra tap by hand adds another). Fix: the same three seconds, but the button turns into a spinner reading "Placing order…" on the first tap and ignores the second, then turns green ("Order placed") above a confirmation. Built with three new primitives: wait (`data-wait`, with `silent` set by restyle), reveal (`.c.later`, `data-then`, `data-taps`) and the autoplay script (`data-play-before` / `data-play-after`).
+Bad UI: an order review screen whose Place Order button looks exactly the same for the three seconds the payment takes. The mock taps it twice by itself, and the screen then reports "2 orders placed. Your card was charged 2 times." (every extra tap by hand adds another). Fix: the same three seconds, but the button turns into a spinner reading "Placing order…" on the first tap and ignores the second. When it finishes, an "Order placed" confirmation opens at the top and the button becomes the next step, a tappable "View Order". Built with three new primitives: wait (`data-wait`, with `silent` set by restyle), reveal (`.c.later`, `data-then`, `data-taps`) and the autoplay script (`data-play-before` / `data-play-after`).
 
 ### 16. One wrong tap and it's gone
 

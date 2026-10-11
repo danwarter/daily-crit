@@ -494,10 +494,9 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 /* Transition primitive: reveal (a .c.later block stays shut until the engine opens it: a wait that finished, a submit that failed, a field's error) */
 .phone .c.later:not(.on){grid-template-rows:0fr;opacity:0;--delay:0s}
 .c.later.on{--delay:calc(var(--d,0) * 60ms)}
-/* Wait: a [data-wait] button shows a spinner while its tap is in progress, then turns green when it is done */
+/* Wait: a [data-wait] button shows a spinner while its tap is in progress */
 .spin{display:inline-block;width:18px;height:18px;margin-right:8px;vertical-align:-3px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.primary.done{background:var(--ios-green);color:#fff}
 /* Autoplay: a dot marks each tap the mock makes by itself, like touches in a screen recording */
 .touch{position:absolute;z-index:5;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.6);
   box-shadow:0 0 0 1.5px rgba(0,0,0,.28),0 3px 10px rgba(0,0,0,.3);animation:touch .55s ease-out both}
@@ -1122,7 +1121,7 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div></div>
 </div>
 <div class="dock">
-  <button class="primary" id="place" data-wait="3000" data-during="Placing order…" data-done="Order placed" data-then="#placed" data-bad="silent" data-good="">Place Order</button>
+  <button class="primary" id="place" data-wait="3000" data-during="Placing order…" data-finish="View Order" data-done="Opening…" data-then="#placed" data-bad="silent" data-good="">Place Order</button>
 </div>
 </template>
 <template id="tpl-undo">
@@ -1434,7 +1433,7 @@ const LESSONS = [
         body:'Place Order looks the same while the payment goes through, so people tap it again. In this example, the second tap placed a second order.',
         cta:'Show the fix' },
       after:{ anchor:'#place', label:'The fix', title:'1 tap, 1 order, a clear answer',
-        body:'The button shows it’s working straight away and ignores extra taps, then says the order is placed. Keeping people informed like this is called visibility of system status.',
+        body:'The button shows it’s working straight away and ignores extra taps, then the screen confirms the order. Keeping people informed like this is called visibility of system status.',
         cta:'See the problem again' }
     }},
   { n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'draft', frame:'Inbox',
@@ -1640,7 +1639,7 @@ function mount(lesson){
     sheet.querySelectorAll('.field.bad').forEach(f => { f.classList.remove('bad'); f.removeAttribute('aria-invalid'); });
     sheet.querySelectorAll('[data-wait]').forEach(b => {
       if (orig.has(b)) b.innerHTML = orig.get(b);
-      b.classList.remove('done'); b.removeAttribute('aria-disabled'); delete b.dataset.busy; delete b.dataset.pending; delete b.dataset.n;
+      b.removeAttribute('aria-disabled'); delete b.dataset.busy; delete b.dataset.finished; delete b.dataset.pending; delete b.dataset.n;
     });
     sheet.querySelectorAll('[data-carousel]').forEach(c => { c.querySelector('.slides').scrollLeft = 0; carousel(c); });
     sheet.querySelectorAll('[data-pick] button').forEach(b => b.setAttribute('aria-pressed', 'false'));
@@ -1677,9 +1676,10 @@ function mount(lesson){
     settle();
   }
   // Wait primitive: a [data-wait="ms"] button takes that long to finish its tap, then opens the blocks in [data-then].
-  // While it waits it shows a spinner and its [data-during] label and ignores taps; when done it turns green and reads
-  // [data-done]. With the class "silent" (set it with restyle) it shows nothing while it waits, and every extra tap
-  // counts as one more, which the revealed block can report through [data-taps].
+  // While it waits it shows a spinner and its [data-during] label and ignores taps. When done it becomes an ordinary
+  // button again, reading its [data-finish] label (the next step), so its own [data-done] flash works from then on.
+  // With the class "silent" (set it with restyle) it shows nothing while it waits, and every extra tap counts as one
+  // more, which the revealed block can report through [data-taps].
   function press(b){
     if (b.dataset.busy) return;
     b.dataset.n = (+b.dataset.n || 0) + 1;
@@ -1692,7 +1692,7 @@ function mount(lesson){
     }
     e.auto.push(setTimeout(() => {
       delete b.dataset.pending;
-      if (b.dataset.busy) { b.removeAttribute('aria-disabled'); b.classList.add('done'); if (b.dataset.done) b.textContent = b.dataset.done; }
+      if (b.dataset.busy) { delete b.dataset.busy; b.dataset.finished = '1'; b.removeAttribute('aria-disabled'); if (b.dataset.finish) b.textContent = b.dataset.finish; else b.innerHTML = orig.get(b); }
       reveal(b.dataset.then, +b.dataset.n);
     }, +b.dataset.wait || 0));
   }
@@ -1826,7 +1826,7 @@ function mount(lesson){
     if (nx) { const { s, i, n } = carousel(nx.closest('[data-carousel]'));
       if (i < n - 1) { s.scrollTo({ left:(i + 1) * s.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); return; } }
     const wt = t.closest('[data-wait]');
-    if (wt) return press(wt);
+    if (wt && !wt.dataset.finished) return press(wt);
     const un = t.closest('[data-undo]');
     if (un) { if (e.undo) e.undo.classList.remove('shut'); e.undo = null; un.closest('.toast').classList.remove('on'); settle(); return; }
     // [data-ask="#alert"] opens an .alert.ask first; its [data-ok] button closes it and carries out the tap that asked.
@@ -1845,7 +1845,7 @@ function mount(lesson){
     const done = t.closest('[data-done]');
     if (done && done.getAttribute('aria-disabled') !== 'true' && !done.dataset.busy) {
       const orig = done.innerHTML; done.dataset.busy = '1'; done.textContent = done.dataset.done;
-      setTimeout(() => { done.innerHTML = orig; delete done.dataset.busy; }, 1200);
+      setTimeout(() => { if (!done.dataset.busy) return; done.innerHTML = orig; delete done.dataset.busy; }, 1200);
     }
   });
   on(e.screen, 'scroll', position, { passive:true });
