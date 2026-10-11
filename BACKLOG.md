@@ -298,38 +298,65 @@ Bad UI: a photo app's feed that opens with three dialogs in a row: a "Rate us" p
 ### 15. People can't tell if it worked
 
 ```js
-{ n:15, slug:'system-status', title:'People can’t tell if it worked', theme:'feedback', status:'planned',
+{ n:15, slug:'system-status', title:'People can’t tell if it worked', theme:'feedback', status:'draft', frame:'Order review',
+  lede:'When a tap gets no response, people assume it didn’t work and tap again. Show that something is happening straight away, then say clearly when it’s done.',
   tags:['Visibility of system status','Feedback'],
   problems:['unsure-it-worked'], screens:['checkout'],
-  synonyms:'loading spinner progress feedback waiting slow saved save sent submitted know whether confirmation',
-  phrases:['people tap the button twice','did my order go through','users get duplicate orders','nothing happens when I tap pay','how do I show something is loading'] }
+  synonyms:'loading spinner progress indicator feedback waiting wait slow saved save sent submitted submit know whether confirmation confirm response responsive frozen stuck hang double tap twice duplicate charged place order pay payment',
+  phrases:['people tap the button twice','did my order go through','users get duplicate orders','nothing happens when I tap pay','how do I show something is loading'],
+  steps:{
+    before:{ anchor:'#place', label:'The problem', title:'3 seconds, no sign it worked',
+      body:'Place Order looks the same while the payment goes through, so people tap it again. In this example, the second tap placed a second order.',
+      cta:'Show the fix' },
+    after:{ anchor:'#place', label:'The fix', title:'1 tap, 1 order, a clear answer',
+      body:'The button shows it’s working straight away and ignores extra taps, then says the order is placed. Keeping people informed like this is called visibility of system status.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a Place order button that does nothing visible for three seconds, so people tap it again. Fix: the button shows progress, then a clear confirmation.
+Bad UI: an order review screen whose Place Order button looks exactly the same for the three seconds the payment takes. The mock taps it twice by itself, and the screen then reports "2 orders placed. Your card was charged 2 times." (every extra tap by hand adds another). Fix: the same three seconds, but the button turns into a spinner reading "Placing order…" on the first tap and ignores the second, then turns green ("Order placed") above a confirmation. Built with three new primitives: wait (`data-wait`, with `silent` set by restyle), reveal (`.c.later`, `data-then`, `data-taps`) and the autoplay script (`data-play-before` / `data-play-after`).
 
 ### 16. One wrong tap and it's gone
 
 ```js
-{ n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'planned',
+{ n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'draft', frame:'Inbox',
+  lede:'People tap through “Are you sure?” on reflex, so the dialog slows down every delete and still doesn’t stop the wrong one. Let the action happen, and make it easy to take back.',
   tags:['User control and freedom','Forgiveness','Habituation'],
   problems:['accidental-delete'], screens:['feeds'],
-  synonyms:'confirm confirmation dialog undo delete remove are you sure',
-  phrases:['people delete things by accident','users click yes without reading','are you sure dialogs do not work','how do I let people undo','I lost something I did not mean to delete'] }
+  synonyms:'confirm confirmation dialog undo delete deleted remove removed are you sure trash bin restore recover reverse reversible mistake accident accidental toast snackbar email mail inbox message archive lost',
+  phrases:['people delete things by accident','users click yes without reading','are you sure dialogs do not work','how do I let people undo','I lost something I did not mean to delete'],
+  steps:{
+    before:{ anchor:'#sure-box', label:'The problem', title:'1 dialog for every delete',
+      body:'People clear dozens of messages a day, so tapping Delete becomes a reflex. When they pick the wrong message, they confirm that one without reading too.',
+      cta:'Show the fix' },
+    after:{ anchor:'#undo-toast', label:'The fix', title:'0 dialogs, 1 Undo button',
+      body:'The message goes straight away, and Undo brings it back if it was the wrong one. A mistake now costs one tap, not a lost message. That’s user control and freedom.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: an inbox that asks "Are you sure?" on every delete, which people confirm without reading. Fix: delete straight away and show an Undo toast.
+Bad UI: a mail inbox with a trash button on every row, each one asking "Are you sure?". The mock deletes a promo and confirms on reflex, then taps the trash on a boarding pass, and the tooltip points at that second dialog. Fix: no dialog; the message goes at once and a "Message deleted / Undo" toast brings it back. Shares Habituation with lesson 14, as a related tag and with a different screen. Built with the modal primitive plus new pieces: `.alert.ask` opened by `data-ask` and confirmed by `data-ok`, `.toast` with `data-toast` / `data-undo`, and `.alert-btns .danger`. Each row holds two trash buttons in a `.swap.end`, one per state.
 
 ### 17. People only find out what's wrong after they submit
 
 ```js
-{ n:17, slug:'inline-errors', title:'People only find out what’s wrong after they submit', theme:'feedback', status:'planned',
+{ n:17, slug:'inline-errors', title:'People only find out what’s wrong after they submit', theme:'feedback', status:'draft', frame:'Create account',
+  lede:'An error at the end of a form sends people hunting for what went wrong. Check each field as they finish it, and say what to fix right where the mistake is.',
   tags:['Inline validation','Error recovery'],
   problems:['form-errors'], screens:['sign-up'],
-  synonyms:'validation error message invalid',
-  phrases:['users get an error after filling everything in','people cannot tell which field is wrong','the error message is at the top','the form clears when there is a mistake','where should error messages go'] }
+  synonyms:'validation validate error errors message messages invalid inline field fields red banner submit submitted cleared clears wiped password email sign up signup register wrong mistake fix retype',
+  phrases:['users get an error after filling everything in','people cannot tell which field is wrong','the error message is at the top','the form clears when there is a mistake','where should error messages go'],
+  steps:{
+    before:{ anchor:'#form-area', label:'The problem', title:'2 mistakes, 1 vague banner',
+      body:'Only after tapping Create Account do people learn something’s wrong, not what or where. And the password they typed has been cleared, so they start that again too.',
+      cta:'Show the fix' },
+    after:{ anchor:'#signup', label:'The fix', title:'1 note under each wrong field',
+      body:'Each field is checked when people leave it, and the note right below says how to fix it. Nothing gets cleared. That’s inline validation.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a sign-up form that shows one red banner at the top after submitting and clears the password. Fix: a short message under the field as soon as people leave it, with nothing cleared.
+Bad UI: a create-account form with an email missing its ending and a six-character password. The mock taps Create Account, and one red banner ("Something went wrong") appears at the top while the password is wiped. Fix: each field is checked when people leave it, with a red outline and a short note underneath saying how to fix it; nothing is cleared. The form really validates, so people can fix both fields and create the account in either state. Shares the `form-errors` problem with lesson 9, whose primary principle and bad UI are different (label spacing). Built with a new form check primitive (`data-submit`, `data-err`, `data-wipe`, `live` set by restyle), reveal, and new kit pieces `.banner`, `.ferr` and `.fbox.bad`.
 
 ### 18. The form lets people type things it will reject
 

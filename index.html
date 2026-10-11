@@ -15,6 +15,7 @@
   --bezel:#1B1D20; --dim:#3A3D42;
   --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
   --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC; --ios-alert:rgba(242,242,242,.94);
+  --ios-red:#FF3B30; --ios-red-text:#D70015;
   --ease:cubic-bezier(.32,.72,0,1);
   --display:"Outfit","Space Grotesk",system-ui,sans-serif;
   box-sizing:border-box;
@@ -28,6 +29,7 @@
     --bezel:#2C3035; --dim:#0E0F10;
     --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
     --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
+    --ios-red:#FF453A; --ios-red-text:#FF6961;
   }
 }
 :root[data-theme="dark"]{
@@ -36,6 +38,7 @@
   --bezel:#2C3035; --dim:#0E0F10;
   --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
   --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
+  --ios-red:#FF453A; --ios-red-text:#FF6961;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -485,6 +488,34 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .alert-btns button+button::before{content:"";position:absolute;top:0;bottom:0;left:0;width:1px;background:var(--ios-sep);transform:scaleX(.5);transform-origin:left}
 .alert-btns button:active,.alert-btns button.tap{background:var(--ios-fill)}
 .alert-btns .bold{font-weight:600}
+.alert-btns .danger{color:var(--ios-red)}
+/* An .alert.ask stays closed until a [data-ask] button opens it; it scales in like an iOS alert */
+.alert.ask.shut{transform:scale(1.12)}
+/* Transition primitive: reveal (a .c.later block stays shut until the engine opens it: a wait that finished, a submit that failed, a field's error) */
+.phone .c.later:not(.on){grid-template-rows:0fr;opacity:0;--delay:0s}
+.c.later.on{--delay:calc(var(--d,0) * 60ms)}
+/* Wait: a [data-wait] button shows a spinner while its tap is in progress, then turns green when it is done */
+.spin{display:inline-block;width:18px;height:18px;margin-right:8px;vertical-align:-3px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.primary.done{background:var(--ios-green);color:#fff}
+/* Autoplay: a dot marks each tap the mock makes by itself, like touches in a screen recording */
+.touch{position:absolute;z-index:5;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.6);
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.28),0 3px 10px rgba(0,0,0,.3);animation:touch .55s ease-out both}
+@keyframes touch{0%{opacity:0;transform:scale(1.35)}25%{opacity:1;transform:scale(1)}70%{opacity:1;transform:scale(.9)}100%{opacity:0;transform:scale(1.1)}}
+/* Toast: goes after .screen, pins to the bottom and stays hidden until a [data-toast] button shows it */
+.toast{position:absolute;left:12px;right:12px;bottom:26px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:4px 6px 4px 16px;border-radius:14px;
+  background:#2C2C2E;color:#fff;font-size:15px;box-shadow:0 10px 24px -8px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(255,255,255,.16);
+  opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .25s ease,transform .45s var(--ease)}
+.toast.on{opacity:1;transform:none;pointer-events:auto}
+.toast button{border:0;background:transparent;color:#64B4FF;font-size:15px;font-weight:600;padding:10px 12px}
+/* Form errors: .banner (one message for the whole form), .ferr (a message under one field), .fbox.bad (the field it is about) */
+.fbox{transition:box-shadow .2s}
+.fbox.bad{box-shadow:inset 0 0 0 1.5px var(--ios-red)}
+.ferr{display:flex;gap:6px;align-items:flex-start;margin:0;padding:6px 4px 0;font-size:13px;line-height:1.35;color:var(--ios-red-text)}
+.ferr svg{width:15px;height:15px;flex:none;margin-top:1px}
+.banner{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(255,59,48,.13);color:var(--ios-red-text);font-size:14px;line-height:1.35}
+.banner svg{width:20px;height:20px;flex:none}
+.banner b{display:block;font-size:15px;font-weight:600}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1070,6 +1101,79 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   </div>
 </div>
 </template>
+<template id="tpl-system-status">
+<div class="nav"><span class="cancel">Cart</span><span class="title">Review Order</span><span></span></div>
+<div class="screen" data-play-before="#place 700, #place 1300" data-play-after="#place 700, #place 1300">
+  <div class="c later" id="placed"><div><div class="empty" role="status" style="padding-top:20px">
+    <div class="art" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h3 data-taps="Order placed|{n} orders placed"></h3>
+    <p data-taps="Arrives Thursday. We emailed your receipt.|Your card was charged {n} times."></p>
+  </div></div></div>
+
+  <div class="pad"><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l3 8H6z"/><path d="M12 11v8M8 20h8"/></svg></span><span><p class="pname">Desk lamp</p><span class="sub">Brass · Qty 1</span></span></span><span class="price">$39.00</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#5856D6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="3.5" width="13" height="17" rx="2"/><path d="M9 3.5v17M12.5 8h3"/></svg></span><span><p class="pname">Notebook</p><span class="sub">Dotted · Qty 1</span></span></span><span class="price">$9.00</span></div></div></div>
+  </div></div>
+
+  <div class="pad"><div class="card">
+    <div class="c"><div><div class="row"><span>Ship to</span><span class="ph">Home</span></div></div></div>
+    <div class="c"><div><div class="row"><span>Pay with</span><span class="ph">Visa •• 4242</span></div></div></div>
+    <div class="c"><div><div class="row"><b>Total</b><b class="price">$48.00</b></div></div></div>
+  </div></div>
+</div>
+<div class="dock">
+  <button class="primary" id="place" data-wait="3000" data-during="Placing order…" data-done="Order placed" data-then="#placed" data-bad="silent" data-good="">Place Order</button>
+</div>
+</template>
+<template id="tpl-undo">
+<div class="nav"><span class="cancel">Mailboxes</span><span class="title">Inbox</span><span class="end">Edit</span></div>
+<div class="screen" data-play-before="#del-a2 700, #sure-ok 900, #del-a3 900" data-play-after="#del-b2 700">
+  <div class="pad"><div class="card" id="inbox">
+    <div class="c"><div><div class="row"><span class="lead"><span class="avatar" style="--av:#5E5CE6">ML</span><span><p class="pname">Maya Lin</p><span class="sub">Dinner on Friday?</span></span></span><span class="swap end">
+      <span class="sa"><button class="icon-btn" id="del-a1" data-dismiss data-ask="#sure" aria-label="Delete message from Maya Lin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span>
+      <span class="sb"><button class="icon-btn" id="del-b1" data-dismiss data-toast="#undo-toast" aria-label="Delete message from Maya Lin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="avatar" style="--av:#FF9F0A">DD</span><span><p class="pname">Daily Deals</p><span class="sub">20% off this week</span></span></span><span class="swap end">
+      <span class="sa"><button class="icon-btn" id="del-a2" data-dismiss data-ask="#sure" aria-label="Delete message from Daily Deals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span>
+      <span class="sb"><button class="icon-btn" id="del-b2" data-dismiss data-toast="#undo-toast" aria-label="Delete message from Daily Deals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="avatar" style="--av:#007AFF">SA</span><span><p class="pname">Skyline Air</p><span class="sub">Your boarding pass</span></span></span><span class="swap end">
+      <span class="sa"><button class="icon-btn" id="del-a3" data-dismiss data-ask="#sure" aria-label="Delete message from Skyline Air"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span>
+      <span class="sb"><button class="icon-btn" id="del-b3" data-dismiss data-toast="#undo-toast" aria-label="Delete message from Skyline Air"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="avatar" style="--av:#34C759">SK</span><span><p class="pname">Sam Kim</p><span class="sub">Coast photos</span></span></span><span class="swap end">
+      <span class="sa"><button class="icon-btn" id="del-a4" data-dismiss data-ask="#sure" aria-label="Delete message from Sam Kim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span>
+      <span class="sb"><button class="icon-btn" id="del-b4" data-dismiss data-toast="#undo-toast" aria-label="Delete message from Sam Kim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="avatar" style="--av:#FF375F">PP</span><span><p class="pname">Parcel Post</p><span class="sub">Out for delivery</span></span></span><span class="swap end">
+      <span class="sa"><button class="icon-btn" id="del-a5" data-dismiss data-ask="#sure" aria-label="Delete message from Parcel Post"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span>
+      <span class="sb"><button class="icon-btn" id="del-b5" data-dismiss data-toast="#undo-toast" aria-label="Delete message from Parcel Post"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/></svg></button></span></span></div></div></div>
+  </div></div>
+</div>
+<div class="modal bad-only">
+  <div class="alerts" id="sure-box">
+    <div class="alert ask" id="sure" role="alertdialog" aria-label="Are you sure?">
+      <h3>Are you sure?</h3>
+      <p>This message will be deleted. You can’t undo this.</p>
+      <div class="alert-btns"><button class="bold" data-dismiss>Cancel</button><button class="danger" id="sure-ok" data-ok>Delete</button></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="undo-toast" role="status"><span>Message deleted</span><button data-undo>Undo</button></div>
+</template>
+<template id="tpl-inline-errors">
+<div class="nav"><span class="cancel">Cancel</span><span class="title">Create Account</span><span></span></div>
+<div class="screen" data-play-before="#create 700">
+  <div id="form-area">
+  <div class="c later" id="err-top"><div><div class="banner" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg><div><b>Something went wrong</b>Please check your details and try again.</div></div></div></div>
+  <div class="stack" id="signup" data-then="#err-top" data-bad="" data-good="live">
+    <label class="flabel" for="ie-email">Email</label>
+    <input class="field fbox" id="ie-email" type="text" inputmode="email" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+" autocomplete="off" autocapitalize="off" spellcheck="false" data-err="#e-email" data-before="sam.rivera@gmail" data-after="sam.rivera@gmail">
+    <div class="c later" id="e-email" style="--d:0"><div><p class="ferr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg>Use a full email, like you@mail.com.</p></div></div>
+    <label class="flabel" for="ie-pass">Password</label>
+    <input class="field fbox" id="ie-pass" type="password" required pattern=".{8,}" autocomplete="new-password" data-wipe data-err="#e-pass" data-before="sunny1" data-after="sunny1">
+    <div class="c later" id="e-pass" style="--d:2"><div><p class="ferr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg>Use at least 8 characters.</p></div></div>
+  </div>
+  </div>
+  <button class="primary" id="create" data-submit="#signup" data-done="Account created">Create Account</button>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1319,15 +1423,48 @@ const LESSONS = [
         body:'No popups, just a note by Your story, where the feature works. People tune out anything that looks like a popup (banner blindness), but they read this.',
         cta:'See the problem again' }
     }},
-  { n:15, slug:'system-status', title:'Show system status', theme:'feedback', status:'planned',
-    problems:['unsure-it-worked','quit-midway'], screens:['checkout','dashboards'], synonyms:'loading spinner progress feedback waiting slow saved save sent submitted know whether confirmation',
-    phrases:['people tap the button twice','did my order go through','users get duplicate orders','nothing happens when I tap pay','how do I show something is loading'] },
-  { n:16, slug:'undo', title:'Undo over \u201cAre you sure?\u201d', theme:'feedback', status:'planned',
-    problems:['accidental-delete'], screens:['feeds','settings'], synonyms:'confirm confirmation dialog undo delete remove',
-    phrases:['people delete things by accident','users click yes without reading','are you sure dialogs do not work','how do I let people undo','I lost something I did not mean to delete'] },
-  { n:17, slug:'inline-errors', title:'Inline errors', theme:'feedback', status:'planned',
-    problems:['form-errors'], screens:['forms','sign-up'], synonyms:'validation error message invalid',
-    phrases:['users get an error after filling everything in','people cannot tell which field is wrong','the error message is at the top','the form clears when there is a mistake','where should error messages go'] },
+  { n:15, slug:'system-status', title:'People can’t tell if it worked', theme:'feedback', status:'draft', frame:'Order review',
+    lede:'When a tap gets no response, people assume it didn’t work and tap again. Show that something is happening straight away, then say clearly when it’s done.',
+    tags:['Visibility of system status','Feedback'],
+    problems:['unsure-it-worked'], screens:['checkout'],
+    synonyms:'loading spinner progress indicator feedback waiting wait slow saved save sent submitted submit know whether confirmation confirm response responsive frozen stuck hang double tap twice duplicate charged place order pay payment',
+    phrases:['people tap the button twice','did my order go through','users get duplicate orders','nothing happens when I tap pay','how do I show something is loading'],
+    steps:{
+      before:{ anchor:'#place', label:'The problem', title:'3 seconds, no sign it worked',
+        body:'Place Order looks the same while the payment goes through, so people tap it again. In this example, the second tap placed a second order.',
+        cta:'Show the fix' },
+      after:{ anchor:'#place', label:'The fix', title:'1 tap, 1 order, a clear answer',
+        body:'The button shows it’s working straight away and ignores extra taps, then says the order is placed. Keeping people informed like this is called visibility of system status.',
+        cta:'See the problem again' }
+    }},
+  { n:16, slug:'undo', title:'One wrong tap and it’s gone', theme:'feedback', status:'draft', frame:'Inbox',
+    lede:'People tap through “Are you sure?” on reflex, so the dialog slows down every delete and still doesn’t stop the wrong one. Let the action happen, and make it easy to take back.',
+    tags:['User control and freedom','Forgiveness','Habituation'],
+    problems:['accidental-delete'], screens:['feeds'],
+    synonyms:'confirm confirmation dialog undo delete deleted remove removed are you sure trash bin restore recover reverse reversible mistake accident accidental toast snackbar email mail inbox message archive lost',
+    phrases:['people delete things by accident','users click yes without reading','are you sure dialogs do not work','how do I let people undo','I lost something I did not mean to delete'],
+    steps:{
+      before:{ anchor:'#sure-box', label:'The problem', title:'1 dialog for every delete',
+        body:'People clear dozens of messages a day, so tapping Delete becomes a reflex. When they pick the wrong message, they confirm that one without reading too.',
+        cta:'Show the fix' },
+      after:{ anchor:'#undo-toast', label:'The fix', title:'0 dialogs, 1 Undo button',
+        body:'The message goes straight away, and Undo brings it back if it was the wrong one. A mistake now costs one tap, not a lost message. That’s user control and freedom.',
+        cta:'See the problem again' }
+    }},
+  { n:17, slug:'inline-errors', title:'People only find out what’s wrong after they submit', theme:'feedback', status:'draft', frame:'Create account',
+    lede:'An error at the end of a form sends people hunting for what went wrong. Check each field as they finish it, and say what to fix right where the mistake is.',
+    tags:['Inline validation','Error recovery'],
+    problems:['form-errors'], screens:['sign-up'],
+    synonyms:'validation validate error errors message messages invalid inline field fields red banner submit submitted cleared clears wiped password email sign up signup register wrong mistake fix retype',
+    phrases:['users get an error after filling everything in','people cannot tell which field is wrong','the error message is at the top','the form clears when there is a mistake','where should error messages go'],
+    steps:{
+      before:{ anchor:'#form-area', label:'The problem', title:'2 mistakes, 1 vague banner',
+        body:'Only after tapping Create Account do people learn something’s wrong, not what or where. And the password they typed has been cleared, so they start that again too.',
+        cta:'Show the fix' },
+      after:{ anchor:'#signup', label:'The fix', title:'1 note under each wrong field',
+        body:'Each field is checked when people leave it, and the note right below says how to fix it. Nothing gets cleared. That’s inline validation.',
+        cta:'See the problem again' }
+    }},
   { n:18, slug:'error-prevention', title:'Prevent errors with constraints', theme:'feedback', status:'planned',
     problems:['form-errors'], screens:['forms','checkout'], synonyms:'constraint picker format input mask mistakes',
     phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'] },
@@ -1397,7 +1534,12 @@ const PRINCIPLES = {
   'consistency-and-standards': 'The same kind of thing should look and work the same way everywhere, so once people learn it in one place, they know it in every other.',
   'jakobs-law': 'People spend most of their time in other apps and sites, so they expect yours to work the same way as the ones they already know.',
   'banner-blindness': 'People learn to skip anything that looks like an ad or a promo, such as banners and popups, without reading it, even when it holds something useful.',
-  'habituation': 'When people see the same thing again and again, they stop noticing it and respond on autopilot, like tapping OK on a dialog without reading it.'
+  'habituation': 'When people see the same thing again and again, they stop noticing it and respond on autopilot, like tapping OK on a dialog without reading it.',
+  'feedback': 'Every action should get a clear response, so people know the system heard them and can see what happened as a result.',
+  'user-control-and-freedom': 'People make mistakes, so give them a clearly marked way out, like Undo or Cancel, instead of making them live with a wrong tap.',
+  'forgiveness': 'Design so mistakes are hard to make, cheap when they happen and easy to reverse, so people can explore without fear of breaking something.',
+  'inline-validation': 'Check each field as people fill it in and show any problem right beside that field, instead of saving every error for after they submit.',
+  'error-recovery': 'When something goes wrong, say what happened in plain language, show how to fix it and keep people\u2019s work, so they can carry on.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -1461,13 +1603,15 @@ function mount(lesson){
   const ac = new AbortController();
   const on = (el, ev, fn, opts) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, opts || {}));
   const e = eng = {
-    lesson, ac, state:'before', timer:null, auto:[], root, phone,
+    lesson, ac, state:'before', timer:null, auto:[], asking:null, undo:null, root, phone,
     screen: sheet.querySelector('.screen'),
     tip: phone.querySelector('.tip'), arrow: phone.querySelector('.arrow'),
     ring: phone.querySelector('.ring'), beacon: phone.querySelector('.beacon'),
     switches: root.querySelectorAll('.switch button')
   };
   const step = () => lesson.steps[e.state];
+  const orig = new WeakMap();   // a [data-wait] button's own label, to put back on every state change
+  const settle = () => setTimeout(() => { if (eng === e) position(); }, 650);
   // Let people look at the screen before the tooltip starts explaining it (the After transition adds 500ms).
   const LOOK = 2000;
 
@@ -1490,6 +1634,14 @@ function mount(lesson){
   function presets(state, animate){
     sheet.querySelectorAll('.field').forEach(f => { f.value = ''; });
     sheet.querySelectorAll('.shut').forEach(c => c.classList.remove('shut'));
+    e.auto.forEach(clearTimeout); e.auto = []; e.asking = e.undo = null;
+    sheet.querySelectorAll('.alert.ask').forEach(a => a.classList.add('shut'));
+    sheet.querySelectorAll('.later.on, .toast.on').forEach(x => x.classList.remove('on'));
+    sheet.querySelectorAll('.field.bad').forEach(f => { f.classList.remove('bad'); f.removeAttribute('aria-invalid'); });
+    sheet.querySelectorAll('[data-wait]').forEach(b => {
+      if (orig.has(b)) b.innerHTML = orig.get(b);
+      b.classList.remove('done'); b.removeAttribute('aria-disabled'); delete b.dataset.busy; delete b.dataset.pending; delete b.dataset.n;
+    });
     sheet.querySelectorAll('[data-carousel]').forEach(c => { c.querySelector('.slides').scrollLeft = 0; carousel(c); });
     sheet.querySelectorAll('[data-pick] button').forEach(b => b.setAttribute('aria-pressed', 'false'));
     // Restyle primitive: [data-bad]/[data-good] list the classes an element wears in each state; CSS transitions the change.
@@ -1503,32 +1655,120 @@ function mount(lesson){
       const val = el.getAttribute('data-' + state);
       if (el.classList.contains('seg') || el.hasAttribute('data-pick')) el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.textContent.trim() === val)));
       else if (el.matches('.sw, .tick')) el.setAttribute('aria-checked', String(val === 'true'));
+      else if (el.matches('input')) el.value = val;
       else {
         const v = el.querySelector('.v'); if (!v || v.textContent === val) return;
         v.textContent = val; v.classList.remove('pin');
         if (animate && val) { void v.offsetWidth; v.classList.add('pin'); }
       }
     });
+    sheet.querySelectorAll('.live .field').forEach(f => { if (f.value) check(f); });
     gate();
   }
 
-  // Modal autoplay: a .modal[data-auto="ms"] plays itself in the state it shows in. Each alert but the last stays up
+  // Reveal primitive: open the .c.later blocks a selector names. Any [data-taps="one|many {n}"] text inside is
+  // filled in from a count: the first wording for 1, the second (with {n} replaced) for more.
+  function reveal(sel, n){
+    if (!sel) return;
+    sheet.querySelectorAll(sel).forEach(x => {
+      x.classList.add('on');
+      x.querySelectorAll('[data-taps]').forEach(y => { const [one, many] = y.dataset.taps.split('|'); y.textContent = (n > 1 && many ? many : one).replace(/\{n\}/g, n); });
+    });
+    settle();
+  }
+  // Wait primitive: a [data-wait="ms"] button takes that long to finish its tap, then opens the blocks in [data-then].
+  // While it waits it shows a spinner and its [data-during] label and ignores taps; when done it turns green and reads
+  // [data-done]. With the class "silent" (set it with restyle) it shows nothing while it waits, and every extra tap
+  // counts as one more, which the revealed block can report through [data-taps].
+  function press(b){
+    if (b.dataset.busy) return;
+    b.dataset.n = (+b.dataset.n || 0) + 1;
+    if (b.dataset.pending) return;
+    b.dataset.pending = '1';
+    if (!b.classList.contains('silent')) {
+      if (!orig.has(b)) orig.set(b, b.innerHTML);
+      b.dataset.busy = '1'; b.setAttribute('aria-disabled', 'true');
+      b.innerHTML = '<i class="spin"></i>' + esc(b.dataset.during || '');
+    }
+    e.auto.push(setTimeout(() => {
+      delete b.dataset.pending;
+      if (b.dataset.busy) { b.removeAttribute('aria-disabled'); b.classList.add('done'); if (b.dataset.done) b.textContent = b.dataset.done; }
+      reveal(b.dataset.then, +b.dataset.n);
+    }, +b.dataset.wait || 0));
+  }
+  // Dismiss: a [data-dismiss] button closes its nearest alert or .c block. With [data-toast="#id"] it also shows that
+  // toast, whose [data-undo] button brings the block back.
+  function shut(btn){
+    const blk = btn.closest('.alert, .c'); if (!blk) return;
+    blk.classList.add('shut');
+    const ts = btn.dataset.toast && sheet.querySelector(btn.dataset.toast);
+    if (ts) { ts.classList.add('on'); e.undo = blk; }
+    settle();
+  }
+  // Form check primitive: a .field is wrong when it fails its own required / pattern rules. check() marks one field
+  // and opens or closes the .c.later message named in its [data-err]. A [data-submit="#form"] button checks the form:
+  // by default a failed submit only opens the form's [data-then] block and empties its [data-wipe] fields; with the
+  // class "live" (set it with restyle) each wrong field gets its own message, on submit and as soon as people leave it.
+  function check(f){
+    const ok = f.checkValidity(), m = f.dataset.err && sheet.querySelector(f.dataset.err);
+    f.classList.toggle('bad', !ok); f.setAttribute('aria-invalid', String(!ok));
+    if (m) m.classList.toggle('on', !ok);
+    return ok;
+  }
+  function submit(btn){
+    const form = sheet.querySelector(btn.dataset.submit); if (!form) return true;
+    const live = form.classList.contains('live'), top = form.dataset.then;
+    const bad = [...form.querySelectorAll('.field')].filter(f => live ? !check(f) : !f.checkValidity());
+    if (!bad.length) { if (top) sheet.querySelectorAll(top).forEach(x => x.classList.remove('on')); }
+    else if (!live) { form.querySelectorAll('[data-wipe]').forEach(f => { f.value = ''; }); reveal(top, bad.length); e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); }
+    settle();
+    return !bad.length;
+  }
+  // A dot shows where the mock taps itself.
+  function touch(el){
+    const pr = phone.getBoundingClientRect(), r = el.getBoundingClientRect(), d = document.createElement('i');
+    d.className = 'touch'; d.style.left = (r.left - pr.left + r.width / 2) + 'px'; d.style.top = (r.top - pr.top + r.height / 2) + 'px';
+    phone.appendChild(d); setTimeout(() => d.remove(), 650);
+  }
+
+  // Autoplay. Modal: a .modal[data-auto="ms"] plays itself in the state it shows in. Each alert but the last stays up
   // for that long, then its first [data-dismiss] button is tapped; the last one waits for the person. Returns when
-  // the last one is showing (0 if none), so the tooltip waits for it.
+  // everything has played (0 if nothing does), so the tooltip waits for it.
   function autoplay(state, lead){
     e.auto.forEach(clearTimeout); e.auto = [];
+    let end = 0;
     const m = sheet.querySelector('.modal[data-auto]');
-    if (!m || m.classList.contains(state === 'after' ? 'bad-only' : 'good-only')) return 0;
-    const hold = +m.dataset.auto || 500, appear = reduce ? 0 : 600;
-    let t = reduce ? 0 : lead || 0;
-    const alerts = [...m.querySelectorAll('.alert')];
-    alerts.slice(0, -1).forEach((a, i) => {
-      t += (i ? appear : 0) + hold;
-      const b = a.querySelector('[data-dismiss]'), at = t;
-      e.auto.push(setTimeout(() => b && b.classList.add('tap'), at - 160));
-      e.auto.push(setTimeout(() => { if (b) b.classList.remove('tap'); a.classList.add('shut'); }, at));
-    });
-    return alerts.length > 1 ? t + appear : 0;
+    if (m && !m.classList.contains(state === 'after' ? 'bad-only' : 'good-only')) {
+      const hold = +m.dataset.auto || 500, appear = reduce ? 0 : 600;
+      let t = reduce ? 0 : lead || 0;
+      const alerts = [...m.querySelectorAll('.alert')];
+      alerts.slice(0, -1).forEach((a, i) => {
+        t += (i ? appear : 0) + hold;
+        const b = a.querySelector('[data-dismiss]'), at = t;
+        e.auto.push(setTimeout(() => b && b.classList.add('tap'), at - 160));
+        e.auto.push(setTimeout(() => { if (b) b.classList.remove('tap'); a.classList.add('shut'); }, at));
+      });
+      if (alerts.length > 1) end = t + appear;
+    }
+    // Script: [data-play-before] / [data-play-after] on .screen list the taps the mock makes by itself in that state,
+    // as "#id ms" pairs separated by commas; each happens that long after the one before. Returns when the last one
+    // has landed (a [data-wait] button's first tap counts once its wait is over), so the tooltip waits for it.
+    const script = e.screen.getAttribute('data-play-' + state);
+    if (script) {
+      let t = reduce ? 0 : lead || 0;
+      const waited = new Set();
+      script.split(',').forEach(part => {
+        const [sel, ms] = part.trim().split(/\s+/), el = sel && sheet.querySelector(sel);
+        if (!el) return;
+        t += +ms || 0;
+        const at = t;
+        e.auto.push(setTimeout(() => touch(el), Math.max(at - 180, 0)));
+        e.auto.push(setTimeout(() => el.click(), at));
+        end = Math.max(end, at + (el.dataset.wait && !waited.has(el) ? +el.dataset.wait : 0));
+        waited.add(el);
+      });
+    }
+    return end;
   }
 
   function position(){
@@ -1585,12 +1825,23 @@ function mount(lesson){
     const nx = t.closest('[data-next]');
     if (nx) { const { s, i, n } = carousel(nx.closest('[data-carousel]'));
       if (i < n - 1) { s.scrollTo({ left:(i + 1) * s.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); return; } }
+    const wt = t.closest('[data-wait]');
+    if (wt) return press(wt);
+    const un = t.closest('[data-undo]');
+    if (un) { if (e.undo) e.undo.classList.remove('shut'); e.undo = null; un.closest('.toast').classList.remove('on'); settle(); return; }
+    // [data-ask="#alert"] opens an .alert.ask first; its [data-ok] button closes it and carries out the tap that asked.
+    const ok = t.closest('[data-ok]');
+    if (ok) { ok.closest('.alert').classList.add('shut'); const a = e.asking; e.asking = null; if (a) shut(a); return; }
+    const ask = t.closest('[data-ask]');
+    if (ask) { const a = sheet.querySelector(ask.dataset.ask); if (a) { a.classList.remove('shut'); e.asking = ask; } return; }
     const dm = t.closest('[data-dismiss]');
-    if (dm) { dm.closest('.alert, .c').classList.add('shut'); setTimeout(() => { if (eng === e) position(); }, 650); return; }
+    if (dm) return shut(dm);
     const sw = t.closest('.sw, .tick');
     if (sw) { sw.setAttribute('aria-checked', String(sw.getAttribute('aria-checked') !== 'true')); return; }
     const cyc = t.closest('[data-values]');
     if (cyc) { const vals = cyc.dataset.values.split('|'), v = cyc.querySelector('.v'); v.textContent = vals[(vals.indexOf(v.textContent)+1) % vals.length]; v.classList.remove('pin'); gate(); return; }
+    const sb = t.closest('[data-submit]');
+    if (sb && !submit(sb)) return;
     const done = t.closest('[data-done]');
     if (done && done.getAttribute('aria-disabled') !== 'true' && !done.dataset.busy) {
       const orig = done.innerHTML; done.dataset.busy = '1'; done.textContent = done.dataset.done;
@@ -1599,6 +1850,8 @@ function mount(lesson){
   });
   on(e.screen, 'scroll', position, { passive:true });
   on(e.screen, 'scroll', ev => { if (ev.target.classList.contains('slides')) carousel(ev.target.closest('[data-carousel]')); }, { capture:true, passive:true });
+  on(sheet, 'focusout', ev => { const f = ev.target.closest && ev.target.closest('.live .field'); if (f && f.value) { check(f); settle(); } });
+  on(sheet, 'input', ev => { const f = ev.target.closest && ev.target.closest('.live .field.bad'); if (f) { check(f); settle(); } });
   on(window, 'resize', position);
   on(document, 'keydown', ev => {
     if (document.body.classList.contains('palette-open')) return;
