@@ -335,7 +335,7 @@ Bad UI: an order review screen whose Place Order button looks exactly the same f
   }}
 ```
 
-Bad UI: a mail inbox with a trash button on every row, each one asking "Are you sure?". The mock deletes a promo and confirms on reflex, then taps the trash on a boarding pass, and the tooltip points at that second dialog. Fix: no dialog; the message goes at once and a "Message deleted / Undo" toast brings it back. Shares Habituation with lesson 14, as a related tag and with a different screen. Built with the modal primitive plus new pieces: `.alert.ask` opened by `data-ask` and confirmed by `data-ok`, `.toast` with `data-toast` / `data-undo`, and `.alert-btns .danger`. Each row holds two trash buttons in a `.swap.end`, one per state.
+Bad UI: a mail inbox with a trash button on every row, each one asking "Are you sure?". The mock deletes a promo and confirms on reflex, then taps the trash on a boarding pass, and the tooltip points at that second dialog. Fix: no dialog; the message goes at once and a "Message deleted / Undo" toast brings it back. Habituation is lesson 14's primary principle; here it is only a related tag, and the screen and bad UI are different. Built with the modal primitive plus new pieces: `.alert.ask` opened by `data-ask` and confirmed by `data-ok`, `.toast` with `data-toast` / `data-undo`, and `.alert-btns .danger`. Each row holds two trash buttons in a `.swap.end`, one per state.
 
 ### 17. People only find out what's wrong after they submit
 
