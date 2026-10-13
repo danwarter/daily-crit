@@ -576,6 +576,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
    It slides up over the bottom of the screen for the field being typed in, which wears .typing */
 .kb{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--kb-bg);padding:0 3px 22px;transform:translateY(102%);transition:transform .38s var(--ease)}
 .kb.on{transform:none}
+.kb-open .screen{padding-bottom:300px}
 .kb-bar{display:flex;justify-content:flex-end;height:40px;margin:0 -3px 8px;background:var(--kb-bar);box-shadow:inset 0 .5px 0 var(--ios-sep)}
 .kb-bar button{border:0;background:transparent;color:var(--ios-blue);font:inherit;font-size:16px;font-weight:600;padding:0 16px}
 .kb-panel{display:none}
@@ -592,7 +593,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px 6px;padding:0 3px 4px}
 .kb-grid .key{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:24px;line-height:1}
 .kb-grid .key small{font-size:9px;font-weight:600;letter-spacing:.12em;margin-top:1px}
-.kb-grid .key.blank,.kb-grid .key.back{background:transparent;box-shadow:none}
+.kb-grid .key.void,.kb-grid .key.back{background:transparent;box-shadow:none}
 .kb[data-kind="wheel"] .kb-wheel{display:flex;justify-content:center;gap:28px;position:relative;height:170px;margin-bottom:22px;overflow:hidden}
 .kb-wheel::before{content:"";position:absolute;left:12px;right:12px;top:68px;height:34px;border-radius:8px;background:var(--kb-key);opacity:.55}
 .wcol{position:relative;width:76px;height:170px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent)}
@@ -1990,7 +1991,7 @@ function mount(lesson){
     kb.setAttribute('aria-hidden', 'true');
     kb.innerHTML = `<div class="kb-bar"><button type="button" tabindex="-1" id="kb-done">Done</button></div>
       <div class="kb-panel kb-abc">${layer('abc', ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'], '⇧', 'n123', '123')}${layer('n123', ['1234567890', '-/:;()$&@"', '.,?!\''], '#+=', 'abc', 'ABC')}</div>
-      <div class="kb-panel kb-num"><div class="kb-grid">${NUM.map(n => key(n[0], n[0] + `<small>${n.slice(1)}</small>`)).join('')}${key('', '', 'blank')}${key('0', '0')}${key('back', '⌫', 'back')}</div></div>
+      <div class="kb-panel kb-num"><div class="kb-grid">${NUM.map(n => key(n[0], n[0] + `<small>${n.slice(1)}</small>`)).join('')}${key('', '', 'void')}${key('0', '0')}${key('back', '⌫', 'back')}</div></div>
       <div class="kb-panel kb-wheel"></div>`;
   }
   const kbKind = f => f.dataset.wheel ? 'wheel' : f.dataset.kb || (masked(f) ? 'num' : 'abc');
@@ -2002,12 +2003,16 @@ function mount(lesson){
     kb.dataset.kind = kbKind(f); kbLayer('abc');
     if (f.dataset.wheel) wheelBuild(f);
     if (user && f.matches('input')) f.focus({ preventScroll:true });
-    kb.classList.add('on'); settle();
+    kb.classList.add('on'); sheet.classList.add('kb-open');
+    // Like a real phone, scroll the field up so it sits clear of the keyboard.
+    const over = f.getBoundingClientRect().bottom - (sheet.getBoundingClientRect().bottom - kb.offsetHeight) + 16;
+    if (over > 0) e.screen.scrollBy({ top:over, behavior: reduce ? 'auto' : 'smooth' });
+    settle();
   }
   function kbClose(){
     if (!kb) return;
     if (e.kbField && document.activeElement === e.kbField) e.kbField.blur();
-    kb.classList.remove('on'); e.kbField = null;
+    kb.classList.remove('on'); sheet.classList.remove('kb-open'); e.kbField = null;
     sheet.querySelectorAll('.typing').forEach(x => x.classList.remove('typing'));
     settle();
   }
