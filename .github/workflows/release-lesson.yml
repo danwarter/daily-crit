@@ -2,15 +2,16 @@
 # It takes the lowest-numbered lesson marked status:'ready' in index.html and sets it to 'live'.
 # With nothing marked ready, it does nothing.
 #
-# GitHub schedules run on UTC, so this fires at both 13:00 and 14:00 UTC. The script only acts
-# from 6am Pacific and at most once a day, which keeps the release at 6am in summer and winter.
+# GitHub schedules run on UTC and are best-effort: runs set for the top of the hour have arrived
+# 5-9 hours late. So this asks every 20 minutes from 13:00 to 16:59 UTC, on off-the-hour minutes,
+# and the first run that gets through does the release. The script only acts from 6am Pacific and
+# at most once a day, so the extra runs are no-ops and the release lands at 6am in summer and winter.
 # "Run workflow" releases the next ready lesson straight away.
 name: Release lesson
 
 on:
   schedule:
-    - cron: '0 13 * * *'
-    - cron: '0 14 * * *'
+    - cron: '7,27,47 13-16 * * *'
   workflow_dispatch:
 
 permissions:
