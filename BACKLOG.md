@@ -361,7 +361,7 @@ Bad UI: a create-account form with an email missing its ending and a six-charact
 ### 18. The form lets people type things it will reject
 
 ```js
-{ n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'draft', frame:'Payment',
+{ n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'ready', frame:'Payment',
   lede:'Every format rule people have to guess is a mistake waiting to happen. Instead of rejecting what they type, shape the field so it only accepts the right format.',
   tags:['Error prevention','Constraints','Poka-yoke'],
   problems:['form-errors'], screens:['checkout'],
@@ -382,7 +382,7 @@ Bad UI: a payment form whose fields all bring up the full letter keyboard. The m
 ### 19. Delete sits right next to Save
 
 ```js
-{ n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'draft', frame:'Account settings',
+{ n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'ready', frame:'Account settings',
   lede:'When the button that destroys something looks like the one people tap every day, and sits right beside it, a slip is all it takes. Make the dangerous one look dangerous, and keep it out of reach.',
   tags:['Error prevention','Fitts’s law'],
   problems:['wrong-taps'], screens:['settings'],
@@ -403,7 +403,7 @@ Same primary principle as lesson 18, with a different bad UI: an account setting
 ### 20. The app feels slow even when it isn't
 
 ```js
-{ n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'draft', frame:'Feed',
+{ n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'ready', frame:'Feed',
   lede:'A spinner on every small action makes a fast app feel slow. When an action almost always works and is safe to undo, show the result straight away and let the server catch up.',
   tags:['Optimistic UI','Doherty threshold','Perceived performance'],
   problems:['unsure-it-worked'], screens:['feeds'],
