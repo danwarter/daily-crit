@@ -362,17 +362,17 @@ Bad UI: a create-account form with an email missing its ending and a six-charact
 
 ```js
 { n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'draft', frame:'Payment',
-  lede:'Every format rule people have to guess is a mistake waiting to happen. Instead of rejecting what they type, shape the field so only a valid answer fits.',
+  lede:'Every format rule people have to guess is a mistake waiting to happen. Instead of rejecting what they type, shape the field so it only accepts the right format.',
   tags:['Error prevention','Constraints','Poka-yoke'],
   problems:['form-errors'], screens:['checkout'],
   synonyms:'constraint constraints picker format formats input mask masks mistakes card credit debit number expiry expiration date cvc cvv security code spaces keyboard keypad numeric invalid rejected reject pay payment checkout',
   phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'],
   steps:{
     before:{ anchor:'#pay-area', label:'The problem', title:'2 normal answers, both rejected',
-      body:'The full keyboard lets people type the card and date any way they like, with spaces or as “July 27”. But this form accepts only its own format, and rejects both after Pay.',
+      body:'The full keyboard lets people type the card and date their own way, with spaces or as “July 27”. Both are right, but Pay rejects them for not matching this form’s format.',
       cta:'Show the fix' },
     after:{ anchor:'#card-form', label:'The fix', title:'0 formats to guess',
-      body:'The card fields bring up a number pad and space the digits for you, and the date is a picker. There’s no wrong format to type. That’s error prevention.',
+      body:'The card fields bring up a number pad and space the digits for you, and the date is a picker. Format mistakes are ruled out, though the card still gets checked. That’s error prevention.',
       cta:'See the problem again' }
   }}
 ```
@@ -393,7 +393,7 @@ Bad UI: a payment form whose fields all bring up the full letter keyboard. The m
       body:'Delete Account looks just like Save and sits right beside it. Here a thumb aimed at Save landed one button over, and nothing stood in the way.',
       cta:'Show the fix' },
     after:{ anchor:'#confirm-box', label:'The fix', title:'Far from Save, then typed to confirm',
-      body:'Delete is now red and set apart, out of reach of the Save button. To go ahead, people type their username, so no slip can do it. That’s error prevention.',
+      body:'Delete now sits apart from Save, and red marks it as dangerous. To go ahead, people type their username, so an accidental deletion is much less likely. That’s error prevention.',
       cta:'See the problem again' }
   }}
 ```
@@ -404,7 +404,7 @@ Same primary principle as lesson 18, with a different bad UI: an account setting
 
 ```js
 { n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'draft', frame:'Feed',
-  lede:'A spinner on every small action makes a fast app feel slow. When an action almost always works, show the result straight away and let the server catch up.',
+  lede:'A spinner on every small action makes a fast app feel slow. When an action almost always works and is safe to undo, show the result straight away and let the server catch up.',
   tags:['Optimistic UI','Doherty threshold','Perceived performance'],
   problems:['unsure-it-worked'], screens:['feeds'],
   synonyms:'latency lag laggy instant instantly responsive response feels slow sluggish speed fast faster spinner loading wait waiting saved save sent liked like likes heart favorite tap tapped server request network',
@@ -413,8 +413,8 @@ Same primary principle as lesson 18, with a different bad UI: an account setting
     before:{ anchor:'#like-1', label:'The problem', title:'1.2 seconds to fill a heart',
       body:'The heart waits for the server before it fills. It’s only a second, but it happens on every tap, so the whole app feels slow and people tap again.',
       cta:'Show the fix' },
-    after:{ anchor:'#like-1', label:'The fix', title:'0 seconds to fill a heart',
-      body:'The heart fills the moment it’s tapped, and the request is sent in the background. In the rare case it fails, the heart quietly un-fills. That’s optimistic UI.',
+    after:{ anchor:'#like-1', label:'The fix', title:'0 seconds to see the heart fill',
+      body:'The heart fills the moment it’s tapped, while the request finishes in the background. A like rarely fails and is easy to undo, so if one does, the heart can simply un-fill. That’s optimistic UI.',
       cta:'See the problem again' }
   }}
 ```
