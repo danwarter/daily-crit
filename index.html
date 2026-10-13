@@ -26,6 +26,7 @@
   --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
   --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC; --ios-alert:rgba(242,242,242,.94);
   --ios-red:#FF3B30; --ios-red-text:#D70015;
+  --kb-bg:#D1D4DA; --kb-key:#FFFFFF; --kb-mod:#ABB0BC; --kb-bar:#F2F2F5;
   --ease:cubic-bezier(.32,.72,0,1);
   --display:"Outfit","Space Grotesk",system-ui,sans-serif;
   box-sizing:border-box;
@@ -40,6 +41,7 @@
     --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
     --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
     --ios-red:#FF453A; --ios-red-text:#FF6961;
+    --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
   }
 }
 :root[data-theme="dark"]{
@@ -49,6 +51,7 @@
   --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
   --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
   --ios-red:#FF453A; --ios-red-text:#FF6961;
+  --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -569,6 +572,35 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .waiting .ic::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
 .acts{display:flex;align-items:center;gap:18px;padding-top:10px}
 .acts>*{display:flex;align-items:center;gap:6px;border:0;background:transparent;padding:0;font:inherit;font-size:14px;color:var(--ios-2);font-variant-numeric:tabular-nums}
+/* Keyboard: an empty .kb after .screen (and any .dock) gets a drawn iOS keyboard, number pad or wheel picker from the engine.
+   It slides up over the bottom of the screen for the field being typed in, which wears .typing */
+.kb{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--kb-bg);padding:0 3px 22px;transform:translateY(102%);transition:transform .38s var(--ease)}
+.kb.on{transform:none}
+.kb-bar{display:flex;justify-content:flex-end;height:40px;margin:0 -3px 8px;background:var(--kb-bar);box-shadow:inset 0 .5px 0 var(--ios-sep)}
+.kb-bar button{border:0;background:transparent;color:var(--ios-blue);font:inherit;font-size:16px;font-weight:600;padding:0 16px}
+.kb-panel{display:none}
+.kb[data-kind="abc"] .kb-abc,.kb[data-kind="num"] .kb-num{display:block}
+.kb-layer[hidden]{display:none}
+.kb-row{display:flex;gap:5px;margin-bottom:10px;padding:0 1px}
+.kb-row.inset{padding:0 5%}
+.key{flex:1 1 0;min-width:0;height:40px;border:0;border-radius:5px;padding:0;background:var(--kb-key);color:var(--ios-label);font:inherit;font-size:19px;
+  box-shadow:0 1px 0 rgba(0,0,0,.28);transition:background .08s}
+.key.mod{flex:1.5 1 0;background:var(--kb-mod);font-size:14px}
+.key.space{flex:5 1 0;font-size:14px}
+.key.hit{background:var(--kb-mod)}
+.key.mod.hit{background:var(--kb-key)}
+.kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px 6px;padding:0 3px 4px}
+.kb-grid .key{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:24px;line-height:1}
+.kb-grid .key small{font-size:9px;font-weight:600;letter-spacing:.12em;margin-top:1px}
+.kb-grid .key.blank,.kb-grid .key.back{background:transparent;box-shadow:none}
+.kb[data-kind="wheel"] .kb-wheel{display:flex;justify-content:center;gap:28px;position:relative;height:170px;margin-bottom:22px;overflow:hidden}
+.kb-wheel::before{content:"";position:absolute;left:12px;right:12px;top:68px;height:34px;border-radius:8px;background:var(--kb-key);opacity:.55}
+.wcol{position:relative;width:76px;height:170px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 35%,#000 65%,transparent)}
+.wtrack{padding-top:68px;transition:transform .6s var(--ease)}
+.witem{display:block;width:100%;height:34px;border:0;padding:0;background:transparent;color:var(--ios-2);font:inherit;font-size:21px;font-variant-numeric:tabular-nums}
+.witem.sel{color:var(--ios-label)}
+.fbox.typing{box-shadow:inset 0 0 0 1.5px var(--ios-blue)}
+.fbox.pick .v:empty::before{content:attr(data-ph);color:var(--ios-2)}
 .like[aria-pressed="true"]{color:#FF2D55}
 .like[aria-pressed="true"] svg{fill:currentColor;animation:pop .35s var(--ease)}
 @keyframes pop{40%{transform:scale(1.25)}}
@@ -1234,25 +1266,27 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 </template>
 <template id="tpl-error-prevention">
 <div class="nav"><span class="cancel">Cart</span><span class="title">Payment</span><span></span></div>
-<div class="screen" data-play-before="#pay 800" data-play-after="#pay 800">
+<div class="screen" data-play-before="#ep-num 700, type 4242 4242 4242 4242 400, #ep-exp 600, type July 27 400, #ep-cvc 600, type 123 300, #kb-done 700, #pay 700"
+  data-play-after="#ep-num 700, type 4242424242424242 400, #ep-exp-pick 600, pick 07 / 27 500, #ep-cvc 700, type 123 300, #kb-done 700, #pay 700">
   <div id="pay-area">
   <div class="c later" id="pay-err"><div><div class="banner" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg><div><b>Card details are invalid</b>Please check them and try again.</div></div></div></div>
   <div class="stack" id="card-form" data-then="#pay-err">
     <label class="flabel" for="ep-num">Card number</label>
-    <input class="field fbox" id="ep-num" type="text" required pattern="[0-9]{16}" data-mask="#### #### #### ####" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="1234 1234 1234 1234" data-before="4242 4242 4242 4242" data-after="4242 4242 4242 4242">
+    <input class="field fbox" id="ep-num" type="text" required pattern="[0-9]{16}" data-mask="#### #### #### ####" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="Card number">
     <label class="flabel" for="ep-exp">Expiry date</label>
     <span class="swap wide">
-      <span class="sa"><input class="field fbox" id="ep-exp" type="text" required pattern="(0[1-9]|1[0-2])/[0-9]{2}" autocomplete="off" spellcheck="false" placeholder="MM/YY" data-before="July 27"></span>
-      <span class="sb"><button class="fbox pick" id="ep-exp-pick" aria-label="Expiry date" data-values="07 / 27|08 / 27|09 / 27|10 / 27|11 / 27|12 / 27|01 / 28|02 / 28" data-after="07 / 27"><span class="v"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></span>
+      <span class="sa"><input class="field fbox" id="ep-exp" type="text" required pattern="(0[1-9]|1[0-2])/[0-9]{2}" autocomplete="off" spellcheck="false" placeholder="Expiry date"></span>
+      <span class="sb"><button class="fbox pick" id="ep-exp-pick" aria-label="Expiry date" data-wheel="01|02|03|04|05|06|07|08|09|10|11|12;26|27|28|29|30|31" data-join=" / " data-before="" data-after=""><span class="v" data-ph="MM / YY"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></span>
     </span>
     <label class="flabel" for="ep-cvc">Security code</label>
-    <input class="field fbox" id="ep-cvc" type="text" required pattern="[0-9]{3,4}" data-mask="###" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="123" data-before="123" data-after="123">
+    <input class="field fbox" id="ep-cvc" type="text" required pattern="[0-9]{3,4}" data-mask="###" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="3 digits on the back">
   </div>
   </div>
 </div>
 <div class="dock">
   <button class="primary" id="pay" data-submit="#card-form" data-done="Payment sent">Pay $48.00</button>
 </div>
+<div class="kb"></div>
 </template>
 <template id="tpl-destructive-actions">
 <div class="nav"><span class="cancel">Settings</span><span class="title">Account</span><span></span></div>
@@ -1613,10 +1647,10 @@ const LESSONS = [
     phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'],
     steps:{
       before:{ anchor:'#pay-area', label:'The problem', title:'2 normal answers, both rejected',
-        body:'Spaces in the card number and “July 27” are how people write them, but this form only accepts its own format. It says no after Pay, and never says which.',
+        body:'The full keyboard lets people type the card and date any way they like, with spaces or as “July 27”. But this form accepts only its own format, and rejects both after Pay.',
         cta:'Show the fix' },
       after:{ anchor:'#card-form', label:'The fix', title:'0 formats to guess',
-        body:'The number fields bring up a number pad and space the digits for you, and the expiry is a picker. A wrong format can’t be entered. That’s error prevention.',
+        body:'The card fields bring up a number pad and space the digits for you, and the date is a picker. There’s no wrong format to type. That’s error prevention.',
         cta:'See the problem again' }
     }},
   { n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'draft', frame:'Account settings',
@@ -1794,6 +1828,7 @@ function mount(lesson){
   const step = () => lesson.steps[e.state];
   const orig = new WeakMap();   // a [data-wait] button's own label, to put back on every state change
   const toggled = new WeakMap(); // a [data-toggle] button's starting aria-pressed and count, to put back on every state change
+  const kb = sheet.querySelector('.kb');   // the drawn keyboard, if this lesson has one
   const settle = () => setTimeout(() => { if (eng === e) position(); }, 650);
   // Let people look at the screen before the tooltip starts explaining it (the After transition adds 500ms).
   const LOOK = 2000;
@@ -1847,6 +1882,7 @@ function mount(lesson){
     });
     sheet.querySelectorAll('.live .field').forEach(f => { if (f.value) check(f); });
     sheet.querySelectorAll('[data-mask]').forEach(f => { f.inputMode = masked(f) ? 'numeric' : 'text'; });
+    if (kb) { kbClose(); e.screen.querySelectorAll('input.field').forEach(f => { f.inputMode = 'none'; }); }
     sheet.querySelectorAll('[data-toggle]').forEach(b => {
       const n = b.querySelector('.n');
       if (!toggled.has(b)) toggled.set(b, [b.getAttribute('aria-pressed') || 'false', n ? n.textContent : '']);
@@ -1936,6 +1972,79 @@ function mount(lesson){
     b.dataset.busy = '1'; b.classList.add('waiting'); b.setAttribute('aria-busy', 'true');
     e.auto.push(setTimeout(() => { delete b.dataset.busy; b.classList.remove('waiting'); b.removeAttribute('aria-busy'); flip(b); }, +b.dataset.lag || 1000));
   }
+  // Keyboard primitive: a template with an empty .kb (after .screen and any .dock) gets a drawn iOS keyboard. Tapping a
+  // .field on the screen slides up the one it calls for: a number pad for a masked field, the letter keyboard (with its
+  // 123 layer) for any other ([data-kb="num"|"abc"] overrides), or a wheel picker for a button with
+  // [data-wheel="01|02;26|27"] (columns split by ";", their values joined into its .v with [data-join]). Its keys type
+  // into the field and its Done button (#kb-done) closes it; tapping anything else closes it too. With a .kb on the
+  // screen, fields don't call up the phone's own keyboard. Autoplay scripts can type ("type July 27 400") and spin the
+  // wheel ("pick 07 / 27 500").
+  function kbBuild(){
+    const key = (k, label, cls) => `<button type="button" tabindex="-1" class="key${cls ? ' ' + cls : ''}" data-k="${esc(k)}">${label}</button>`;
+    const keys = row => [...row].map(k => key(k, esc(k))).join('');
+    const layer = (id, rows, mod, next, nextLabel) => `<div class="kb-layer" data-layer="${id}">
+      <div class="kb-row">${keys(rows[0])}</div><div class="kb-row${id === 'abc' ? ' inset' : ''}">${keys(rows[1])}</div>
+      <div class="kb-row">${key('', mod, 'mod')}${keys(rows[2])}${key('back', '⌫', 'mod')}</div>
+      <div class="kb-row">${key('layer:' + next, nextLabel, 'mod')}${key(' ', 'space', 'space')}${key('return', 'return', 'mod')}</div></div>`;
+    const NUM = ['1', '2ABC', '3DEF', '4GHI', '5JKL', '6MNO', '7PQRS', '8TUV', '9WXYZ'];
+    kb.setAttribute('aria-hidden', 'true');
+    kb.innerHTML = `<div class="kb-bar"><button type="button" tabindex="-1" id="kb-done">Done</button></div>
+      <div class="kb-panel kb-abc">${layer('abc', ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'], '⇧', 'n123', '123')}${layer('n123', ['1234567890', '-/:;()$&@"', '.,?!\''], '#+=', 'abc', 'ABC')}</div>
+      <div class="kb-panel kb-num"><div class="kb-grid">${NUM.map(n => key(n[0], n[0] + `<small>${n.slice(1)}</small>`)).join('')}${key('', '', 'blank')}${key('0', '0')}${key('back', '⌫', 'back')}</div></div>
+      <div class="kb-panel kb-wheel"></div>`;
+  }
+  const kbKind = f => f.dataset.wheel ? 'wheel' : f.dataset.kb || (masked(f) ? 'num' : 'abc');
+  function kbLayer(id){ kb.querySelectorAll('.kb-layer').forEach(l => { l.hidden = l.dataset.layer !== id; }); }
+  function kbOpen(f, user){
+    if (!kb) return;
+    sheet.querySelectorAll('.typing').forEach(x => x.classList.remove('typing'));
+    e.kbField = f; f.classList.add('typing');
+    kb.dataset.kind = kbKind(f); kbLayer('abc');
+    if (f.dataset.wheel) wheelBuild(f);
+    if (user && f.matches('input')) f.focus({ preventScroll:true });
+    kb.classList.add('on'); settle();
+  }
+  function kbClose(){
+    if (!kb) return;
+    if (e.kbField && document.activeElement === e.kbField) e.kbField.blur();
+    kb.classList.remove('on'); e.kbField = null;
+    sheet.querySelectorAll('.typing').forEach(x => x.classList.remove('typing'));
+    settle();
+  }
+  // One keystroke: flash its key (switching between the letter and 123 layers as a person would) and type it.
+  function kbPress(k){
+    const f = e.kbField; if (!f) return;
+    if (kb.dataset.kind === 'abc' && k.length === 1 && k !== ' ') kbLayer(/[a-z]/i.test(k) ? 'abc' : 'n123');
+    const keyEl = [...kb.querySelectorAll('.kb-' + kb.dataset.kind + ' .key')].find(x => x.dataset.k === k.toLowerCase() && !x.closest('[hidden]'));
+    if (keyEl) { keyEl.classList.add('hit'); setTimeout(() => keyEl.classList.remove('hit'), 110); }
+    if (!f.matches('input')) return;
+    f.value = k === 'back' ? f.value.slice(0, -1) : f.value + k;
+    f.dispatchEvent(new Event('input', { bubbles:true }));
+  }
+  function wheelBuild(b){
+    const w = kb.querySelector('.kb-wheel'), cols = b.dataset.wheel.split(';').map(c => c.split('|'));
+    const cur = (b.querySelector('.v').textContent || '').split(b.dataset.join || ' ');
+    w.innerHTML = cols.map(c => `<div class="wcol"><div class="wtrack">${c.map(v => `<button type="button" tabindex="-1" class="witem">${esc(v)}</button>`).join('')}</div></div>`).join('');
+    w.querySelectorAll('.wcol').forEach((col, i) => wheelSet(col, Math.max(0, cols[i].indexOf(cur[i]))));
+    wheelRead();
+  }
+  function wheelSet(col, i){
+    col.dataset.at = i; col.querySelector('.wtrack').style.transform = `translateY(${-i * 34}px)`;
+    col.querySelectorAll('.witem').forEach((x, k) => x.classList.toggle('sel', k === i));
+  }
+  function wheelRead(){
+    const b = e.kbField; if (!b || !b.dataset.wheel) return;
+    b.querySelector('.v').textContent = [...kb.querySelectorAll('.wcol')].map(c => c.querySelectorAll('.witem')[+c.dataset.at].textContent).join(b.dataset.join || ' ');
+  }
+  function wheelPick(val){
+    const b = e.kbField; if (!b || !b.dataset.wheel) return;
+    const parts = val.split(b.dataset.join || ' ');
+    kb.querySelectorAll('.wcol').forEach((col, i) => {
+      const k = [...col.querySelectorAll('.witem')].findIndex(x => x.textContent === parts[i]);
+      if (k >= 0) wheelSet(col, k);
+    });
+    wheelRead();
+  }
   function check(f){
     const ok = valid(f), m = f.dataset.err && sheet.querySelector(f.dataset.err);
     f.classList.toggle('bad', !ok); f.setAttribute('aria-invalid', String(!ok));
@@ -1985,6 +2094,16 @@ function mount(lesson){
       let t = reduce ? 0 : lead || 0;
       const waited = new Set();
       script.split(',').forEach(part => {
+        // "type TEXT ms" types into the field with the keyboard open; "pick VALUE ms" spins the open wheel picker.
+        const say = part.trim().match(/^(type|pick) (.+) (\d+)$/);
+        if (say) {
+          t += +say[3];
+          const at = t, text = say[2];
+          if (say[1] === 'pick') { e.auto.push(setTimeout(() => wheelPick(text), at)); t += 650; }
+          else { [...text].forEach((ch, i) => e.auto.push(setTimeout(() => kbPress(ch), at + i * 70))); t += text.length * 70; }
+          end = Math.max(end, t);
+          return;
+        }
         const [sel, ms] = part.trim().split(/\s+/), el = sel && sheet.querySelector(sel);
         if (!el) return;
         t += +ms || 0;
@@ -2049,6 +2168,23 @@ function mount(lesson){
     if (t.closest('.tip-close')) return dismiss();
     if (t.closest('.cta')) return go(e.state === 'before' ? 'after' : 'before');
     if (t.closest('.beacon')) return showTip();
+    if (kb) {
+      if (t.closest('#kb-done')) return kbClose();
+      const k = t.closest('.kb .key');
+      if (k) {
+        const v = k.dataset.k;
+        if (v.startsWith('layer:')) return kbLayer(v.slice(6));
+        if (v === 'return') return kbClose();
+        if (v) kbPress(v);
+        return;
+      }
+      const wi = t.closest('.witem');
+      if (wi) { wheelSet(wi.closest('.wcol'), [...wi.parentElement.children].indexOf(wi)); return wheelRead(); }
+      if (t.closest('.kb')) return;
+      const fld = t.closest('.screen input.field, .screen [data-wheel]');
+      if (fld) return kbOpen(fld, ev.isTrusted);
+      if (e.kbField) kbClose();
+    }
     const tg = t.closest('[data-toggle]');
     if (tg) return toggle(tg);
     const segB = t.closest('.seg button, [data-pick] button');
@@ -2084,6 +2220,8 @@ function mount(lesson){
   });
   on(e.screen, 'scroll', position, { passive:true });
   on(e.screen, 'scroll', ev => { if (ev.target.classList.contains('slides')) carousel(ev.target.closest('[data-carousel]')); }, { capture:true, passive:true });
+  // Keyboard users who Tab into a field get the drawn keyboard too.
+  on(sheet, 'focusin', ev => { if (kb && ev.target.matches('.screen input.field') && e.kbField !== ev.target) kbOpen(ev.target); });
   on(sheet, 'focusout', ev => { const f = ev.target.closest && ev.target.closest('.live .field'); if (f && f.value) { check(f); settle(); } });
   on(sheet, 'input', ev => { const f = ev.target; if (f.matches && f.matches('.field[data-mask]') && masked(f)) fit(f); needs(); });
   on(sheet, 'input', ev => { const f = ev.target.closest && ev.target.closest('.live .field.bad'); if (f) { check(f); settle(); } });
@@ -2096,6 +2234,7 @@ function mount(lesson){
     if (ev.key === 'ArrowRight' && e.state === 'before') { ev.preventDefault(); go('after'); }
     if (ev.key === 'ArrowLeft' && e.state === 'after') { ev.preventDefault(); go('before'); }
   });
+  if (kb && !kb.children.length) kbBuild();
   presets('before', false);
   e.timer = setTimeout(showTip, Math.max(LOOK, autoplay('before') + 600));
   track('lesson_view', lessonParams(lesson));

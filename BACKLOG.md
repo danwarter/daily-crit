@@ -369,15 +369,15 @@ Bad UI: a create-account form with an email missing its ending and a six-charact
   phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'],
   steps:{
     before:{ anchor:'#pay-area', label:'The problem', title:'2 normal answers, both rejected',
-      body:'Spaces in the card number and “July 27” are how people write them, but this form only accepts its own format. It says no after Pay, and never says which.',
+      body:'The full keyboard lets people type the card and date any way they like, with spaces or as “July 27”. But this form accepts only its own format, and rejects both after Pay.',
       cta:'Show the fix' },
     after:{ anchor:'#card-form', label:'The fix', title:'0 formats to guess',
-      body:'The number fields bring up a number pad and space the digits for you, and the expiry is a picker. A wrong format can’t be entered. That’s error prevention.',
+      body:'The card fields bring up a number pad and space the digits for you, and the date is a picker. There’s no wrong format to type. That’s error prevention.',
       cta:'See the problem again' }
   }}
 ```
 
-Bad UI: a payment form with free-text card number, expiry and security code. The card number is typed with spaces ("4242 4242 4242 4242") and the expiry as "July 27"; the mock taps Pay and one red banner ("Card details are invalid") appears, without saying which field. Fix: the card number and security code are masked (number pad, digits spaced automatically, letters can't be typed) and the expiry is a picker that only offers valid months; Pay goes through. Shares the `form-errors` problem with lessons 9 and 17, whose primary principles and bad UI are different. Built with a new mask primitive (`data-mask` plus the class `mask`, set by restyle), a picker (`button.fbox.pick` with `data-values`) swapped in for the expiry field with `.swap.wide`, and a form-check change: fields hidden in the current state are skipped.
+Bad UI: a payment form whose fields all bring up the full letter keyboard. The mock taps each field and types on a drawn iOS keyboard: the card number with spaces ("4242 4242 4242 4242"), the expiry as "July 27" and the security code, then taps Done and Pay, and one red banner ("Card details are invalid") appears without saying which field. Fix: the same taps bring up a number pad for the card number (the digits space themselves as they're typed) and the security code, and a month/year wheel picker for the expiry; Pay goes through. Shares the `form-errors` problem with lessons 9 and 17, whose primary principles and bad UI are different. Built with new primitives: a drawn keyboard and wheel picker (`.kb`, `data-wheel`, and the `type` and `pick` autoplay steps), a mask (`data-mask` plus the class `mask`, set by restyle), and a form-check change: fields hidden in the current state are skipped. The expiry field and picker trade places with `.swap.wide`.
 
 ### 19. Delete sits right next to Save
 
