@@ -361,38 +361,65 @@ Bad UI: a create-account form with an email missing its ending and a six-charact
 ### 18. The form lets people type things it will reject
 
 ```js
-{ n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'planned',
+{ n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'draft', frame:'Payment',
+  lede:'Every format rule people have to guess is a mistake waiting to happen. Instead of rejecting what they type, shape the field so only a valid answer fits.',
   tags:['Error prevention','Constraints','Poka-yoke'],
   problems:['form-errors'], screens:['checkout'],
-  synonyms:'constraint picker format input mask mistakes',
-  phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'] }
+  synonyms:'constraint constraints picker format formats input mask masks mistakes card credit debit number expiry expiration date cvc cvv security code spaces keyboard keypad numeric invalid rejected reject pay payment checkout',
+  phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'],
+  steps:{
+    before:{ anchor:'#pay-area', label:'The problem', title:'2 normal answers, both rejected',
+      body:'Spaces in the card number and “July 27” are how people write them, but this form only accepts its own format. It says no after Pay, and never says which.',
+      cta:'Show the fix' },
+    after:{ anchor:'#card-form', label:'The fix', title:'0 formats to guess',
+      body:'The number fields bring up a number pad and space the digits for you, and the expiry is a picker. A wrong format can’t be entered. That’s error prevention.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a card form with free-text expiry and number fields that reject "July 27" or spaces only after submit. Fix: numeric keypad, input masks and an expiry picker that can't produce a wrong value.
+Bad UI: a payment form with free-text card number, expiry and security code. The card number is typed with spaces ("4242 4242 4242 4242") and the expiry as "July 27"; the mock taps Pay and one red banner ("Card details are invalid") appears, without saying which field. Fix: the card number and security code are masked (number pad, digits spaced automatically, letters can't be typed) and the expiry is a picker that only offers valid months; Pay goes through. Shares the `form-errors` problem with lessons 9 and 17, whose primary principles and bad UI are different. Built with a new mask primitive (`data-mask` plus the class `mask`, set by restyle), a picker (`button.fbox.pick` with `data-values`) swapped in for the expiry field with `.swap.wide`, and a form-check change: fields hidden in the current state are skipped.
 
 ### 19. Delete sits right next to Save
 
 ```js
-{ n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'planned',
+{ n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'draft', frame:'Account settings',
+  lede:'When the button that destroys something looks like the one people tap every day, and sits right beside it, a slip is all it takes. Make the dangerous one look dangerous, and keep it out of reach.',
   tags:['Error prevention','Fitts’s law'],
   problems:['wrong-taps'], screens:['settings'],
-  synonyms:'delete remove danger red irreversible delete account',
-  phrases:['people hit delete by mistake','the dangerous button looks like the safe one','users deleted their account by accident','where should the delete button go','how do I make a destructive action safer'] }
+  synonyms:'delete remove danger dangerous destructive red irreversible delete account close account deactivate settings profile save button next to beside confirm type to confirm slip mistake accident accidental',
+  phrases:['people hit delete by mistake','the dangerous button looks like the safe one','users deleted their account by accident','where should the delete button go','how do I make a destructive action safer'],
+  steps:{
+    before:{ anchor:'#gone-box', label:'The problem', title:'Aimed at Save, deleted the account',
+      body:'Delete Account looks just like Save and sits right beside it. Here a thumb aimed at Save landed one button over, and nothing stood in the way.',
+      cta:'Show the fix' },
+    after:{ anchor:'#confirm-box', label:'The fix', title:'Far from Save, then typed to confirm',
+      body:'Delete is now red and set apart, out of reach of the Save button. To go ahead, people type their username, so no slip can do it. That’s error prevention.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Same primary principle as lesson 18, with a different bad UI: an account settings screen with Delete account styled like Save and placed beside it, instead of a card form. Fix: Delete moved away, styled as destructive, and confirmed by typing the account name.
+Same primary principle as lesson 18, with a different bad UI: an account settings screen (profile, notifications) with Delete Account and Save as two identical blue buttons side by side, instead of a card form. The mock taps Delete Account and an "Account deleted" alert appears straight away. Fix: Save fills the bottom bar on its own; Delete Account becomes a red row at the end of the settings, with a note on what it deletes, and its dialog asks people to type their username before Delete turns on. The mock opens that dialog. Built with collapse sideways (`.cx`), restyle (`.pair.solo`), `.alert.ask`, and a new type-to-confirm primitive (`data-match` on a `.field` in the alert, `data-needs` on its button); `data-ok` now ignores a disabled button and only carries out the asking button's `data-dismiss` when it has one. New kit pieces: `.row.red`, `.alert .field`.
 
 ### 20. The app feels slow even when it isn't
 
 ```js
-{ n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'planned',
+{ n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'draft', frame:'Feed',
+  lede:'A spinner on every small action makes a fast app feel slow. When an action almost always works, show the result straight away and let the server catch up.',
   tags:['Optimistic UI','Doherty threshold','Perceived performance'],
   problems:['unsure-it-worked'], screens:['feeds'],
-  synonyms:'latency instant responsive feels slow saved save sent liked',
-  phrases:['the like button lags','people say the app is slow','there is a spinner on every tap','how do I make the app feel faster','users tap again because nothing happened'] }
+  synonyms:'latency lag laggy instant instantly responsive response feels slow sluggish speed fast faster spinner loading wait waiting saved save sent liked like likes heart favorite tap tapped server request network',
+  phrases:['the like button lags','people say the app is slow','there is a spinner on every tap','how do I make the app feel faster','users tap again because nothing happened'],
+  steps:{
+    before:{ anchor:'#like-1', label:'The problem', title:'1.2 seconds to fill a heart',
+      body:'The heart waits for the server before it fills. It’s only a second, but it happens on every tap, so the whole app feels slow and people tap again.',
+      cta:'Show the fix' },
+    after:{ anchor:'#like-1', label:'The fix', title:'0 seconds to fill a heart',
+      body:'The heart fills the moment it’s tapped, and the request is sent in the background. In the rare case it fails, the heart quietly un-fills. That’s optimistic UI.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a feed where tapping the heart shows a spinner for a second before it fills. Fix: the heart fills instantly and quietly rolls back if the request fails.
+Bad UI: a photo feed where tapping the heart swaps it for a spinner for 1.2 seconds before it fills; the mock taps, then taps again while it waits. Fix: the heart fills and the count goes up the instant it's tapped. Shares the `unsure-it-worked` problem with lesson 15, whose primary principle (visibility of system status) and bad UI (a checkout button) are different. Built with a new toggle primitive: `data-toggle` flips `aria-pressed` and the `.n` count; the class `lag` (set by restyle) with `data-lag` makes each tap wait behind a spinner first. New kit pieces: `.acts`, `.like`, `.ic`.
 
 ### 21. An error stops people with no way forward
 

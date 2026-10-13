@@ -550,6 +550,28 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .banner{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(255,59,48,.13);color:var(--ios-red-text);font-size:14px;line-height:1.35}
 .banner svg{width:20px;height:20px;flex:none}
 .banner b{display:block;font-size:15px;font-weight:600}
+/* Pickers: a button.fbox.pick looks like a field box but holds a [data-values] value people pick, not type. .swap.wide lets a swap fill its row (to trade a field for a picker) */
+.swap.wide{display:grid}
+button.fbox{border:0;display:flex;align-items:center;justify-content:space-between;gap:10px;font:inherit;font-size:16px;color:var(--ios-label)}
+.fbox.pick svg{width:14px;height:14px;flex:none;color:var(--ios-2)}
+/* Destructive: .row.red is a red text row (like Delete Account in iOS Settings); a .field inside an .alert is a small text box (type to confirm) */
+.row.red{color:var(--ios-red);justify-content:center;font-weight:400}
+.alert .field{display:block;width:calc(100% - 32px);height:34px;margin:14px 16px 0;padding:0 10px;border-radius:8px;background:var(--ios-cell);text-align:left;font-size:15px;
+  box-shadow:inset 0 0 0 .5px var(--ios-sep)}
+.alert-btns button[aria-disabled="true"]{color:var(--ios-2);opacity:.6}
+.pair.solo{gap:0}
+.pair .cx{white-space:nowrap}
+/* Toggle: a [data-toggle] button holds an .ic icon and an optional .n count; .waiting (while a "lag" toggle waits) swaps the icon for a spinner.
+   .acts is a post's action row and .like a heart toggle that fills when pressed */
+.ic{position:relative;display:grid;place-items:center}
+.ic svg{width:24px;height:24px;transition:opacity .15s}
+.waiting .ic svg{opacity:0}
+.waiting .ic::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+.acts{display:flex;align-items:center;gap:18px;padding-top:10px}
+.acts>*{display:flex;align-items:center;gap:6px;border:0;background:transparent;padding:0;font:inherit;font-size:14px;color:var(--ios-2);font-variant-numeric:tabular-nums}
+.like[aria-pressed="true"]{color:#FF2D55}
+.like[aria-pressed="true"] svg{fill:currentColor;animation:pop .35s var(--ease)}
+@keyframes pop{40%{transform:scale(1.25)}}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1210,6 +1232,88 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   <button class="primary" id="create" data-submit="#signup" data-done="Account created">Create Account</button>
 </div>
 </template>
+<template id="tpl-error-prevention">
+<div class="nav"><span class="cancel">Cart</span><span class="title">Payment</span><span></span></div>
+<div class="screen" data-play-before="#pay 800" data-play-after="#pay 800">
+  <div id="pay-area">
+  <div class="c later" id="pay-err"><div><div class="banner" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg><div><b>Card details are invalid</b>Please check them and try again.</div></div></div></div>
+  <div class="stack" id="card-form" data-then="#pay-err">
+    <label class="flabel" for="ep-num">Card number</label>
+    <input class="field fbox" id="ep-num" type="text" required pattern="[0-9]{16}" data-mask="#### #### #### ####" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="1234 1234 1234 1234" data-before="4242 4242 4242 4242" data-after="4242 4242 4242 4242">
+    <label class="flabel" for="ep-exp">Expiry date</label>
+    <span class="swap wide">
+      <span class="sa"><input class="field fbox" id="ep-exp" type="text" required pattern="(0[1-9]|1[0-2])/[0-9]{2}" autocomplete="off" spellcheck="false" placeholder="MM/YY" data-before="July 27"></span>
+      <span class="sb"><button class="fbox pick" id="ep-exp-pick" aria-label="Expiry date" data-values="07 / 27|08 / 27|09 / 27|10 / 27|11 / 27|12 / 27|01 / 28|02 / 28" data-after="07 / 27"><span class="v"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></span>
+    </span>
+    <label class="flabel" for="ep-cvc">Security code</label>
+    <input class="field fbox" id="ep-cvc" type="text" required pattern="[0-9]{3,4}" data-mask="###" data-bad="" data-good="mask" autocomplete="off" spellcheck="false" placeholder="123" data-before="123" data-after="123">
+  </div>
+  </div>
+</div>
+<div class="dock">
+  <button class="primary" id="pay" data-submit="#card-form" data-done="Payment sent">Pay $48.00</button>
+</div>
+</template>
+<template id="tpl-destructive-actions">
+<div class="nav"><span class="cancel">Settings</span><span class="title">Account</span><span></span></div>
+<div class="screen" data-play-before="#acct-del 900" data-play-after="#del-row 1000">
+  <div class="pad"><p class="ghead">Profile</p><div class="card">
+    <div class="c"><div><label class="row"><span>Name</span><input class="field" type="text" autocomplete="off" data-before="Sam Rivera" data-after="Sam Rivera" aria-label="Name"></label></div></div>
+    <div class="c"><div><label class="row"><span>Username</span><input class="field" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-before="sam.rivera" data-after="sam.rivera" aria-label="Username"></label></div></div>
+    <div class="c"><div><label class="row"><span>Email</span><input class="field" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-before="sam@riveramail.com" data-after="sam@riveramail.com" aria-label="Email"></label></div></div>
+  </div></div>
+  <div class="pad"><p class="ghead">Notifications</p><div class="card">
+    <div class="c"><div><div class="row"><span>Weekly summary</span><button class="sw" role="switch" aria-checked="true" aria-label="Weekly summary"></button></div></div></div>
+    <div class="c"><div><div class="row"><span>New comments</span><button class="sw" role="switch" aria-checked="false" aria-label="New comments"></button></div></div></div>
+  </div></div>
+  <div class="c good-only" style="--d:1"><div><div class="pad" id="danger-zone">
+    <div class="card"><button class="row red" id="del-row" data-ask="#confirm">Delete Account</button></div>
+    <p class="hint">Deletes your account and all 312 photos. This can’t be undone.</p>
+  </div></div></div>
+</div>
+<div class="dock">
+  <div class="pair" id="acct-btns" data-bad="" data-good="solo">
+    <button class="primary cx bad-only" id="acct-del" data-ask="#gone">Delete Account</button>
+    <button class="primary" id="acct-save" data-done="Saved">Save</button>
+  </div>
+</div>
+<div class="modal bad-only">
+  <div class="alerts" id="gone-box">
+    <div class="alert ask" id="gone" role="alertdialog" aria-label="Account deleted">
+      <h3>Account deleted</h3>
+      <p>Your account and all 312 photos have been deleted.</p>
+      <div class="alert-btns"><button class="bold" data-dismiss>OK</button></div>
+    </div>
+  </div>
+</div>
+<div class="modal good-only">
+  <div class="alerts" id="confirm-box">
+    <div class="alert ask" id="confirm" role="alertdialog" aria-label="Delete account?">
+      <h3>Delete account?</h3>
+      <p>All 312 photos will be deleted, and this can’t be undone. Type <b>sam.rivera</b> to confirm.</p>
+      <input class="field" id="confirm-name" type="text" data-match="sam.rivera" placeholder="sam.rivera" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type your username to confirm">
+      <div class="alert-btns"><button class="bold" data-dismiss>Cancel</button><button class="danger" data-ok data-needs="#confirm-name">Delete</button></div>
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-optimistic-ui">
+<div class="nav"><span class="brand">Moments</span><span></span><span></span></div>
+<div class="screen" data-play-before="#like-1 800, #like-1 500" data-play-after="#like-1 800">
+  <div class="post"><span class="avatar" style="--av:#5E5CE6">ML</span><div style="flex:1;min-width:0"><b>maya.lin</b><time>2h</time><p>First swim of the season. Freezing, but worth it.</p>
+    <div class="photo" style="--art:linear-gradient(to bottom,#9AD4F5 0%,#5FB3E6 52%,#2E86C1 53%,#1F6FA3 100%)"></div>
+    <div class="acts">
+      <button class="like" id="like-1" data-toggle data-lag="1200" data-bad="lag" data-good="" aria-pressed="false" aria-label="Like"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg></span><span class="n">48</span></button>
+      <span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></svg>6</span>
+    </div></div></div>
+  <div class="post"><span class="avatar" style="--av:#34C759">SK</span><div style="flex:1;min-width:0"><b>sam.k</b><time>5h</time><p>Sunday market haul.</p>
+    <div class="photo" style="--art:linear-gradient(135deg,#FFB86B 0%,#F4845F 50%,#C8553D 100%)"></div>
+    <div class="acts">
+      <button class="like" id="like-2" data-toggle data-lag="1200" data-bad="lag" data-good="" aria-pressed="false" aria-label="Like"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg></span><span class="n">112</span></button>
+      <span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></svg>14</span>
+    </div></div></div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1501,15 +1605,48 @@ const LESSONS = [
         body:'Each field is checked when people leave it, and the note right below says how to fix it. Nothing gets cleared. That’s inline validation.',
         cta:'See the problem again' }
     }},
-  { n:18, slug:'error-prevention', title:'Prevent errors with constraints', theme:'feedback', status:'planned',
-    problems:['form-errors'], screens:['forms','checkout'], synonyms:'constraint picker format input mask mistakes',
-    phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'] },
-  { n:19, slug:'destructive-actions', title:'Destructive actions', theme:'feedback', status:'planned',
-    problems:['accidental-delete','wrong-taps'], screens:['settings','dialogs'], synonyms:'delete remove danger red irreversible',
-    phrases:['people hit delete by mistake','the dangerous button looks like the safe one','users deleted their account by accident','where should the delete button go','how do I make a destructive action safer'] },
-  { n:20, slug:'optimistic-ui', title:'Optimistic UI', theme:'feedback', status:'planned',
-    problems:['unsure-it-worked'], screens:['feeds'], synonyms:'latency instant responsive feels slow saved save sent liked',
-    phrases:['the like button lags','people say the app is slow','there is a spinner on every tap','how do I make the app feel faster','users tap again because nothing happened'] },
+  { n:18, slug:'error-prevention', title:'The form lets people type things it will reject', theme:'feedback', status:'draft', frame:'Payment',
+    lede:'Every format rule people have to guess is a mistake waiting to happen. Instead of rejecting what they type, shape the field so only a valid answer fits.',
+    tags:['Error prevention','Constraints','Poka-yoke'],
+    problems:['form-errors'], screens:['checkout'],
+    synonyms:'constraint constraints picker format formats input mask masks mistakes card credit debit number expiry expiration date cvc cvv security code spaces keyboard keypad numeric invalid rejected reject pay payment checkout',
+    phrases:['people enter the date in the wrong format','users keep getting invalid input','how do I stop typos in forms','card details get rejected','the wrong keyboard shows up'],
+    steps:{
+      before:{ anchor:'#pay-area', label:'The problem', title:'2 normal answers, both rejected',
+        body:'Spaces in the card number and “July 27” are how people write them, but this form only accepts its own format. It says no after Pay, and never says which.',
+        cta:'Show the fix' },
+      after:{ anchor:'#card-form', label:'The fix', title:'0 formats to guess',
+        body:'The number fields bring up a number pad and space the digits for you, and the expiry is a picker. A wrong format can’t be entered. That’s error prevention.',
+        cta:'See the problem again' }
+    }},
+  { n:19, slug:'destructive-actions', title:'Delete sits right next to Save', theme:'feedback', status:'draft', frame:'Account settings',
+    lede:'When the button that destroys something looks like the one people tap every day, and sits right beside it, a slip is all it takes. Make the dangerous one look dangerous, and keep it out of reach.',
+    tags:['Error prevention','Fitts’s law'],
+    problems:['wrong-taps'], screens:['settings'],
+    synonyms:'delete remove danger dangerous destructive red irreversible delete account close account deactivate settings profile save button next to beside confirm type to confirm slip mistake accident accidental',
+    phrases:['people hit delete by mistake','the dangerous button looks like the safe one','users deleted their account by accident','where should the delete button go','how do I make a destructive action safer'],
+    steps:{
+      before:{ anchor:'#gone-box', label:'The problem', title:'Aimed at Save, deleted the account',
+        body:'Delete Account looks just like Save and sits right beside it. Here a thumb aimed at Save landed one button over, and nothing stood in the way.',
+        cta:'Show the fix' },
+      after:{ anchor:'#confirm-box', label:'The fix', title:'Far from Save, then typed to confirm',
+        body:'Delete is now red and set apart, out of reach of the Save button. To go ahead, people type their username, so no slip can do it. That’s error prevention.',
+        cta:'See the problem again' }
+    }},
+  { n:20, slug:'optimistic-ui', title:'The app feels slow even when it isn’t', theme:'feedback', status:'draft', frame:'Feed',
+    lede:'A spinner on every small action makes a fast app feel slow. When an action almost always works, show the result straight away and let the server catch up.',
+    tags:['Optimistic UI','Doherty threshold','Perceived performance'],
+    problems:['unsure-it-worked'], screens:['feeds'],
+    synonyms:'latency lag laggy instant instantly responsive response feels slow sluggish speed fast faster spinner loading wait waiting saved save sent liked like likes heart favorite tap tapped server request network',
+    phrases:['the like button lags','people say the app is slow','there is a spinner on every tap','how do I make the app feel faster','users tap again because nothing happened'],
+    steps:{
+      before:{ anchor:'#like-1', label:'The problem', title:'1.2 seconds to fill a heart',
+        body:'The heart waits for the server before it fills. It’s only a second, but it happens on every tap, so the whole app feels slow and people tap again.',
+        cta:'Show the fix' },
+      after:{ anchor:'#like-1', label:'The fix', title:'0 seconds to fill a heart',
+        body:'The heart fills the moment it’s tapped, and the request is sent in the background. In the rare case it fails, the heart quietly un-fills. That’s optimistic UI.',
+        cta:'See the problem again' }
+    }},
   { n:21, slug:'dead-ends', title:'Friendly dead ends', theme:'feedback', status:'planned',
     problems:['looks-broken','lost-in-nav'], screens:['errors'], synonyms:'404 not found error page broken link',
     phrases:['people give up when they hit an error','something went wrong and then nothing','the error page has no way back','users lose their cart after an error','what should an error page say'] },
@@ -1575,7 +1712,14 @@ const PRINCIPLES = {
   'user-control-and-freedom': 'People make mistakes, so give them a clearly marked way out, like Undo or Cancel, instead of making them live with a wrong tap.',
   'forgiveness': 'Design so mistakes are hard to make, cheap when they happen and easy to reverse, so people can explore without fear of breaking something.',
   'inline-validation': 'Check each field as people fill it in and show any problem right beside that field, instead of saving every error for after they submit.',
-  'error-recovery': 'When something goes wrong, say what happened in plain language, show how to fix it and keep people\u2019s work, so they can carry on.'
+  'error-recovery': 'When something goes wrong, say what happened in plain language, show how to fix it and keep people\u2019s work, so they can carry on.',
+  'error-prevention': 'Better than a good error message is a design that stops the mistake from happening, by removing the chance to make it or catching it before it lands.',
+  'constraints': 'Limits on what people can do at a given moment, like a number pad or a list of valid dates, so the wrong input simply isn\u2019t possible.',
+  'poka-yoke': 'Japanese for \u201cmistake-proofing\u201d: shaping a product so it can only be used the right way, like a plug that only fits one way round.',
+  'fittss-law': 'The time to reach a target depends on how far away it is and how big it is. Big, close targets are quick to hit, and so are their neighbors, by mistake.',
+  'optimistic-ui': 'Show the result of an action straight away, assuming it will succeed, and quietly undo it in the rare case the server says it failed.',
+  'doherty-threshold': 'People stay engaged when a system responds in under about 400 milliseconds. Slower than that, attention drifts and the app starts to feel sluggish.',
+  'perceived-performance': 'How fast a product feels, which matters as much as how fast it is. Instant feedback and smart loading can make the same wait feel shorter.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -1649,6 +1793,7 @@ function mount(lesson){
   if (e.screen) { e.screen.tabIndex = 0; e.screen.setAttribute('role', 'region'); e.screen.setAttribute('aria-label', (lesson.frame || 'Example') + ' screen'); }
   const step = () => lesson.steps[e.state];
   const orig = new WeakMap();   // a [data-wait] button's own label, to put back on every state change
+  const toggled = new WeakMap(); // a [data-toggle] button's starting aria-pressed and count, to put back on every state change
   const settle = () => setTimeout(() => { if (eng === e) position(); }, 650);
   // Let people look at the screen before the tooltip starts explaining it (the After transition adds 500ms).
   const LOOK = 2000;
@@ -1701,6 +1846,15 @@ function mount(lesson){
       }
     });
     sheet.querySelectorAll('.live .field').forEach(f => { if (f.value) check(f); });
+    sheet.querySelectorAll('[data-mask]').forEach(f => { f.inputMode = masked(f) ? 'numeric' : 'text'; });
+    sheet.querySelectorAll('[data-toggle]').forEach(b => {
+      const n = b.querySelector('.n');
+      if (!toggled.has(b)) toggled.set(b, [b.getAttribute('aria-pressed') || 'false', n ? n.textContent : '']);
+      const [p, c] = toggled.get(b);
+      b.setAttribute('aria-pressed', p); if (n) n.textContent = c;
+      delete b.dataset.busy; b.classList.remove('waiting'); b.removeAttribute('aria-busy');
+    });
+    needs();
     gate();
   }
 
@@ -1748,8 +1902,42 @@ function mount(lesson){
   // and opens or closes the .c.later message named in its [data-err]. A [data-submit="#form"] button checks the form:
   // by default a failed submit only opens the form's [data-then] block and empties its [data-wipe] fields; with the
   // class "live" (set it with restyle) each wrong field gets its own message, on submit and as soon as people leave it.
+  // Mask primitive: a .field[data-mask] wearing the class "mask" (set it with restyle) formats itself as people type.
+  // Each # in the mask takes a digit and the other characters fill themselves in, so nothing else can be typed, and the
+  // field brings up a number pad. A masked field is valid once every # is filled, whatever its own pattern says.
+  const masked = f => !!(f.dataset.mask && f.classList.contains('mask'));
+  function fit(f){
+    const d = f.value.replace(/\D/g, ''); let out = '', i = 0;
+    for (const ch of f.dataset.mask) { if (i >= d.length) break; out += ch === '#' ? d[i++] : ch; }
+    f.value = out;
+  }
+  const valid = f => masked(f) ? f.value.length === f.dataset.mask.length : f.checkValidity();
+  // A field hidden in this state (a bad-only block in After, a good-only block in Before, the hidden side of a .swap)
+  // doesn't count when a form is checked.
+  const hiddenNow = el => !!el.closest(e.state === 'after' ? '.bad-only, .swap>.sa' : '.good-only, .swap>.sb');
+  // Type to confirm: a [data-needs="#field"] button stays disabled until that field's text matches its [data-match].
+  function needs(){
+    sheet.querySelectorAll('[data-needs]').forEach(b => {
+      const f = sheet.querySelector(b.dataset.needs);
+      b.setAttribute('aria-disabled', String(!f || f.value.trim() !== f.dataset.match));
+    });
+  }
+  // Toggle primitive: a [data-toggle] button flips its aria-pressed on every tap and adds or takes one from the number in
+  // its .n. With the class "lag" (set it with restyle) each tap first waits [data-lag] ms, showing a spinner in place of
+  // its .ic icon and ignoring taps, like an app that waits for the server before showing anything.
+  function flip(b){
+    const now = b.getAttribute('aria-pressed') !== 'true', n = b.querySelector('.n');
+    b.setAttribute('aria-pressed', String(now));
+    if (n) n.textContent = (parseInt(n.textContent, 10) || 0) + (now ? 1 : -1);
+  }
+  function toggle(b){
+    if (b.dataset.busy) return;
+    if (!b.classList.contains('lag')) return flip(b);
+    b.dataset.busy = '1'; b.classList.add('waiting'); b.setAttribute('aria-busy', 'true');
+    e.auto.push(setTimeout(() => { delete b.dataset.busy; b.classList.remove('waiting'); b.removeAttribute('aria-busy'); flip(b); }, +b.dataset.lag || 1000));
+  }
   function check(f){
-    const ok = f.checkValidity(), m = f.dataset.err && sheet.querySelector(f.dataset.err);
+    const ok = valid(f), m = f.dataset.err && sheet.querySelector(f.dataset.err);
     f.classList.toggle('bad', !ok); f.setAttribute('aria-invalid', String(!ok));
     if (m) m.classList.toggle('on', !ok);
     return ok;
@@ -1757,7 +1945,7 @@ function mount(lesson){
   function submit(btn){
     const form = sheet.querySelector(btn.dataset.submit); if (!form) return true;
     const live = form.classList.contains('live'), top = form.dataset.then;
-    const bad = [...form.querySelectorAll('.field')].filter(f => live ? !check(f) : !f.checkValidity());
+    const bad = [...form.querySelectorAll('.field')].filter(f => !hiddenNow(f) && (live ? !check(f) : !valid(f)));
     if (!bad.length) { if (top) sheet.querySelectorAll(top).forEach(x => x.classList.remove('on')); }
     else if (!live) { form.querySelectorAll('[data-wipe]').forEach(f => { f.value = ''; }); reveal(top, bad.length); e.screen.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); }
     settle();
@@ -1803,7 +1991,8 @@ function mount(lesson){
         const at = t;
         e.auto.push(setTimeout(() => touch(el), Math.max(at - 180, 0)));
         e.auto.push(setTimeout(() => el.click(), at));
-        end = Math.max(end, at + (el.dataset.wait && !waited.has(el) ? +el.dataset.wait : 0));
+        const lag = el.dataset.wait ? +el.dataset.wait : el.classList.contains('lag') ? (+el.dataset.lag || 1000) : 0;
+        end = Math.max(end, at + (waited.has(el) ? 0 : lag));
         waited.add(el);
       });
     }
@@ -1860,6 +2049,8 @@ function mount(lesson){
     if (t.closest('.tip-close')) return dismiss();
     if (t.closest('.cta')) return go(e.state === 'before' ? 'after' : 'before');
     if (t.closest('.beacon')) return showTip();
+    const tg = t.closest('[data-toggle]');
+    if (tg) return toggle(tg);
     const segB = t.closest('.seg button, [data-pick] button');
     if (segB) { segB.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === segB))); gate(); return; }
     const nx = t.closest('[data-next]');
@@ -1871,7 +2062,10 @@ function mount(lesson){
     if (un) { if (e.undo) e.undo.classList.remove('shut'); e.undo = null; un.closest('.toast').classList.remove('on'); settle(); return; }
     // [data-ask="#alert"] opens an .alert.ask first; its [data-ok] button closes it and carries out the tap that asked.
     const ok = t.closest('[data-ok]');
-    if (ok) { ok.closest('.alert').classList.add('shut'); const a = e.asking; e.asking = null; if (a) shut(a); return; }
+    if (ok) {
+      if (ok.getAttribute('aria-disabled') === 'true') return;
+      ok.closest('.alert').classList.add('shut'); const a = e.asking; e.asking = null; if (a && a.hasAttribute('data-dismiss')) shut(a); return;
+    }
     const ask = t.closest('[data-ask]');
     if (ask) { const a = sheet.querySelector(ask.dataset.ask); if (a) { a.classList.remove('shut'); e.asking = ask; } return; }
     const dm = t.closest('[data-dismiss]');
@@ -1891,6 +2085,7 @@ function mount(lesson){
   on(e.screen, 'scroll', position, { passive:true });
   on(e.screen, 'scroll', ev => { if (ev.target.classList.contains('slides')) carousel(ev.target.closest('[data-carousel]')); }, { capture:true, passive:true });
   on(sheet, 'focusout', ev => { const f = ev.target.closest && ev.target.closest('.live .field'); if (f && f.value) { check(f); settle(); } });
+  on(sheet, 'input', ev => { const f = ev.target; if (f.matches && f.matches('.field[data-mask]') && masked(f)) fit(f); needs(); });
   on(sheet, 'input', ev => { const f = ev.target.closest && ev.target.closest('.live .field.bad'); if (f) { check(f); settle(); } });
   on(window, 'resize', position);
   on(document, 'keydown', ev => {
