@@ -231,6 +231,30 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .nl.sent .nl-form{display:none}
 .nl.sent .nl-msg{grid-column:3;margin:0;padding:0;font-size:15px;color:var(--ink)}
 
+/* ---------- Lesson feedback ("Did this click?") ---------- */
+.fbk{background:var(--surface);border-radius:28px;padding:22px 26px;margin:0 0 72px}
+.fbk.tight{margin-top:-56px}
+.fbk-row{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap}
+.fbk h3{margin:0;font-size:17px;font-weight:700}
+.fbk-votes{display:flex;gap:8px}
+.fbk-votes button,.fbk-send{font:inherit;font-size:15px;font-weight:500;color:var(--ink);background:var(--page);border:0;border-radius:999px;padding:10px 18px;cursor:pointer;transition:background .2s,color .2s}
+.fbk-votes button:hover,.fbk-votes button:focus-visible{background:var(--chip)}
+.fbk-votes button[aria-pressed="true"]{background:var(--ink);color:var(--page)}
+.fbk-more{display:none;margin-top:16px}
+.fbk.voted .fbk-more{display:block}
+.fbk label{display:block;margin:0 0 8px;font-size:15px;color:var(--ink)}
+.fbk-input{display:flex;gap:8px}
+.fbk-input input{flex:1;min-width:0;font:inherit;font-size:15px;color:var(--ink);background:var(--page);border:1px solid transparent;border-radius:999px;padding:11px 18px;outline:none;transition:border-color .2s}
+.fbk-input input::placeholder{color:var(--ink-2)}
+.fbk-input input:focus{border-color:var(--accent)}
+.fbk-send{font-weight:700;background:var(--ink);color:var(--page)}
+.fbk-send:hover,.fbk-send:focus-visible{background:var(--accent);color:#fff}
+.fbk-note{margin:8px 0 0 18px;font-size:13px;color:var(--ink-2)}
+.fbk-msg{margin:0;font-size:15px;color:var(--ink-2)}
+.fbk-msg:empty{display:none}
+.fbk.done .fbk-more{display:none}
+.fbk.done .fbk-msg{margin-top:12px}
+
 .site-foot{max-width:1160px;margin:0 auto;padding:28px 32px 48px;color:var(--ink-2);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 .foot-end{display:flex;align-items:center;gap:14px}
 .foot-li{display:grid;place-items:center;width:32px;height:32px;margin:-6px 0;border-radius:8px;color:var(--ink-2);transition:color .2s}
@@ -587,6 +611,8 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
   .nl{grid-template-columns:auto minmax(0,1fr);padding:20px}
   .nl-form,.nl-msg,.nl.sent .nl-msg{grid-column:1/-1}
   .nl-msg{padding-left:18px}
+  .fbk{padding:20px}
+  .fbk.tight{margin-top:-32px}
   .page-intro{padding:36px 0 32px}
   .page-intro p.big{font-size:17px}
   .site-foot{padding:24px 20px 40px}
@@ -1818,6 +1844,7 @@ function mount(lesson){
   function dismiss(){ e.tip.classList.remove('show'); e.ring.classList.remove('show'); e.beacon.classList.add('show'); position(); e.beacon.focus({ preventScroll:true }); }
   function go(next){
     clearTimeout(e.timer); hideAll(); e.state = next;
+    if (next === 'after' && !e.fixSeen) { e.fixSeen = true; track('fix_played', lessonParams(e.lesson)); }
     e.switches.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === next)));
     root.dataset.state = next;
     const apply = () => { phone.classList.toggle('after', next === 'after'); presets(next, true); const done = autoplay(next, 400); e.timer = setTimeout(showTip, Math.max(reduce ? LOOK : LOOK + 500, done + 600)); };
@@ -1876,6 +1903,7 @@ function mount(lesson){
   });
   presets('before', false);
   e.timer = setTimeout(showTip, Math.max(LOOK, autoplay('before') + 600));
+  track('lesson_view', lessonParams(lesson));
 }
 
 // Paste your newsletter's form address here (Buttondown: https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME).
@@ -1900,6 +1928,12 @@ function trackPage(path){
   if (!GA_ON) return;
   gtag('event', 'page_view', { page_location: location.origin + '/' + path, page_title: document.title });
 }
+// Custom events (lesson_view, fix_played, feedback_vote, feedback_comment, newsletter_signup).
+function track(name, params){
+  if (!GA_ON) return;
+  gtag('event', name, params || {});
+}
+const lessonParams = l => ({ lesson_slug: l.slug, lesson_number: l.n });
 // Search terms are logged once someone pauses typing, so "sign", "sign up", "sign up form" count as one search.
 let searchTimer, lastSearch = '';
 function trackSearch(q){
@@ -1998,6 +2032,28 @@ function lessonModule(l, onHome){
     </div>
   </section>`;
 }
+// "Did this click?" Votes and the optional note go to Google Analytics as events,
+// so there is no other server or network request (see Constraints in CLAUDE.md).
+function feedback(l, tight){
+  return `<section class="fbk${tight ? ' tight' : ''}" data-feedback="${esc(l.slug)}" data-n="${l.n}" aria-labelledby="fbk-h">
+    <div class="fbk-row">
+      <h3 id="fbk-h">Did this lesson click?</h3>
+      <div class="fbk-votes" role="group" aria-labelledby="fbk-h">
+        <button type="button" data-vote="up" aria-pressed="false">\u{1F44D} Yes</button>
+        <button type="button" data-vote="down" aria-pressed="false">\u{1F44E} Not really</button>
+      </div>
+    </div>
+    <form class="fbk-more" data-feedback-form novalidate>
+      <label for="fbk-text-${esc(l.slug)}"></label>
+      <div class="fbk-input">
+        <input id="fbk-text-${esc(l.slug)}" name="note" maxlength="100" autocomplete="off" placeholder="Optional">
+        <button class="fbk-send" type="submit">Send</button>
+      </div>
+      <p class="fbk-note">Please don\u2019t include names or emails.</p>
+    </form>
+    <p class="fbk-msg" role="status" aria-live="polite"></p>
+  </section>`;
+}
 function helpsBlock(l){
   if (!(l.problems || []).length) return '';
   return `<section class="helps">
@@ -2014,6 +2070,7 @@ function pageHome(){
   return { html: `
     <button class="find-pill" data-palette>${ICON_SEARCH}<span class="fp-text"><b>Stuck on something?</b> <span class="fp-more">Describe the problem</span></span><kbd>${MOD_K}</kbd></button>
     ${lessonModule(today, true)}
+    ${feedback(today, true)}
     ${month()}
     ${newsletter()}`, lesson: today };
 }
@@ -2033,7 +2090,7 @@ function pageLesson(slug){
     const inner = `<span class="pnum">${pad2(x.n)}</span><span><span class="dir">${dir === 'next' ? 'Next' : 'Previous'}${visible(x) ? '' : ', coming soon'}</span><span class="pt">${esc(x.title)}</span></span>`;
     return visible(x) ? `<a class="${cls}" href="#/lessons/${x.slug}">${inner}</a>` : `<div class="${cls} muted">${inner}</div>`;
   };
-  return { html: `<div style="height:40px"></div>${lessonModule(l, false)}${helpsBlock(l)}
+  return { html: `<div style="height:40px"></div>${lessonModule(l, false)}${helpsBlock(l)}${feedback(l, !(l.problems || []).length)}
     <nav class="pager" aria-label="Lessons">${card(prev,'prev')}${card(next,'next')}</nav>${newsletter()}`, lesson: l };
 }
 function pageTheme(id){
@@ -2220,7 +2277,32 @@ function route(){
     });
   }
 }
+document.addEventListener('click', ev => {
+  const b = ev.target.closest && ev.target.closest('[data-vote]');
+  if (!b) return;
+  const box = b.closest('[data-feedback]'), vote = b.dataset.vote;
+  if (box.classList.contains('done')) return;
+  box.querySelectorAll('[data-vote]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  // Count a vote once per visit to the lesson; changing your mind updates the follow-up question only.
+  if (!box.dataset.voted) track('feedback_vote', { lesson_slug: box.dataset.feedback, lesson_number: +box.dataset.n, vote });
+  box.dataset.voted = vote;
+  box.classList.add('voted');
+  box.querySelector('label').textContent = vote === 'up' ? 'Thanks! What made it click?' : 'Thanks. What was confusing or missing?';
+  box.querySelector('.fbk-msg').textContent = '';
+});
+// Strip anything that looks like an email or phone number: Google Analytics doesn't allow personal info.
+const scrub = t => t.replace(/\S+@\S+/g, '[email]').replace(/\+?\d[\d\s().-]{6,}\d/g, '[number]').trim().slice(0, 100);
 document.addEventListener('submit', ev => {
+  const fb = ev.target.closest('[data-feedback-form]');
+  if (fb) {
+    ev.preventDefault();
+    const box = fb.closest('[data-feedback]'), note = scrub(fb.elements.note.value);
+    if (!note) { fb.elements.note.focus(); return; }
+    track('feedback_comment', { lesson_slug: box.dataset.feedback, lesson_number: +box.dataset.n, vote: box.dataset.voted, comment: note });
+    box.classList.add('done');
+    box.querySelector('.fbk-msg').textContent = 'Got it, thank you. This helps decide what to build next.';
+    return;
+  }
   if (ev.target.closest('[data-search]')) ev.preventDefault();
   const form = ev.target.closest('[data-newsletter]');
   if (!form) return;
@@ -2231,6 +2313,7 @@ document.addEventListener('submit', ev => {
   // The form posts itself to Buttondown in a new tab. Buttondown sometimes has to show a
   // check or an error there, which a background request (fetch) would hide from the person.
   msg.textContent = '';
+  track('newsletter_signup', { page_path: '/' + location.hash.replace(/^#\/?/, '').split('?')[0] });
   setTimeout(() => { box.classList.add('sent'); msg.textContent = 'Almost done. Finish in the tab that just opened, then check your inbox to confirm.'; }, 0);
 });
 window.addEventListener('hashchange', route);
