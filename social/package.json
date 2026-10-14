@@ -1,0 +1,12 @@
+{
+  "name": "daily-crit-social",
+  "private": true,
+  "type": "module",
+  "description": "Makes 9:16 social videos from Daily Crit lessons",
+  "scripts": { "videos": "node make-videos.mjs" },
+  "dependencies": {
+    "@fontsource/outfit": "^5.0.0",
+    "@fontsource/space-grotesk": "^5.0.0",
+    "playwright": "^1.48.0"
+  }
+}
