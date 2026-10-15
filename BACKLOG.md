@@ -424,38 +424,65 @@ Bad UI: a photo feed where tapping the heart swaps it for a spinner for 1.2 seco
 ### 21. An error stops people with no way forward
 
 ```js
-{ n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'planned',
+{ n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'draft', frame:'Bag',
+  lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what happened, keep their work and give them a next step.',
   tags:['Error recovery','Information scent'],
   problems:['quit-midway'], screens:['errors','checkout'],
-  synonyms:'404 not found error page broken link something went wrong dead end',
-  phrases:['people give up when they hit an error','something went wrong and then nothing','the error page has no way back','users lose their cart after an error','what should an error page say'] }
+  synonyms:'404 not found error page broken link something went wrong dead end failed failure payment declined retry try again lost cart bag basket emptied empty error message code oops alert ok button next step',
+  phrases:['people give up when they hit an error','something went wrong and then nothing','the error page has no way back','users lose their cart after an error','what should an error page say'],
+  steps:{
+    before:{ anchor:'#empty-bag', label:'The problem', title:'1 vague error, 0 ways forward',
+      body:'“Something went wrong” doesn’t say what failed. OK is the only button, and it empties the bag, so people have to find every item again or give up.',
+      cta:'Show the fix' },
+    after:{ anchor:'#declined', label:'The fix', title:'2 ways forward, nothing lost',
+      body:'The message says what failed and that nothing was charged. The bag stays put, and Try Again or Use Another Card lead straight back to paying. That’s error recovery.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a payment error that says "Something went wrong" with only an OK button that drops people on the home screen, cart gone. Fix: says what happened, keeps the cart, and offers Try again or Use another card.
+Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something went wrong / Error 1043. Please try again later.” with one OK button, and OK empties the bag. Fix: the same failed payment shows a banner above the bag saying what happened (the bank couldn’t be reached, nothing was charged, the bag is saved) with Use Another Card, and Pay turns into Try Again. Built with `.alert.ask` and a dismiss change: a `data-dismiss` button can now `data-then` to open `.c.later` blocks, so the bag can collapse into an empty state. Pay trades behaviors in a `.swap.wide`. New kit piece: `.banner .mini`.
 
 ### 22. The buttons are too small to hit
 
 ```js
-{ n:22, slug:'fitts-law', title:'The buttons are too small to hit', theme:'interaction', status:'planned',
+{ n:22, slug:'fitts-law', title:'The buttons are too small to hit', theme:'interaction', status:'draft', frame:'Cart',
+  lede:'A button people can see isn’t always one they can hit. Make touch targets big enough for a fingertip, and leave space between ones that do different things.',
   tags:['Fitts’s law','Touch target size'],
   problems:['wrong-taps'], screens:['checkout'],
-  synonyms:'tap target touch target small buttons size distance',
-  phrases:['people keep missing the button','I tap the wrong one on my phone','the plus and minus are tiny','how big should a button be','fat finger mistakes'] }
+  synonyms:'tap target touch target small buttons size distance tiny plus minus quantity stepper cart remove x close mis-tap mistap misclick finger fingertip thumb hit area spacing 44 points pixels minimum',
+  phrases:['people keep missing the button','I tap the wrong one on my phone','the plus and minus are tiny','how big should a button be','fat finger mistakes'],
+  steps:{
+    before:{ anchor:'#cart', label:'The problem', title:'3 buttons under one fingertip',
+      body:'The −, + and × are tiny and almost touching, so a fingertip covers two at once. Aiming for + here hit × instead, and the lamp left the cart.',
+      cta:'Show the fix' },
+    after:{ anchor:'#qty-1', label:'The fix', title:'44-point targets, space between',
+      body:'Each button is now 44 points, the minimum Apple recommends, with clear space before ×. Bigger, well-spaced targets are quicker to hit and harder to miss. That’s Fitts’s law.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a cart with tiny + and − buttons and a small × right next to them. Fix: 44pt targets with space between them.
+Bad UI: a cart whose −, + and × are 22px and almost touching; the mock taps + on the desk lamp, then aims for + again and hits ×, removing it. Fix: every control grows to 44px with clear space before ×; the mock taps + twice cleanly. Shares the `wrong-taps` problem with lesson 19, whose primary principle (error prevention) and bad UI (Delete beside Save) are different. Built with a new stepper primitive (`.qty`, `.stepper`, `data-step`) and restyle (`tiny`).
 
-### 23. I can't reach the button with one hand
+### 23. I can’t reach the button with one hand
 
 ```js
-{ n:23, slug:'thumb-zone', title:'I can’t reach the button with one hand', theme:'interaction', status:'planned',
+{ n:23, slug:'thumb-zone', title:'I can’t reach the button with one hand', theme:'interaction', status:'draft', frame:'New post',
+  lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most where their thumb already is.',
   tags:['Thumb zone','Fitts’s law'],
   problems:['miss-main-action'], screens:['navigation'],
-  synonyms:'reach one handed mobile bottom top',
-  phrases:['the main button is at the top of the screen','hard to use with one hand','people stretch to reach the button','where should buttons go on mobile','big phones make this awkward'] }
+  synonyms:'reach one handed one-handed mobile bottom top thumb thumbs stretch grip corner top right nav bar navigation bar post button compose keyboard big phone large screen ergonomics sticky',
+  phrases:['the main button is at the top of the screen','hard to use with one hand','people stretch to reach the button','where should buttons go on mobile','big phones make this awkward'],
+  steps:{
+    before:{ anchor:'#post-a', label:'The problem', title:'Typed at the bottom, Post at the top',
+      body:'People hold the phone in one hand and type with a thumb near the bottom. Post sits in the far top corner, so they have to stretch or shift their grip to finish.',
+      cta:'Show the fix' },
+    after:{ anchor:'#post-b', place:'above', label:'The fix', title:'Post sits right by the thumb',
+      body:'Post now rides on top of the keyboard, right where the thumb already is: easy to reach with one hand, and big enough to hit. That’s the thumb zone.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a compose screen with Post in the top-right corner. Fix: Post as a full-width button above the keyboard. Different from lesson 22: the button is big enough but out of reach.
+Bad UI: a New Post screen; the mock types with the drawn keyboard open while Post sits in the top-right of the nav bar. Fix: Post is a full-width button in a dock that rides on top of the keyboard. Different from lesson 22: the button is big enough but out of reach. Built with a new keyboard dock (`.dock.ride`, plus `.dock.bare` set by restyle for Before), a `.swap` in the nav bar, `.compose`, and a new tooltip option, `place:'above'`, so the fix tooltip doesn’t cover the keyboard.
 
 ### 24. Red and green are the only difference
 
