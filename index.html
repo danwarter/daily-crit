@@ -1388,7 +1388,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
     <button class="primary" data-done="Opening…">Continue Shopping</button>
   </div></div></div>
   <div class="c later" id="pay-fail"><div><div class="banner" role="alert" id="declined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg>
-    <div><b>Payment didn’t go through</b>We couldn’t reach your bank, so you weren’t charged. Your bag is saved.<button class="mini plain" data-done="Opening…">Use Another Card</button></div></div></div></div>
+    <div><b>Payment didn’t go through</b>You weren’t charged, and your bag is saved.<button class="mini plain" data-done="Opening…">Use Another Card</button></div></div></div></div>
   <div class="c" id="cart-body"><div>
     <div class="pad"><div class="card">
       <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l3 8H6z"/><path d="M12 11v8M8 20h8"/></svg></span><span><p class="pname">Desk lamp</p><span class="sub">Brass · Qty 1</span></span></span><span class="price">$39.00</span></div></div></div>
@@ -1401,7 +1401,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
     </div></div>
     <span class="swap wide">
       <span class="sa"><button class="primary" id="pay-a" data-ask="#oops" data-dismiss data-then="#bag-empty">Pay $48.00</button></span>
-      <span class="sb"><button class="primary" id="pay-b" data-wait="1500" data-during="Paying…" data-finish="Try Again" data-done="Order placed" data-then="#pay-fail">Pay $48.00</button></span>
+      <span class="sb"><button class="primary" id="pay-b" data-wait="1500" data-during="Paying…" data-finish="Retry Payment" data-done="Order placed" data-then="#pay-fail">Pay $48.00</button></span>
     </span>
   </div></div>
 </div>
@@ -1779,17 +1779,17 @@ const LESSONS = [
         cta:'See the problem again' }
     }},
   { n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'draft', frame:'Bag',
-    lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what happened, keep their work and give them a next step.',
+    lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what you know, keep their work and give them a clear next step.',
     tags:['Error recovery','Information scent'],
     problems:['quit-midway'], screens:['errors','checkout'],
     synonyms:'404 not found error page broken link something went wrong dead end failed failure payment declined retry try again lost cart bag basket emptied empty error message code oops alert ok button next step',
     phrases:['people give up when they hit an error','something went wrong and then nothing','the error page has no way back','users lose their cart after an error','what should an error page say'],
     steps:{
       before:{ anchor:'#empty-bag', label:'The problem', title:'1 vague error, 0 ways forward',
-        body:'\u201cSomething went wrong\u201d doesn\u2019t say what failed. OK is the only button, and it empties the bag, so people have to find every item again or give up.',
+        body:'\u201cSomething went wrong\u201d doesn\u2019t even say whether people were charged. OK is the only button, and it empties the bag, so people have to find every item again or give up.',
         cta:'Show the fix' },
       after:{ anchor:'#declined', label:'The fix', title:'2 ways forward, nothing lost',
-        body:'The message says what failed and that nothing was charged. The bag stays put, and Try Again or Use Another Card lead straight back to paying. That\u2019s error recovery.',
+        body:'It confirms nothing was charged and keeps the bag. Error recovery is the way forward: Retry Payment and Use Another Card each say exactly where they lead, which is information scent.',
         cta:'See the problem again' }
     }},
   { n:22, slug:'fitts-law', title:'The buttons are too small to hit', theme:'interaction', status:'draft', frame:'Cart',
@@ -1803,11 +1803,11 @@ const LESSONS = [
         body:'The \u2212, + and \u00d7 are tiny and almost touching, so a fingertip covers two at once. Aiming for + here hit \u00d7 instead, and the lamp left the cart.',
         cta:'Show the fix' },
       after:{ anchor:'#qty-1', label:'The fix', title:'44-point targets, space between',
-        body:'Each button is now 44 points, the minimum Apple recommends, with clear space before \u00d7. Bigger, well-spaced targets are quicker to hit and harder to miss. That\u2019s Fitts\u2019s law.',
+        body:'Each button is now 44 points, Apple\u2019s recommended minimum on iOS, with clear space before \u00d7. Fitts\u2019s law explains the gain: a bigger target is quicker to hit and harder to miss.',
         cta:'See the problem again' }
     }},
   { n:23, slug:'thumb-zone', title:'I can\u2019t reach the button with one hand', theme:'interaction', status:'draft', frame:'New post',
-    lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most where their thumb already is.',
+    lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most within easy reach of the thumb.',
     tags:['Thumb zone','Fitts\u2019s law'],
     problems:['miss-main-action'], screens:['navigation'],
     synonyms:'reach one handed one-handed mobile bottom top thumb thumbs stretch grip corner top right nav bar navigation bar post button compose keyboard big phone large screen ergonomics sticky',
@@ -1817,7 +1817,7 @@ const LESSONS = [
         body:'People hold the phone in one hand and type with a thumb near the bottom. Post sits in the far top corner, so they have to stretch or shift their grip to finish.',
         cta:'Show the fix' },
       after:{ anchor:'#post-b', place:'above', label:'The fix', title:'Post sits right by the thumb',
-        body:'Post now rides on top of the keyboard, right where the thumb already is: easy to reach with one hand, and big enough to hit. That\u2019s the thumb zone.',
+        body:'Post now rides on top of the keyboard, where a one-handed thumb reaches easily. That\u2019s the thumb zone. On other screens and devices, the easy-reach spot may differ.',
         cta:'See the problem again' }
     }},
   { n:24, slug:'color-alone', title:'Color isn\u2019t enough', theme:'interaction', status:'planned',

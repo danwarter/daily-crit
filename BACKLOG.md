@@ -425,22 +425,22 @@ Bad UI: a photo feed where tapping the heart swaps it for a spinner for 1.2 seco
 
 ```js
 { n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'draft', frame:'Bag',
-  lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what happened, keep their work and give them a next step.',
+  lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what you know, keep their work and give them a clear next step.',
   tags:['Error recovery','Information scent'],
   problems:['quit-midway'], screens:['errors','checkout'],
   synonyms:'404 not found error page broken link something went wrong dead end failed failure payment declined retry try again lost cart bag basket emptied empty error message code oops alert ok button next step',
   phrases:['people give up when they hit an error','something went wrong and then nothing','the error page has no way back','users lose their cart after an error','what should an error page say'],
   steps:{
     before:{ anchor:'#empty-bag', label:'The problem', title:'1 vague error, 0 ways forward',
-      body:'“Something went wrong” doesn’t say what failed. OK is the only button, and it empties the bag, so people have to find every item again or give up.',
+      body:'“Something went wrong” doesn’t even say whether people were charged. OK is the only button, and it empties the bag, so people have to find every item again or give up.',
       cta:'Show the fix' },
     after:{ anchor:'#declined', label:'The fix', title:'2 ways forward, nothing lost',
-      body:'The message says what failed and that nothing was charged. The bag stays put, and Try Again or Use Another Card lead straight back to paying. That’s error recovery.',
+      body:'It confirms nothing was charged and keeps the bag. Error recovery is the way forward: Retry Payment and Use Another Card each say exactly where they lead, which is information scent.',
       cta:'See the problem again' }
   }}
 ```
 
-Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something went wrong / Error 1043. Please try again later.” with one OK button, and OK empties the bag. Fix: the same failed payment shows a banner above the bag saying what happened (the bank couldn’t be reached, nothing was charged, the bag is saved) with Use Another Card, and Pay turns into Try Again. Built with `.alert.ask` and a dismiss change: a `data-dismiss` button can now `data-then` to open `.c.later` blocks, so the bag can collapse into an empty state. Pay trades behaviors in a `.swap.wide`. New kit piece: `.banner .mini`.
+Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something went wrong / Error 1043. Please try again later.” with one OK button, and OK empties the bag. Fix: the same failed payment shows a banner above the bag saying what happened (nothing was charged, the bag is saved) with Use Another Card, and Pay turns into Retry Payment. Built with `.alert.ask` and a dismiss change: a `data-dismiss` button can now `data-then` to open `.c.later` blocks, so the bag can collapse into an empty state. Pay trades behaviors in a `.swap.wide`. New kit piece: `.banner .mini`.
 
 ### 22. The buttons are too small to hit
 
@@ -456,7 +456,7 @@ Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something we
       body:'The −, + and × are tiny and almost touching, so a fingertip covers two at once. Aiming for + here hit × instead, and the lamp left the cart.',
       cta:'Show the fix' },
     after:{ anchor:'#qty-1', label:'The fix', title:'44-point targets, space between',
-      body:'Each button is now 44 points, the minimum Apple recommends, with clear space before ×. Bigger, well-spaced targets are quicker to hit and harder to miss. That’s Fitts’s law.',
+      body:'Each button is now 44 points, Apple’s recommended minimum on iOS, with clear space before ×. Fitts’s law explains the gain: a bigger target is quicker to hit and harder to miss.',
       cta:'See the problem again' }
   }}
 ```
@@ -467,7 +467,7 @@ Bad UI: a cart whose −, + and × are 22px and almost touching; the mock taps +
 
 ```js
 { n:23, slug:'thumb-zone', title:'I can’t reach the button with one hand', theme:'interaction', status:'draft', frame:'New post',
-  lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most where their thumb already is.',
+  lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most within easy reach of the thumb.',
   tags:['Thumb zone','Fitts’s law'],
   problems:['miss-main-action'], screens:['navigation'],
   synonyms:'reach one handed one-handed mobile bottom top thumb thumbs stretch grip corner top right nav bar navigation bar post button compose keyboard big phone large screen ergonomics sticky',
@@ -477,7 +477,7 @@ Bad UI: a cart whose −, + and × are 22px and almost touching; the mock taps +
       body:'People hold the phone in one hand and type with a thumb near the bottom. Post sits in the far top corner, so they have to stretch or shift their grip to finish.',
       cta:'Show the fix' },
     after:{ anchor:'#post-b', place:'above', label:'The fix', title:'Post sits right by the thumb',
-      body:'Post now rides on top of the keyboard, right where the thumb already is: easy to reach with one hand, and big enough to hit. That’s the thumb zone.',
+      body:'Post now rides on top of the keyboard, where a one-handed thumb reaches easily. That’s the thumb zone. On other screens and devices, the easy-reach spot may differ.',
       cta:'See the problem again' }
   }}
 ```
