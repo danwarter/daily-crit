@@ -424,7 +424,7 @@ Bad UI: a photo feed where tapping the heart swaps it for a spinner for 1.2 seco
 ### 21. An error stops people with no way forward
 
 ```js
-{ n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'draft', frame:'Bag',
+{ n:21, slug:'dead-ends', title:'An error stops people with no way forward', theme:'feedback', status:'ready', frame:'Bag',
   lede:'An error that only says something went wrong, then throws people out, ends the task for them. Say what you know, keep their work and give them a clear next step.',
   tags:['Error recovery','Information scent'],
   problems:['quit-midway'], screens:['errors','checkout'],
@@ -445,7 +445,7 @@ Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something we
 ### 22. The buttons are too small to hit
 
 ```js
-{ n:22, slug:'fitts-law', title:'The buttons are too small to hit', theme:'interaction', status:'draft', frame:'Cart',
+{ n:22, slug:'fitts-law', title:'The buttons are too small to hit', theme:'interaction', status:'ready', frame:'Cart',
   lede:'A button people can see isn’t always one they can hit. Make touch targets big enough for a fingertip, and leave space between ones that do different things.',
   tags:['Fitts’s law','Touch target size'],
   problems:['wrong-taps'], screens:['checkout'],
@@ -466,7 +466,7 @@ Bad UI: a cart whose −, + and × are 22px and almost touching; the mock taps +
 ### 23. I can’t reach the button with one hand
 
 ```js
-{ n:23, slug:'thumb-zone', title:'I can’t reach the button with one hand', theme:'interaction', status:'draft', frame:'New post',
+{ n:23, slug:'thumb-zone', title:'I can’t reach the button with one hand', theme:'interaction', status:'ready', frame:'New post',
   lede:'On a big phone held in one hand, the top of the screen is a stretch. Put the action people take most within easy reach of the thumb.',
   tags:['Thumb zone','Fitts’s law'],
   problems:['miss-main-action'], screens:['navigation'],
