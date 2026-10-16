@@ -440,7 +440,7 @@ Bad UI: a photo feed where tapping the heart swaps it for a spinner for 1.2 seco
   }}
 ```
 
-Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something went wrong / Error 1043. Please try again later.” with one OK button, and OK empties the bag. Fix: the same failed payment shows a banner above the bag saying what happened (nothing was charged, the bag is saved) with Use Another Card, and Pay turns into Retry Payment. Built with `.alert.ask` and a dismiss change: a `data-dismiss` button can now `data-then` to open `.c.later` blocks, so the bag can collapse into an empty state. Pay trades behaviors in a `.swap.wide`. New kit piece: `.banner .mini`.
+Bad UI: a bag at checkout. The mock taps Pay, an alert says only “Something went wrong / Error 1043. Please try again later.” with one OK button, and OK empties the bag. Fix: the same failed payment shows a banner above the bag saying what happened (nothing was charged, the bag is saved) and two actions inside it, Retry Payment and Use Another Card. Built with `.alert.ask` and a dismiss change: a `data-dismiss` button can now `data-then` to open `.c.later` blocks, so the bag can collapse into an empty state. Pay trades behaviors in a `.swap.wide`. New kit piece: `.banner .mini`.
 
 ### 22. The buttons are too small to hit
 

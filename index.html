@@ -605,8 +605,8 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .like[aria-pressed="true"]{color:#FF2D55}
 .like[aria-pressed="true"] svg{fill:currentColor;animation:pop .35s var(--ease)}
 @keyframes pop{40%{transform:scale(1.25)}}
-/* Banner actions: a .mini.plain inside a .banner is a text button lined up with the message */
-.banner .mini{display:block;height:30px;margin:6px 0 -4px -12px}
+/* Banner actions: .mini.plain buttons inside a .banner are text buttons lined up with the message (start them on a new line with <br>) */
+.banner .mini{display:inline-block;height:30px;margin:6px 4px -4px -12px}
 /* Stepper: .qty is a row of round controls (put it after a card's .row, inside the same .c) (a .stepper with [data-step] buttons around an .n count, plus any other round button).
    With the class "tiny" (use restyle) the buttons shrink to 22px and crowd together; they glide back to 44px */
 .qty{display:flex;align-items:center;gap:28px;padding:0 16px 14px 16px}
@@ -1388,7 +1388,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
     <button class="primary" data-done="Opening…">Continue Shopping</button>
   </div></div></div>
   <div class="c later" id="pay-fail"><div><div class="banner" role="alert" id="declined"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.1"/></svg>
-    <div><b>Payment didn’t go through</b>You weren’t charged, and your bag is saved.<button class="mini plain" data-done="Opening…">Use Another Card</button></div></div></div></div>
+    <div><b>Payment didn’t go through</b>You weren’t charged, and your bag is saved.<br><button class="mini plain" data-done="Order placed">Retry Payment</button><button class="mini plain" data-done="Opening…">Use Another Card</button></div></div></div></div>
   <div class="c" id="cart-body"><div>
     <div class="pad"><div class="card">
       <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l3 8H6z"/><path d="M12 11v8M8 20h8"/></svg></span><span><p class="pname">Desk lamp</p><span class="sub">Brass · Qty 1</span></span></span><span class="price">$39.00</span></div></div></div>
@@ -1401,7 +1401,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
     </div></div>
     <span class="swap wide">
       <span class="sa"><button class="primary" id="pay-a" data-ask="#oops" data-dismiss data-then="#bag-empty">Pay $48.00</button></span>
-      <span class="sb"><button class="primary" id="pay-b" data-wait="1500" data-during="Paying…" data-finish="Retry Payment" data-done="Order placed" data-then="#pay-fail">Pay $48.00</button></span>
+      <span class="sb"><button class="primary" id="pay-b" data-wait="1500" data-during="Paying…" data-finish="Pay $48.00" data-done="Order placed" data-then="#pay-fail">Pay $48.00</button></span>
     </span>
   </div></div>
 </div>
