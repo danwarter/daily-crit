@@ -25,7 +25,7 @@
   --bezel:#1B1D20; --dim:#3A3D42;
   --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
   --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC; --ios-alert:rgba(242,242,242,.94);
-  --ios-red:#FF3B30; --ios-red-text:#D70015;
+  --ios-red:#FF3B30; --ios-red-text:#D70015; --ios-green-text:#248A3D;
   --kb-bg:#D1D4DA; --kb-key:#FFFFFF; --kb-mod:#ABB0BC; --kb-bar:#F2F2F5;
   --ease:cubic-bezier(.32,.72,0,1);
   --display:"Outfit","Space Grotesk",system-ui,sans-serif;
@@ -40,7 +40,7 @@
     --bezel:#2C3035; --dim:#0E0F10;
     --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
     --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
-    --ios-red:#FF453A; --ios-red-text:#FF6961;
+    --ios-red:#FF453A; --ios-red-text:#FF6961; --ios-green-text:#30D158;
     --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
   }
 }
@@ -50,7 +50,7 @@
   --bezel:#2C3035; --dim:#0E0F10;
   --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
   --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
-  --ios-red:#FF453A; --ios-red-text:#FF6961;
+  --ios-red:#FF453A; --ios-red-text:#FF6961; --ios-green-text:#30D158;
   --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -632,6 +632,25 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .kb-open .dock.ride{transform:translateY(calc(-1 * var(--kb-h,0px)));padding-bottom:10px}
 .dock.bare{padding-top:0;padding-bottom:0}
 .dock.bare::before{opacity:0}
+/* Status: .sdot is a bare colored status dot and .spill a status label (an icon plus a word) on a tinted pill; add .fail for red, green otherwise.
+   .legend is a small grey key of dots, like a chart legend */
+.sdot{display:block;width:12px;height:12px;border-radius:50%;margin-right:4px;background:var(--ios-green)}
+.sdot.fail{background:var(--ios-red)}
+.spill{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 10px 0 7px;border-radius:13px;font-size:13px;font-weight:600;white-space:nowrap;
+  color:var(--ios-green-text);background:rgba(52,199,89,.16)}
+.spill.fail{color:var(--ios-red-text);background:rgba(255,59,48,.14)}
+.spill svg{width:15px;height:15px;flex:none}
+.legend{display:flex;gap:16px;padding:0 16px 8px;font-size:13px;color:var(--ios-2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend .sdot{width:8px;height:8px;margin:0}
+/* Labels: .fgap (use restyle) spaces stacked field boxes apart when they have no .flabel between them */
+.fgap{margin-top:12px}
+/* Signifiers: .tlink is a text button styled like the text around it (inherits color and size); .unseen (use restyle) fades an element out but keeps its space, like a chevron;
+   .primary.tint is a smaller blue-on-pale-blue button (good in a .pair) */
+.tlink{border:0;background:transparent;padding:0;font:inherit;color:inherit}
+.unseen{opacity:0}
+.primary.tint{background:rgba(0,122,255,.14);color:var(--ios-blue);height:38px;border-radius:10px;font-size:15px}
+.pair .tint{margin-top:6px}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1445,6 +1464,66 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 </div>
 <div class="kb"></div>
 </template>
+<template id="tpl-color-alone">
+<div class="nav"><span></span><span class="title">Orders</span><span class="end">Filter</span></div>
+<div class="screen">
+  <div class="pad">
+    <p class="ghead">Today · 4 orders</p>
+    <div class="c bad-only"><div><div class="legend"><span><i class="sdot"></i>Shipped</span><span><i class="sdot fail"></i>Failed</span></div></div></div>
+    <div class="card" id="orders">
+    <div class="c"><div><button class="row" id="o-4821"><span><p class="pname">Maya Chen</p><span class="sub">#4821 · $64.00</span></span><span class="swap end"><span class="sa"><i class="sdot" role="img" aria-label="Shipped"></i></span><span class="sb"><span class="spill" style="--d:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9"/></svg>Shipped</span></span></span></button></div></div>
+    <div class="c"><div><button class="row" id="o-4820"><span><p class="pname">Leo Park</p><span class="sub">#4820 · $128.50</span></span><span class="swap end"><span class="sa"><i class="sdot fail" role="img" aria-label="Failed"></i></span><span class="sb"><span class="spill fail" style="--d:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.8v5M12 16.2v.1"/></svg>Failed</span></span></span></button></div></div>
+    <div class="c"><div><button class="row" id="o-4819"><span><p class="pname">Ana Ruiz</p><span class="sub">#4819 · $42.00</span></span><span class="swap end"><span class="sa"><i class="sdot" role="img" aria-label="Shipped"></i></span><span class="sb"><span class="spill" style="--d:2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9"/></svg>Shipped</span></span></span></button></div></div>
+    <div class="c"><div><button class="row" id="o-4818"><span><p class="pname">Sam Ortiz</p><span class="sub">#4818 · $19.99</span></span><span class="swap end"><span class="sa"><i class="sdot" role="img" aria-label="Shipped"></i></span><span class="sb"><span class="spill" style="--d:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4 4 9-9"/></svg>Shipped</span></span></span></button></div></div>
+    </div>
+  </div>
+</div>
+<div class="tabbar">
+  <div class="tabs" data-pick data-before="Orders" data-after="Orders">
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z"/></svg><span>Home</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v16l-3-2-3 2-3-2-3 2z"/><path d="M9 9h6M9 13h4"/></svg><span>Orders</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg><span>Products</span></button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg><span>Account</span></button>
+  </div>
+</div>
+</template>
+<template id="tpl-labels-not-placeholders">
+<div class="nav"><span></span><span class="title">Log In</span><span></span></div>
+<div class="screen" data-play-before="#lp-email-a 800, type dana.kim 400, #kb-done 800" data-play-after="#lp-email-b 800, type dana.kim@hey.com 400, #kb-done 800">
+  <h3 class="bigtitle">Welcome back</h3>
+  <div id="login">
+    <div class="c good-only" style="--d:0"><div><label class="flabel" for="lp-email-b" style="margin-top:4px">Email</label></div></div>
+    <span class="swap wide">
+      <span class="sa"><input class="field fbox" id="lp-email-a" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="Email" aria-label="Email"></span>
+      <span class="sb"><input class="field fbox" id="lp-email-b" type="text" autocomplete="off" spellcheck="false" autocapitalize="off"></span>
+    </span>
+    <div class="c good-only" style="--d:1"><div><label class="flabel" for="lp-pass-b" style="margin-top:20px">Password</label></div></div>
+    <span class="swap wide" data-bad="fgap" data-good="" style="--d:1">
+      <span class="sa"><input class="field fbox" id="lp-pass-a" type="password" autocomplete="off" placeholder="Password" aria-label="Password"></span>
+      <span class="sb"><input class="field fbox" id="lp-pass-b" type="password" autocomplete="off"></span>
+    </span>
+  </div>
+  <button class="primary" data-done="Logging in…">Log In</button>
+  <p class="hint" style="text-align:center;padding-top:16px"><span class="link">Forgot password?</span></p>
+</div>
+<div class="kb"></div>
+</template>
+<template id="tpl-affordance">
+<div class="nav"><span class="cancel">Listings</span><span class="title">Your Listing</span><span></span></div>
+<div class="screen">
+  <div class="photo" style="--art:linear-gradient(160deg,#E9D8BF 0%,#C9A57A 55%,#8C6A45 100%)"></div>
+  <div class="ptop" style="padding-bottom:2px"><div><h3>Walnut desk lamp</h3><span>$85</span></div></div>
+  <div id="listing">
+    <div class="meta"><span>Listed Oct 12</span><span class="swap"><span class="sa"><span>·</span> <button class="tlink" data-done="Opening…">Edit</button> <span>·</span> <button class="tlink" data-done="Link copied">Share</button></span><span class="sb"></span></span></div>
+    <div class="c good-only" style="--d:0"><div><div class="pair"><button class="primary tint" data-done="Opening…">Edit listing</button><button class="primary tint" data-done="Link copied">Share</button></div></div></div>
+    <div class="pad"><div class="card">
+      <div class="c"><div><button class="row"><span>Offers</span><span class="val"><b>2 new</b><span class="chev" data-bad="unseen" data-good="" style="--d:1"></span></span></button></div></div>
+      <div class="c"><div><button class="row"><span>Messages</span><span class="val"><b>3</b><span class="chev" data-bad="unseen" data-good="" style="--d:2"></span></span></button></div></div>
+      <div class="c"><div><div class="row"><span>Views</span><span class="val"><b>128</b><span class="chev unseen"></span></span></div></div></div>
+    </div></div>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1820,15 +1899,48 @@ const LESSONS = [
         body:'Post now rides on top of the keyboard, where a one-handed thumb reaches easily. That\u2019s the thumb zone. On other screens and devices, the easy-reach spot may differ.',
         cta:'See the problem again' }
     }},
-  { n:24, slug:'color-alone', title:'Color isn\u2019t enough', theme:'interaction', status:'planned',
-    problems:['states-look-same'], screens:['dashboards','forms'], synonyms:'accessibility a11y color blind contrast status charts',
-    phrases:['colorblind users cannot tell which ones failed','the status only shows as a colored dot','is red and green enough','people cannot see the difference between states','how do I make status accessible'] },
-  { n:25, slug:'labels-not-placeholders', title:'Labels, not placeholders', theme:'interaction', status:'planned',
-    problems:['form-errors','forget-info','abandon-form'], screens:['forms','sign-up'], synonyms:'placeholder label input field accessibility',
-    phrases:['people forget what the field was for','placeholder text vanishes','users cannot check what they entered','are placeholders enough as labels','the grey text looks already filled in'] },
-  { n:26, slug:'affordance', title:'Buttons that look tappable', theme:'interaction', status:'planned',
-    problems:['unclear-buttons','wrong-taps'], screens:['navigation','dialogs'], synonyms:'affordance flat design clickable signifier links',
-    phrases:['nobody clicks the link','people do not know it is a button','users miss that the card opens','flat design is confusing people','how do I show something is clickable'] },
+  { n:24, slug:'color-alone', title:'Red and green are the only difference', theme:'interaction', status:'draft', frame:'Orders',
+    lede:'Plenty of people can’t tell red from green, and in bright sun almost nobody can. When color is the only difference between two states, add a word or an icon that says it too.',
+    tags:['Use of color (WCAG 1.4.1)','Redundant coding'],
+    problems:['states-look-same'], screens:['dashboards'],
+    synonyms:'accessibility accessible a11y wcag color colour blind blindness colorblind colourblind deuteranopia protanopia red green dot dots traffic light status statuses badge badges pill label icon chart charts legend orders dashboard failed success error grayscale greyscale',
+    phrases:['colorblind users cannot tell which ones failed','the status only shows as a colored dot','is red and green enough','people cannot see the difference between states','how do I make status accessible','failed orders look the same as shipped ones'],
+    steps:{
+      before:{ anchor:'#orders', label:'The problem', title:'Shipped or failed? Only color says',
+        body:'Each order’s status is just a green or red dot. To the roughly 1 in 12 men with red-green color blindness, the dots look alike, so failed orders slip by.',
+        cta:'Show the fix' },
+      after:{ anchor:'#orders', label:'The fix', title:'An icon and a word for every status',
+        body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Never letting color work alone is WCAG’s use of color rule.',
+        cta:'See the problem again' }
+    }},
+  { n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'draft', frame:'Log in',
+    lede:'Placeholder text looks like a label until people start typing, and then it’s gone. Put a real label above each field, so people can always check what it wants.',
+    tags:['Labels or instructions (WCAG 3.3.2)','Recognition over recall'],
+    problems:['forget-info'], screens:['forms','sign-up'],
+    synonyms:'placeholder placeholders label labels input inputs field fields text box grey gray hint hints vanish vanishes disappear disappears floating label accessibility a11y wcag login log in sign in signin email username password form',
+    phrases:['people forget what the field was for','placeholder text vanishes','users cannot check what they entered','are placeholders enough as labels','the grey text looks already filled in','the hint goes away when I type'],
+    steps:{
+      before:{ anchor:'#login', label:'The problem', title:'Typed in, and the label is gone',
+        body:'The grey hint was the field’s only label, and it vanished at the first keystroke. Was this box for an email or a username? Nothing is left to check.',
+        cta:'Show the fix' },
+      after:{ anchor:'#login', label:'The fix', title:'A label above every field',
+        body:'Each label sits above its field and stays put while people type, so they can always check what it wants. A placeholder isn’t a label: that’s WCAG’s labels or instructions rule.',
+        cta:'See the problem again' }
+    }},
+  { n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'draft', frame:'Listing',
+    lede:'People only tap what looks tappable. If a button looks like plain text, or a row that opens looks just like one that doesn’t, most people never try it.',
+    tags:['Signifiers','Affordance'],
+    problems:['unclear-buttons'], screens:['navigation'],
+    synonyms:'affordance affordances signifier signifiers clickable tappable tap click flat design button buttons link links chevron arrow disclosure row rows cell cells looks like text plain text grey gray hidden discoverable discoverability listing marketplace edit share',
+    phrases:['nobody clicks the link','people do not know it is a button','users miss that the card opens','flat design is confusing people','how do I show something is clickable','nobody taps the row'],
+    steps:{
+      before:{ anchor:'#listing', label:'The problem', title:'4 things to tap, none look it',
+        body:'Edit and Share are grey text, just like the date, and the Offers and Messages rows have no arrow. In this example, sellers missed offers because nothing said those rows open.',
+        cta:'Show the fix' },
+      after:{ anchor:'#listing', label:'The fix', title:'Buttons look like buttons, rows show arrows',
+        body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. These cues are signifiers: they show what can be tapped.',
+        cta:'See the problem again' }
+    }},
   { n:27, slug:'clear-labels', title:'Clear button labels', theme:'interaction', status:'planned',
     problems:['unclear-buttons'], screens:['dialogs','checkout'], synonyms:'microcopy ux writing ok submit wording copy',
     phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog'] },
@@ -1886,7 +1998,12 @@ const PRINCIPLES = {
   'perceived-performance': 'How fast a product feels, which matters as much as how fast it is. Instant feedback and smart loading can make the same wait feel shorter.',
   'information-scent': 'The cues, like labels and links, that tell people whether a path leads to what they want. Strong scent keeps them going; weak or missing scent makes them give up.',
   'touch-target-size': 'Anything people tap needs an area big enough for a fingertip: at least 44 by 44 points on iOS and 48 by 48 on Android, with space between neighbors.',
-  'thumb-zone': 'The part of a phone screen a thumb reaches comfortably when holding it in one hand, mostly the lower middle. The top corners are the hardest to reach.'
+  'thumb-zone': 'The part of a phone screen a thumb reaches comfortably when holding it in one hand, mostly the lower middle. The top corners are the hardest to reach.',
+  'use-of-color-wcag-1-4-1': 'Never use color as the only way to show meaning, like a status, an error or a link. Pair it with a word, an icon or a pattern, so everyone gets the message.',
+  'redundant-coding': 'Show the same information in more than one way at once, such as color plus a shape plus a word, so it still comes through when one cue is missed.',
+  'labels-or-instructions-wcag-3-3-2': 'Every field that asks for input needs a visible label or instructions, so people know what to enter. Placeholder text that vanishes on typing doesn’t count.',
+  'signifiers': 'Visible cues, like a button’s shape, an underline or a chevron, that show people what they can do with something and where to do it.',
+  'affordance': 'What an object lets people do with it, like a button being pressable. On screens, an affordance only helps when a signifier makes it visible.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);

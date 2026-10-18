@@ -487,38 +487,65 @@ Bad UI: a New Post screen; the mock types with the drawn keyboard open while Pos
 ### 24. Red and green are the only difference
 
 ```js
-{ n:24, slug:'color-alone', title:'Red and green are the only difference', theme:'interaction', status:'planned',
+{ n:24, slug:'color-alone', title:'Red and green are the only difference', theme:'interaction', status:'draft', frame:'Orders',
+  lede:'Plenty of people can’t tell red from green, and in bright sun almost nobody can. When color is the only difference between two states, add a word or an icon that says it too.',
   tags:['Use of color (WCAG 1.4.1)','Redundant coding'],
   problems:['states-look-same'], screens:['dashboards'],
-  synonyms:'accessibility a11y color blind colour blind contrast status charts',
-  phrases:['colorblind users cannot tell which ones failed','the status only shows as a colored dot','is red and green enough','people cannot see the difference between states','how do I make status accessible'] }
+  synonyms:'accessibility accessible a11y wcag color colour blind blindness colorblind colourblind deuteranopia protanopia red green dot dots traffic light status statuses badge badges pill label icon chart charts legend orders dashboard failed success error grayscale greyscale',
+  phrases:['colorblind users cannot tell which ones failed','the status only shows as a colored dot','is red and green enough','people cannot see the difference between states','how do I make status accessible','failed orders look the same as shipped ones'],
+  steps:{
+    before:{ anchor:'#orders', label:'The problem', title:'Shipped or failed? Only color says',
+      body:'Each order’s status is just a green or red dot. To the roughly 1 in 12 men with red-green color blindness, the dots look alike, so failed orders slip by.',
+      cta:'Show the fix' },
+    after:{ anchor:'#orders', label:'The fix', title:'An icon and a word for every status',
+      body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Never letting color work alone is WCAG’s use of color rule.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: an orders dashboard where status is only a red or green dot. Fix: each status adds an icon and a word.
+Bad UI: a store's Orders screen where four orders show their status only as a green or red dot, with a color-only legend above the list. Fix: each dot becomes a tinted pill with an icon and a word (a check and "Shipped", an alert and "Failed"), and the legend goes. Built with text swap (`.swap.end`); new kit pieces `.sdot`, `.spill` (add `.fail`), `.legend`, and a `--ios-green-text` color token.
 
 ### 25. The hint disappears as soon as people start typing
 
 ```js
-{ n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'planned',
+{ n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'draft', frame:'Log in',
+  lede:'Placeholder text looks like a label until people start typing, and then it’s gone. Put a real label above each field, so people can always check what it wants.',
   tags:['Labels or instructions (WCAG 3.3.2)','Recognition over recall'],
   problems:['forget-info'], screens:['forms','sign-up'],
-  synonyms:'placeholder label input field accessibility floating label',
-  phrases:['people forget what the field was for','placeholder text vanishes','users cannot check what they entered','are placeholders enough as labels','the grey text looks already filled in'] }
+  synonyms:'placeholder placeholders label labels input inputs field fields text box grey gray hint hints vanish vanishes disappear disappears floating label accessibility a11y wcag login log in sign in signin email username password form',
+  phrases:['people forget what the field was for','placeholder text vanishes','users cannot check what they entered','are placeholders enough as labels','the grey text looks already filled in','the hint goes away when I type'],
+  steps:{
+    before:{ anchor:'#login', label:'The problem', title:'Typed in, and the label is gone',
+      body:'The grey hint was the field’s only label, and it vanished at the first keystroke. Was this box for an email or a username? Nothing is left to check.',
+      cta:'Show the fix' },
+    after:{ anchor:'#login', label:'The fix', title:'A label above every field',
+      body:'Each label sits above its field and stays put while people type, so they can always check what it wants. A placeholder isn’t a label: that’s WCAG’s labels or instructions rule.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a login form where the only label is grey placeholder text that vanishes on typing. Fix: a visible label above every field.
+Bad UI: a Log In screen whose Email and Password boxes are labeled only by placeholder text. The mock types "dana.kim" with the drawn keyboard, and the hint is gone, so nothing says the box wanted an email. Fix: a visible label above each box; the mock types "dana.kim@hey.com" and the labels stay put. Shares the `forget-info` problem with lesson 4, whose primary principle (recognition over recall) and bad UI (a send-money form) are different. Built with collapse/expand for the labels, a `.swap.wide` per field (one input per state) and restyle (new `.fgap`, which spaces label-less boxes apart).
 
 ### 26. People don't realize it's tappable
 
 ```js
-{ n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'planned',
+{ n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'draft', frame:'Listing',
+  lede:'People only tap what looks tappable. If a button looks like plain text, or a row that opens looks just like one that doesn’t, most people never try it.',
   tags:['Signifiers','Affordance'],
   problems:['unclear-buttons'], screens:['navigation'],
-  synonyms:'affordance flat design clickable signifier links',
-  phrases:['nobody clicks the link','people do not know it is a button','users miss that the card opens','flat design is confusing people','how do I show something is clickable'] }
+  synonyms:'affordance affordances signifier signifiers clickable tappable tap click flat design button buttons link links chevron arrow disclosure row rows cell cells looks like text plain text grey gray hidden discoverable discoverability listing marketplace edit share',
+  phrases:['nobody clicks the link','people do not know it is a button','users miss that the card opens','flat design is confusing people','how do I show something is clickable','nobody taps the row'],
+  steps:{
+    before:{ anchor:'#listing', label:'The problem', title:'4 things to tap, none look it',
+      body:'Edit and Share are grey text, just like the date, and the Offers and Messages rows have no arrow. In this example, sellers missed offers because nothing said those rows open.',
+      cta:'Show the fix' },
+    after:{ anchor:'#listing', label:'The fix', title:'Buttons look like buttons, rows show arrows',
+      body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. These cues are signifiers: they show what can be tapped.',
+      cta:'See the problem again' }
+  }}
 ```
 
-Bad UI: a product screen where Edit and Share are grey text identical to labels, and cards that open have no chevron. Fix: buttons look like buttons, tappable rows get a chevron.
+Bad UI: a marketplace "Your Listing" screen (a walnut desk lamp) where Edit and Share are grey text in the same line as "Listed Oct 12", and the Offers, Messages and Views rows all look the same, though only the first two open. Fix: Edit listing and Share become tinted buttons, and chevrons fade in on Offers and Messages only. Shares the `unclear-buttons` problem with lesson 13, whose primary principle (consistency) and bad UI (a filter sheet) are different. Built with text swap, collapse/expand and restyle; new kit pieces `.tlink`, `.unseen` and `.primary.tint`.
 
 ### 27. OK, Submit, Yes: what does this button do?
 
