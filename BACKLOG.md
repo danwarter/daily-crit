@@ -487,7 +487,7 @@ Bad UI: a New Post screen; the mock types with the drawn keyboard open while Pos
 ### 24. Red and green are the only difference
 
 ```js
-{ n:24, slug:'color-alone', title:'Red and green are the only difference', theme:'interaction', status:'draft', frame:'Orders',
+{ n:24, slug:'color-alone', title:'Red and green are the only difference', theme:'interaction', status:'ready', frame:'Orders',
   lede:'Plenty of people can’t tell red from green, and in bright sun almost nobody can. When color is the only difference between two states, add a word or an icon that says it too.',
   tags:['Use of color (WCAG 1.4.1)','Redundant coding'],
   problems:['states-look-same'], screens:['dashboards'],
@@ -508,7 +508,7 @@ Bad UI: a store's Orders screen where four orders show their status only as a gr
 ### 25. The hint disappears as soon as people start typing
 
 ```js
-{ n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'draft', frame:'Log in',
+{ n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'ready', frame:'Log in',
   lede:'Placeholder text looks like a label until people start typing, and then it’s gone. Put a real label above each field, so people can always check what it wants.',
   tags:['Labels or instructions (WCAG 3.3.2)','Recognition over recall'],
   problems:['forget-info'], screens:['forms','sign-up'],
@@ -529,7 +529,7 @@ Bad UI: a Log In screen whose Email and Password boxes are labeled only by place
 ### 26. People don't realize it's tappable
 
 ```js
-{ n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'draft', frame:'Listing',
+{ n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'ready', frame:'Listing',
   lede:'People only tap what looks tappable. If a button looks like plain text, or a row that opens looks just like one that doesn’t, most people never try it.',
   tags:['Signifiers','Affordance'],
   problems:['unclear-buttons'], screens:['navigation'],
