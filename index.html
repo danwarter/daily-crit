@@ -1910,7 +1910,7 @@ const LESSONS = [
         body:'Each order’s status is just a green or red dot. To the roughly 1 in 12 men with red-green color blindness, the dots look alike, so failed orders slip by.',
         cta:'Show the fix' },
       after:{ anchor:'#orders', label:'The fix', title:'An icon and a word for every status',
-        body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Never letting color work alone is WCAG’s use of color rule.',
+        body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Color is no longer the only cue, as WCAG’s use of color rule requires.',
         cta:'See the problem again' }
     }},
   { n:25, slug:'labels-not-placeholders', title:'The hint disappears as soon as people start typing', theme:'interaction', status:'draft', frame:'Log in',
@@ -1924,7 +1924,7 @@ const LESSONS = [
         body:'The grey hint was the field’s only label, and it vanished at the first keystroke. Was this box for an email or a username? Nothing is left to check.',
         cta:'Show the fix' },
       after:{ anchor:'#login', label:'The fix', title:'A label above every field',
-        body:'Each label sits above its field and stays put while people type, so they can always check what it wants. A placeholder isn’t a label: that’s WCAG’s labels or instructions rule.',
+        body:'Each label sits above its field and stays put while typing, so people can always check what it wants. WCAG requires labels or instructions for input; a lasting, visible label is the most usable way.',
         cta:'See the problem again' }
     }},
   { n:26, slug:'affordance', title:'People don’t realize it’s tappable', theme:'interaction', status:'draft', frame:'Listing',
@@ -1938,7 +1938,7 @@ const LESSONS = [
         body:'Edit and Share are grey text, just like the date, and the Offers and Messages rows have no arrow. In this example, sellers missed offers because nothing said those rows open.',
         cta:'Show the fix' },
       after:{ anchor:'#listing', label:'The fix', title:'Buttons look like buttons, rows show arrows',
-        body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. These cues are signifiers: they show what can be tapped.',
+        body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. Nothing new became tappable: these signifiers just show what already could be.',
         cta:'See the problem again' }
     }},
   { n:27, slug:'clear-labels', title:'Clear button labels', theme:'interaction', status:'planned',
@@ -1999,11 +1999,11 @@ const PRINCIPLES = {
   'information-scent': 'The cues, like labels and links, that tell people whether a path leads to what they want. Strong scent keeps them going; weak or missing scent makes them give up.',
   'touch-target-size': 'Anything people tap needs an area big enough for a fingertip: at least 44 by 44 points on iOS and 48 by 48 on Android, with space between neighbors.',
   'thumb-zone': 'The part of a phone screen a thumb reaches comfortably when holding it in one hand, mostly the lower middle. The top corners are the hardest to reach.',
-  'use-of-color-wcag-1-4-1': 'Never use color as the only way to show meaning, like a status, an error or a link. Pair it with a word, an icon or a pattern, so everyone gets the message.',
+  'use-of-color-wcag-1-4-1': 'Color can’t be the only visual way to convey information, indicate an action or set an element apart. Back it up with a word, an icon, a shape or a pattern.',
   'redundant-coding': 'Show the same information in more than one way at once, such as color plus a shape plus a word, so it still comes through when one cue is missed.',
-  'labels-or-instructions-wcag-3-3-2': 'Every field that asks for input needs a visible label or instructions, so people know what to enter. Placeholder text that vanishes on typing doesn’t count.',
-  'signifiers': 'Visible cues, like a button’s shape, an underline or a chevron, that show people what they can do with something and where to do it.',
-  'affordance': 'What an object lets people do with it, like a button being pressable. On screens, an affordance only helps when a signifier makes it visible.'
+  'labels-or-instructions-wcag-3-3-2': 'When a screen asks for input, provide labels or instructions so people know what to enter. WCAG doesn’t say where they go; a placeholder that vanishes on typing is a weak one.',
+  'signifiers': 'Cues, like a button’s shape, an underline or a chevron, that communicate where and how to interact. They point people to the affordances already there.',
+  'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);

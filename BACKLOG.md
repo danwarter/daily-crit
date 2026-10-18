@@ -498,7 +498,7 @@ Bad UI: a New Post screen; the mock types with the drawn keyboard open while Pos
       body:'Each order’s status is just a green or red dot. To the roughly 1 in 12 men with red-green color blindness, the dots look alike, so failed orders slip by.',
       cta:'Show the fix' },
     after:{ anchor:'#orders', label:'The fix', title:'An icon and a word for every status',
-      body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Never letting color work alone is WCAG’s use of color rule.',
+      body:'Every status now says Shipped or Failed, with its own icon, and the color only backs it up. Color is no longer the only cue, as WCAG’s use of color rule requires.',
       cta:'See the problem again' }
   }}
 ```
@@ -519,7 +519,7 @@ Bad UI: a store's Orders screen where four orders show their status only as a gr
       body:'The grey hint was the field’s only label, and it vanished at the first keystroke. Was this box for an email or a username? Nothing is left to check.',
       cta:'Show the fix' },
     after:{ anchor:'#login', label:'The fix', title:'A label above every field',
-      body:'Each label sits above its field and stays put while people type, so they can always check what it wants. A placeholder isn’t a label: that’s WCAG’s labels or instructions rule.',
+      body:'Each label sits above its field and stays put while typing, so people can always check what it wants. WCAG requires labels or instructions for input; a lasting, visible label is the most usable way.',
       cta:'See the problem again' }
   }}
 ```
@@ -540,7 +540,7 @@ Bad UI: a Log In screen whose Email and Password boxes are labeled only by place
       body:'Edit and Share are grey text, just like the date, and the Offers and Messages rows have no arrow. In this example, sellers missed offers because nothing said those rows open.',
       cta:'Show the fix' },
     after:{ anchor:'#listing', label:'The fix', title:'Buttons look like buttons, rows show arrows',
-      body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. These cues are signifiers: they show what can be tapped.',
+      body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. Nothing new became tappable: these signifiers just show what already could be.',
       cta:'See the problem again' }
   }}
 ```
