@@ -550,26 +550,44 @@ Bad UI: a marketplace "Your Listing" screen (a walnut desk lamp) where Edit and 
 ### 27. OK, Submit, Yes: what does this button do?
 
 ```js
-{ n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'planned',
-  tags:['Descriptive labels','Match between system and the real world'],
-  problems:['unclear-buttons'], screens:['dialogs'],
-  synonyms:'microcopy ux writing ok submit wording copy',
-  phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog'] }
+{ n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'draft', frame:'Subscription',
+    lede:'People read the buttons, not the question above them. Label each button with what it does, like Keep Subscription, so the choice is clear at a glance.',
+    tags:['Descriptive labels','Match between system and the real world'],
+    problems:['unclear-buttons'], screens:['dialogs','checkout'],
+    synonyms:'microcopy ux writing ok submit yes no cancel wording copy label labels button buttons vague generic verb verbs action alert alerts dialog confirm confirmation subscription subscribe unsubscribe keep plain language',
+    phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog','people tap cancel and nothing gets canceled'],
+    steps:{
+      before:{ anchor:'#ask-a-box', place:'above', label:'The problem', title:'Cancel keeps it, OK cancels it',
+        body:'The question is about canceling, and the buttons answer with Cancel and OK. People read the button, not the question, so someone who taps Cancel to cancel stays subscribed.',
+        cta:'Show the fix' },
+      after:{ anchor:'#ask-b-box', place:'above', label:'The fix', title:'Each button names its action',
+        body:'Keep Subscription and Cancel Subscription say what each tap does, so they make sense even without the question. Descriptive labels use people’s own words for the task, not system words like OK.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: "Cancel subscription? [Cancel] [OK]", where Cancel keeps the subscription. Fix: "Keep subscription" and "Cancel subscription".
+Bad UI: a music app's Subscription screen (Tempo Premium, $10.99 a month). The mock taps Cancel Subscription, and an alert asks “Cancel subscription?” with Cancel and OK, where Cancel keeps the subscription and OK ends it. Fix: the same alert with stacked Keep Subscription and Cancel Subscription (red) buttons. OK or Cancel Subscription really cancels: the row goes and a note says Premium stays on until Nov 3. Shares the `unclear-buttons` problem with lessons 13 and 26, whose primary principles (consistency, signifiers) and bad UI (a filter sheet, a listing) are different. Built with modal (`data-ask` alerts, one per state, opened by an autoplay tap on a `.swap.wide` row); new kit pieces `.alert-btns.vert` (stacked alert buttons) and `.modal.low` (seats the dialog low so the tooltip fits above it).
 
 ### 28. The no button tries to guilt people
 
 ```js
-{ n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'planned',
-  tags:['Confirmshaming','Deceptive design'],
-  problems:['feel-tricked'], screens:['dialogs','sign-up'],
-  synonyms:'dark pattern guilt manipulative opt out unsubscribe',
-  phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording'] }
+{ n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
+    lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it makes people feel manipulated. Make the case for yes, and let no be a plain no.',
+    tags:['Confirmshaming','Deceptive design'],
+    problems:['feel-tricked'], screens:['dialogs','sign-up'],
+    synonyms:'dark pattern dark patterns guilt guilt-trip shame shaming manipulative manipulation pushy opt out opt-out decline no thanks popup discount coupon offer promo email signup newsletter unsubscribe deceptive passive aggressive',
+    phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording','the decline link makes people feel bad'],
+    steps:{
+      before:{ anchor:'#offer', label:'The problem', title:'7 words of guilt just to say no',
+        body:'To turn down the discount, people have to tap “I don’t like saving money.” That’s confirmshaming: guilt nudges some toward yes, and can leave the rest annoyed at the brand.',
+        cta:'Show the fix' },
+      after:{ anchor:'#offer', label:'The fix', title:'Just “No Thanks”',
+        body:'Saying no now costs nothing. The offer still makes its case, and the choice stays honest. Shaming people out of a no is deceptive design, and it trades trust for a sign-up.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: a discount sheet whose decline link reads "No thanks, I don't like saving money." Fix: a plain "No thanks."
+Bad UI: a plant shop's home screen with a 15%-off email offer sheet docked at the bottom, whose decline button reads “No thanks, I don’t like saving money.” Fix: the same sheet with a plain “No Thanks”; the offer itself doesn’t change. Either button dismisses the sheet. Built with text swap inside a `.dock`; new kit piece `.promo` (an offer sheet's centered heading and line).
 
 ## Wrap-up
 

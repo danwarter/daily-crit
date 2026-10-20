@@ -189,7 +189,7 @@ a.lrow:hover .ltitle{color:var(--accent)}
 .crumb{margin:0 0 14px;font-size:15px;font-weight:500;color:var(--ink-2)}
 .crumb a{text-decoration:none}
 .crumb a:hover{color:var(--ink)}
-.page-intro h1{margin:0 0 18px;font-family:var(--display);font-weight:900;font-size:clamp(46px,6.4vw,84px);line-height:.9;letter-spacing:-.035em}
+.page-intro h1{margin:0 0 18px;font-family:var(--display);font-weight:900;font-size:clamp(46px,6.4vw,84px);line-height:.9;letter-spacing:-.035em;hyphens:auto;overflow-wrap:break-word}
 .page-intro p.big{margin:0;font-size:19px;line-height:1.55;max-width:44ch}
 .page-intro p.count{margin:14px 0 0;font-size:15px;font-weight:500;color:var(--ink-2)}
 .prose{max-width:62ch;font-size:18px;line-height:1.65;margin:0 0 64px}
@@ -448,6 +448,10 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .dock::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ios-sep);transform:scaleY(.5);transform-origin:top}
 .dock .primary{margin-top:10px}
 .dock .pair .primary{margin-top:0}
+/* .promo: an offer sheet's centered heading and line, at the top of a .dock */
+.promo{padding:6px 4px 12px;text-align:center}
+.promo h3{margin:0;font-size:20px;font-weight:700;line-height:1.25;color:var(--ios-label)}
+.promo p{margin:5px 0 0;font-size:14px;line-height:1.35;color:var(--ios-2)}
 .stack{padding-top:0}
 .stack>.flabel:first-child{margin-top:16px}
 .flabel{display:block;margin:28px 4px 6px;font-size:15px;line-height:16px;font-weight:500;color:var(--ios-label)}
@@ -527,6 +531,12 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .alert-btns button:active,.alert-btns button.tap{background:var(--ios-fill)}
 .alert-btns .bold{font-weight:600}
 .alert-btns .danger{color:var(--ios-red)}
+/* .modal.low seats its dialogs low on the screen, so a tooltip fits above them and leaves the whole dialog in view */
+.modal.low{place-items:end center;padding:0 0 96px}
+/* .alert-btns.vert stacks an alert's buttons full width, as iOS does when the labels are too long to sit side by side */
+.alert-btns.vert{flex-direction:column}
+.alert-btns.vert button{flex:none;width:100%}
+.alert-btns.vert button+button::before{bottom:auto;right:0;width:auto;height:1px;transform:scaleY(.5);transform-origin:top}
 /* An .alert.ask stays closed until a [data-ask] button opens it; it scales in like an iOS alert */
 .alert.ask.shut{transform:scale(1.12)}
 /* Transition primitive: reveal (a .c.later block stays shut until the engine opens it: a wait that finished, a submit that failed, a field's error) */
@@ -1524,6 +1534,64 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
   </div>
 </div>
 </template>
+<template id="tpl-clear-labels">
+<div class="nav"><span class="cancel">Settings</span><span class="title">Subscription</span><span></span></div>
+<div class="screen" data-play-before="#sub-cancel-a 900" data-play-after="#sub-cancel-b 900">
+  <div class="pad"><p class="ghead">Your plan</p><div class="card">
+    <div class="c"><div><div class="row"><span>Plan</span><span class="val">Tempo Premium</span></div></div></div>
+    <div class="c"><div><div class="row"><span>Price</span><span class="val price">$10.99 a month</span></div></div></div>
+    <div class="c"><div><div class="row"><span>Renews</span><span class="val">Nov 3</span></div></div></div>
+  </div></div>
+  <div class="pad"><div class="card">
+    <div class="c"><div><button class="row"><span>Change Plan</span><span class="val"><span class="chev"></span></span></button></div></div>
+    <div class="c"><div><button class="row"><span>Payment Method</span><span class="val"><b>Visa ending 4417</b><span class="chev"></span></span></button></div></div>
+  </div></div>
+  <div class="pad">
+    <div class="c"><div><div class="card"><span class="swap wide">
+      <span class="sa"><button class="row red" id="sub-cancel-a" data-ask="#ask-a" data-dismiss data-then="#sub-ended">Cancel Subscription</button></span>
+      <span class="sb"><button class="row red" id="sub-cancel-b" data-ask="#ask-b" data-dismiss data-then="#sub-ended">Cancel Subscription</button></span>
+    </span></div></div></div>
+    <div class="c later" id="sub-ended"><div><p class="hint">Canceled. Premium stays on until Nov 3.</p></div></div>
+  </div>
+</div>
+<div class="modal bad-only low">
+  <div class="alerts" id="ask-a-box">
+    <div class="alert ask" id="ask-a" role="alertdialog" aria-label="Cancel subscription?">
+      <h3>Cancel subscription?</h3>
+      <p>You’ll lose Premium and your downloads on Nov 3.</p>
+      <div class="alert-btns"><button data-dismiss>Cancel</button><button class="bold" data-ok>OK</button></div>
+    </div>
+  </div>
+</div>
+<div class="modal good-only low">
+  <div class="alerts" id="ask-b-box">
+    <div class="alert ask" id="ask-b" role="alertdialog" aria-label="Cancel subscription?">
+      <h3>Cancel subscription?</h3>
+      <p>You’ll lose Premium and your downloads on Nov 3.</p>
+      <div class="alert-btns vert"><button class="bold" data-dismiss>Keep Subscription</button><button class="danger" data-ok>Cancel Subscription</button></div>
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-confirmshaming">
+<div class="nav"><span class="brand">Fernhouse</span><span></span><span class="end"><button class="icon-btn" aria-label="Bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></button></span></div>
+<div class="screen">
+  <div class="pad"><p class="ghead">New arrivals</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span><p class="pname">Monstera</p><span class="sub">Large · 10 in pot</span></span></span><span class="price">$38</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#30B0C7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span><p class="pname">Snake plant</p><span class="sub">Medium · 6 in pot</span></span></span><span class="price">$24</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#A2845E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span><p class="pname">Golden pothos</p><span class="sub">Hanging basket</span></span></span><span class="price">$18</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#248A3D"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span><p class="pname">Fiddle-leaf fig</p><span class="sub">Large · 12 in pot</span></span></span><span class="price">$52</span></div></div></div>
+  </div></div>
+</div>
+<div class="dock">
+  <div class="c"><div id="offer">
+    <div class="promo"><h3>Get 15% off your first order</h3><p>Join our list for new arrivals and plant care tips.</p></div>
+    <input class="field fbox" type="email" placeholder="Email" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Email">
+    <button class="primary" data-done="Code sent">Get 15% Off</button>
+    <button class="primary plain" id="decline" data-dismiss><span class="swap"><span class="sa">No thanks, I don’t like saving money</span><span class="sb">No Thanks</span></span></button>
+  </div></div>
+</div>
+</template>
 <script>
 (function(){
 const THEMES = [
@@ -1941,12 +2009,34 @@ const LESSONS = [
         body:'Edit and Share now look like buttons, and each row that opens gets a chevron. Views doesn’t open, so it gets none. Nothing new became tappable: these signifiers just show what already could be.',
         cta:'See the problem again' }
     }},
-  { n:27, slug:'clear-labels', title:'Clear button labels', theme:'interaction', status:'planned',
-    problems:['unclear-buttons'], screens:['dialogs','checkout'], synonyms:'microcopy ux writing ok submit wording copy',
-    phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog'] },
-  { n:28, slug:'confirmshaming', title:'Confirmshaming', theme:'interaction', status:'planned',
-    problems:['feel-tricked'], screens:['dialogs','sign-up'], synonyms:'dark pattern guilt manipulative opt out unsubscribe',
-    phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording'] },
+  { n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'draft', frame:'Subscription',
+    lede:'People read the buttons, not the question above them. Label each button with what it does, like Keep Subscription, so the choice is clear at a glance.',
+    tags:['Descriptive labels','Match between system and the real world'],
+    problems:['unclear-buttons'], screens:['dialogs','checkout'],
+    synonyms:'microcopy ux writing ok submit yes no cancel wording copy label labels button buttons vague generic verb verbs action alert alerts dialog confirm confirmation subscription subscribe unsubscribe keep plain language',
+    phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog','people tap cancel and nothing gets canceled'],
+    steps:{
+      before:{ anchor:'#ask-a-box', place:'above', label:'The problem', title:'Cancel keeps it, OK cancels it',
+        body:'The question is about canceling, and the buttons answer with Cancel and OK. People read the button, not the question, so someone who taps Cancel to cancel stays subscribed.',
+        cta:'Show the fix' },
+      after:{ anchor:'#ask-b-box', place:'above', label:'The fix', title:'Each button names its action',
+        body:'Keep Subscription and Cancel Subscription say what each tap does, so they make sense even without the question. Descriptive labels use people\u2019s own words for the task, not system words like OK.',
+        cta:'See the problem again' }
+    }},
+  { n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
+    lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it makes people feel manipulated. Make the case for yes, and let no be a plain no.',
+    tags:['Confirmshaming','Deceptive design'],
+    problems:['feel-tricked'], screens:['dialogs','sign-up'],
+    synonyms:'dark pattern dark patterns guilt guilt-trip shame shaming manipulative manipulation pushy opt out opt-out decline no thanks popup discount coupon offer promo email signup newsletter unsubscribe deceptive passive aggressive',
+    phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording','the decline link makes people feel bad'],
+    steps:{
+      before:{ anchor:'#offer', label:'The problem', title:'7 words of guilt just to say no',
+        body:'To turn down the discount, people have to tap \u201cI don\u2019t like saving money.\u201d That\u2019s confirmshaming: guilt nudges some toward yes, and can leave the rest annoyed at the brand.',
+        cta:'Show the fix' },
+      after:{ anchor:'#offer', label:'The fix', title:'Just \u201cNo Thanks\u201d',
+        body:'Saying no now costs nothing. The offer still makes its case, and the choice stays honest. Shaming people out of a no is deceptive design, and it trades trust for a sign-up.',
+        cta:'See the problem again' }
+    }},
   { n:29, slug:'spot-the-problems', title:'Spot the problems', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'quiz review practice',
     phrases:['test what I learned','ux quiz','practice spotting design problems','find the mistakes in this screen'] },
   { n:30, slug:'month-in-review', title:'The month in review', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'recap summary',
@@ -2003,7 +2093,11 @@ const PRINCIPLES = {
   'redundant-coding': 'Show the same information in more than one way at once, such as color plus a shape plus a word, so it still comes through when one cue is missed.',
   'labels-or-instructions-wcag-3-3-2': 'When a screen asks for input, provide labels or instructions so people know what to enter. WCAG doesn’t say where they go; a placeholder that vanishes on typing is a weak one.',
   'signifiers': 'Cues, like a button’s shape, an underline or a chevron, that communicate where and how to interact. They point people to the affordances already there.',
-  'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.'
+  'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.',
+  'descriptive-labels': 'Label buttons and links with what they do, like Save Draft or Keep Subscription, so people can act without reading everything around them.',
+  'match-between-system-and-the-real-world': 'Speak the user\u2019s language: use the words and ideas people already know, in a natural order, instead of system or internal terms like OK, Submit or Error 402.',
+  'confirmshaming': 'Wording that guilts or shames people for declining an offer, like \u201cNo thanks, I don\u2019t like saving money,\u201d so that saying no feels worse than saying yes.',
+  'deceptive-design': 'Interface tricks that steer people into choices they didn\u2019t mean to make, like hidden costs, pre-ticked boxes or guilt-trip wording. Also called dark patterns.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
@@ -2744,7 +2838,7 @@ function pageProblem(id){
   const related = PROBLEMS.filter(x => x.group === p.group && x.id !== p.id);
   return { html: `
     <section class="page-intro"><p class="crumb"><a href="#/find">Problems</a> / ${esc(g.title)}</p><h1>${esc(p.label)}</h1>
-      <p class="big">${list.length} principle${list.length === 1 ? '' : 's'} that help, each with a lesson showing the fix.</p></section>
+      <p class="big">${list.length} principle${list.length === 1 ? ' that helps, with a lesson' : 's that help, each with a lesson'} showing the fix.</p></section>
     ${lessonRows(list)}
     ${related.length ? `<p class="sub-h">Related problems</p>${problemRows(related)}` : ''}${newsletter()}` };
 }
