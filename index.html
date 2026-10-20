@@ -1568,7 +1568,7 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
     <div class="alert ask" id="ask-b" role="alertdialog" aria-label="Cancel subscription?">
       <h3>Cancel subscription?</h3>
       <p>You’ll lose Premium and your downloads on Nov 3.</p>
-      <div class="alert-btns vert"><button class="bold" data-dismiss>Keep Subscription</button><button class="danger" data-ok>Cancel Subscription</button></div>
+      <div class="alert-btns vert"><button class="bold" data-dismiss>Stay Subscribed</button><button class="danger" data-ok>Cancel Subscription</button></div>
     </div>
   </div>
 </div>
@@ -2010,31 +2010,31 @@ const LESSONS = [
         cta:'See the problem again' }
     }},
   { n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'draft', frame:'Subscription',
-    lede:'People read the buttons, not the question above them. Label each button with what it does, like Keep Subscription, so the choice is clear at a glance.',
+    lede:'People often decide from the buttons as much as the question above them. Label each button with what it does, like Stay Subscribed, so the choice is clear at a glance.',
     tags:['Descriptive labels','Match between system and the real world'],
     problems:['unclear-buttons'], screens:['dialogs','checkout'],
     synonyms:'microcopy ux writing ok submit yes no cancel wording copy label labels button buttons vague generic verb verbs action alert alerts dialog confirm confirmation subscription subscribe unsubscribe keep plain language',
     phrases:['people are not sure what OK means here','users cancel when they meant to keep','the button wording is vague','what should the button say','yes and no are confusing in this dialog','people tap cancel and nothing gets canceled'],
     steps:{
       before:{ anchor:'#ask-a-box', place:'above', label:'The problem', title:'Cancel keeps it, OK cancels it',
-        body:'The question is about canceling, and the buttons answer with Cancel and OK. People read the button, not the question, so someone who taps Cancel to cancel stays subscribed.',
+        body:'The question is about canceling, and the buttons answer with Cancel and OK. When people skim the dialog, the buttons carry the meaning, so someone who taps Cancel to cancel stays subscribed.',
         cta:'Show the fix' },
       after:{ anchor:'#ask-b-box', place:'above', label:'The fix', title:'Each button names its action',
-        body:'Keep Subscription and Cancel Subscription say what each tap does, so they make sense even without the question. Descriptive labels use people\u2019s own words for the task, not system words like OK.',
+        body:'Stay Subscribed and Cancel Subscription each say what happens next, so they make sense even when the question is skimmed. These are descriptive labels; using the task\u2019s words instead of OK also helps.',
         cta:'See the problem again' }
     }},
   { n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
-    lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it makes people feel manipulated. Make the case for yes, and let no be a plain no.',
+    lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it can make people feel manipulated. Make the case for yes, and let no be a plain no.',
     tags:['Confirmshaming','Deceptive design'],
     problems:['feel-tricked'], screens:['dialogs','sign-up'],
     synonyms:'dark pattern dark patterns guilt guilt-trip shame shaming manipulative manipulation pushy opt out opt-out decline no thanks popup discount coupon offer promo email signup newsletter unsubscribe deceptive passive aggressive',
     phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording','the decline link makes people feel bad'],
     steps:{
       before:{ anchor:'#offer', label:'The problem', title:'7 words of guilt just to say no',
-        body:'To turn down the discount, people have to tap \u201cI don\u2019t like saving money.\u201d That\u2019s confirmshaming: guilt nudges some toward yes, and can leave the rest annoyed at the brand.',
+        body:'To turn down the discount, people have to tap \u201cI don\u2019t like saving money.\u201d That\u2019s confirmshaming: it uses guilt to push people toward yes, and it may leave them annoyed at the brand.',
         cta:'Show the fix' },
       after:{ anchor:'#offer', label:'The fix', title:'Just \u201cNo Thanks\u201d',
-        body:'Saying no now costs nothing. The offer still makes its case, and the choice stays honest. Shaming people out of a no is deceptive design, and it trades trust for a sign-up.',
+        body:'“No Thanks” removes the shaming, so declining costs nothing. A fully honest choice also needs truthful offer terms and clear ways to accept or refuse. Paired with misleading terms, shaming becomes deceptive design.',
         cta:'See the problem again' }
     }},
   { n:29, slug:'spot-the-problems', title:'Spot the problems', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'quiz review practice',
@@ -2094,10 +2094,10 @@ const PRINCIPLES = {
   'labels-or-instructions-wcag-3-3-2': 'When a screen asks for input, provide labels or instructions so people know what to enter. WCAG doesn’t say where they go; a placeholder that vanishes on typing is a weak one.',
   'signifiers': 'Cues, like a button’s shape, an underline or a chevron, that communicate where and how to interact. They point people to the affordances already there.',
   'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.',
-  'descriptive-labels': 'Label buttons and links with what they do, like Save Draft or Keep Subscription, so people can act without reading everything around them.',
+  'descriptive-labels': 'Label buttons and links with what they do, like Save Draft or Stay Subscribed, so people can act without reading everything around them.',
   'match-between-system-and-the-real-world': 'Speak the user\u2019s language: use the words and ideas people already know, in a natural order, instead of system or internal terms like OK, Submit or Error 402.',
   'confirmshaming': 'Wording that guilts or shames people for declining an offer, like \u201cNo thanks, I don\u2019t like saving money,\u201d so that saying no feels worse than saying yes.',
-  'deceptive-design': 'Interface tricks that steer people into choices they didn\u2019t mean to make, like hidden costs, pre-ticked boxes or guilt-trip wording. Also called dark patterns.'
+  'deceptive-design': 'Interface tricks that steer people into choices they didn\u2019t mean to make, like hidden costs, pre-ticked boxes or misleading wording. Also called dark patterns.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);
