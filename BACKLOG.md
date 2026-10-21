@@ -550,7 +550,7 @@ Bad UI: a marketplace "Your Listing" screen (a walnut desk lamp) where Edit and 
 ### 27. OK, Submit, Yes: what does this button do?
 
 ```js
-{ n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'draft', frame:'Subscription',
+{ n:27, slug:'clear-labels', title:'OK, Submit, Yes: what does this button do?', theme:'interaction', status:'ready', frame:'Subscription',
     lede:'People often decide from the buttons as much as the question above them. Label each button with what it does, like Stay Subscribed, so the choice is clear at a glance.',
     tags:['Descriptive labels','Match between system and the real world'],
     problems:['unclear-buttons'], screens:['dialogs','checkout'],
@@ -571,7 +571,7 @@ Bad UI: a music app's Subscription screen (Tempo Premium, $10.99 a month). The m
 ### 28. The no button tries to guilt people
 
 ```js
-{ n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
+{ n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'ready', frame:'Shop',
     lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it can make people feel manipulated. Make the case for yes, and let no be a plain no.',
     tags:['Confirmshaming'],
     problems:['feel-tricked'], screens:['dialogs','sign-up'],
