@@ -26,6 +26,8 @@ In order:
    - **Search:** stopwords, stemming, weighted index, `search()`
    - **Lesson engine:** `mount()` / `unmount()`, which handle the before/after state, tooltip, highlight ring, "?" beacon, arrow keys and mock UI interactions
    - **Render helpers and pages:** `pageHome`, `pageLesson`, `pageFind`, `pageProblem`, `pageScreen`, `pageTheme`, `pageTag`, `pageAbout`
+   - **Principles page** (`pagePrinciples`): A-to-Z list with search, and flashcards
+   - **Mobile menu** (hamburger at 700px and below)
    - **Command palette** (⌘K, `/`, or any `[data-palette]` element)
    - **Router**
 
@@ -160,6 +162,14 @@ A swap can also hold controls: only the visible side takes taps. Add `end` (`.sw
 - **Research framing:** any user research is hypothetical, so say so: "In this example, user interviews showed…" Never imply a real study.
 - **CTAs:** "Show the fix" and "See the problem again."
 - **Voice:** direct, friendly and confident. Explain jargon or avoid it. Don't refer to readers by career stage (no "juniors"); say "designers" or "designers early in their careers."
+
+## Principles page
+
+- `#/principles` lists every principle used by a visible lesson, A to Z, with a sticky letter rail and a search box. Search matches principle names and definitions, and plain-language problems through the lessons that teach them, so "people quit my form" finds Form design. Each row links to the principle's tag page (`#/tags/slug`), whose crumb points back here.
+- `#/principles/cards` is flashcard mode. Tap or Space flips a card; swipe or drag right (→) for "Got it", left (←) for "Still learning"; Z undoes. The end of a round shows the score and offers to study the missed ones again. "Front" switches between name-first and meaning-first. With a search, the deck is just the matching principles.
+- Both views take `?q=`. Switching views uses `history.replaceState`, so it doesn't re-render the page or add history entries; it sends its own page view.
+- Planned and ready lessons' principles stay hidden, as on tag pages. The list builds itself from `LESSONS` and `PRINCIPLES`, so there's nothing to update by hand.
+- Mobile nav: at 700px and below, the header links collapse into a hamburger menu (`.menu-btn`, `#mnav`). Add any new top-level page to both `.site-nav` and `#mnav`.
 
 ## Search
 
