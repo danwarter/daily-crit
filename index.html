@@ -2025,7 +2025,7 @@ const LESSONS = [
     }},
   { n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
     lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it can make people feel manipulated. Make the case for yes, and let no be a plain no.',
-    tags:['Confirmshaming','Deceptive design'],
+    tags:['Confirmshaming'],
     problems:['feel-tricked'], screens:['dialogs','sign-up'],
     synonyms:'dark pattern dark patterns guilt guilt-trip shame shaming manipulative manipulation pushy opt out opt-out decline no thanks popup discount coupon offer promo email signup newsletter unsubscribe deceptive passive aggressive',
     phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording','the decline link makes people feel bad'],
@@ -2034,7 +2034,7 @@ const LESSONS = [
         body:'To turn down the discount, people have to tap \u201cI don\u2019t like saving money.\u201d That\u2019s confirmshaming: it uses guilt to push people toward yes, and it may leave them annoyed at the brand.',
         cta:'Show the fix' },
       after:{ anchor:'#offer', label:'The fix', title:'Just \u201cNo Thanks\u201d',
-        body:'“No Thanks” removes the shaming, so declining costs nothing. A fully honest choice also needs truthful offer terms and clear ways to accept or refuse. Paired with misleading terms, shaming becomes deceptive design.',
+        body:'“No Thanks” removes the shaming, so declining costs nothing. A fully honest choice also needs truthful offer terms and clear ways to accept or refuse.',
         cta:'See the problem again' }
     }},
   { n:29, slug:'spot-the-problems', title:'Spot the problems', theme:'wrap-up', status:'planned', problems:[], screens:[], synonyms:'quiz review practice',
@@ -2096,8 +2096,7 @@ const PRINCIPLES = {
   'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.',
   'descriptive-labels': 'Label buttons and links with what they do, like Save Draft or Stay Subscribed, so people can act without reading everything around them.',
   'match-between-system-and-the-real-world': 'Speak the user\u2019s language: use the words and ideas people already know, in a natural order, instead of system or internal terms like OK, Submit or Error 402.',
-  'confirmshaming': 'Wording that guilts or shames people for declining an offer, like \u201cNo thanks, I don\u2019t like saving money,\u201d so that saying no feels worse than saying yes.',
-  'deceptive-design': 'Interface tricks that steer people into choices they didn\u2019t mean to make, like hidden costs, pre-ticked boxes or misleading wording. Also called dark patterns.'
+  'confirmshaming': 'Wording that guilts or shames people for declining an offer, like \u201cNo thanks, I don\u2019t like saving money,\u201d so that saying no feels worse than saying yes.'
 };
 
 const problemById = id => PROBLEMS.find(p => p.id === id);

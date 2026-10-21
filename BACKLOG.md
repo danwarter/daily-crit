@@ -573,7 +573,7 @@ Bad UI: a music app's Subscription screen (Tempo Premium, $10.99 a month). The m
 ```js
 { n:28, slug:'confirmshaming', title:'The no button tries to guilt people', theme:'interaction', status:'draft', frame:'Shop',
     lede:'Guilt-trip wording on a decline button might win a few extra sign-ups, but it can make people feel manipulated. Make the case for yes, and let no be a plain no.',
-    tags:['Confirmshaming','Deceptive design'],
+    tags:['Confirmshaming'],
     problems:['feel-tricked'], screens:['dialogs','sign-up'],
     synonyms:'dark pattern dark patterns guilt guilt-trip shame shaming manipulative manipulation pushy opt out opt-out decline no thanks popup discount coupon offer promo email signup newsletter unsubscribe deceptive passive aggressive',
     phrases:['our opt-out link sounds passive-aggressive','users feel manipulated','no thanks I hate saving money','is this a dark pattern','people are annoyed by the decline wording','the decline link makes people feel bad'],
@@ -582,7 +582,7 @@ Bad UI: a music app's Subscription screen (Tempo Premium, $10.99 a month). The m
         body:'To turn down the discount, people have to tap “I don’t like saving money.” That’s confirmshaming: it uses guilt to push people toward yes, and it may leave them annoyed at the brand.',
         cta:'Show the fix' },
       after:{ anchor:'#offer', label:'The fix', title:'Just “No Thanks”',
-        body:'“No Thanks” removes the shaming, so declining costs nothing. A fully honest choice also needs truthful offer terms and clear ways to accept or refuse. Paired with misleading terms, shaming becomes deceptive design.',
+        body:'“No Thanks” removes the shaming, so declining costs nothing. A fully honest choice also needs truthful offer terms and clear ways to accept or refuse.',
         cta:'See the problem again' }
     }}
 ```
