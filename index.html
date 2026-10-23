@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Daily Crit</title>
-<meta name="description" content="A daily design crit: a flawed screen fixes itself in real UI, with the principle behind the fix.">
+<title>Daily Crit: free UI design lessons, one a day</title>
+<meta name="description" content="Free UI design lessons, one a day. Each one shows a real app screen with a problem, fixes it in front of you, and names the design principle behind the fix.">
+<link rel="canonical" href="https://dailycrit.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Daily Crit">
-<meta property="og:title" content="Daily Crit: one design crit a day, in real UI">
-<meta property="og:description" content="A flawed screen fixes itself in real UI, with the design principle behind the fix. One new lesson every day.">
+<meta property="og:title" content="Daily Crit: free UI design lessons, one a day">
+<meta property="og:description" content="Each lesson shows a real app screen with a problem, fixes it in front of you, and names the design principle behind the fix. A new one every day.">
 <meta property="og:url" content="https://dailycrit.app/">
 <meta property="og:image" content="https://dailycrit.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -85,6 +86,9 @@ kbd{font-family:inherit;font-size:12px;font-weight:500;line-height:1;padding:4px
 /* ---------- Home: find pill ---------- */
 .find-pill{display:flex;align-items:center;gap:14px;width:100%;max-width:720px;height:64px;margin:36px 0 56px;padding:0 12px 0 22px;border:0;border-radius:999px;
   background:var(--surface);color:var(--ink-2);font-size:17px;text-align:left;box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .25s,transform .25s var(--ease)}
+.home-intro{margin:40px 0 0;max-width:46ch;font-size:19px;line-height:1.5;color:var(--ink-2)}
+.home-intro b{color:var(--ink);font-weight:500}
+.home-intro + .find-pill{margin-top:20px}
 .find-pill:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
 .find-pill:active{transform:scale(.99)}
 .find-pill svg{width:20px;height:20px;color:var(--ink);flex:none}
@@ -143,7 +147,7 @@ kbd{font-family:inherit;font-size:12px;font-weight:500;line-height:1;padding:4px
 .pager .muted{opacity:.55}
 .pager .empty{background:transparent}
 
-/* ---------- The month: 30 tiles ---------- */
+/* ---------- All lessons: tile grid ---------- */
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:0 0 8px}
 .sec-head h2{margin:0;font-size:30px;letter-spacing:-.03em}
 .sec-head p{margin:0;font-size:15px;color:var(--ink-2)}
@@ -884,6 +888,8 @@ a.prin:hover .pn{color:var(--accent)}
   .search-btn{width:38px;padding:0;justify-content:center}
   .search-btn .sb-label,.search-btn kbd{display:none}
   .find-pill{height:58px;margin:24px 0 36px;font-size:16px}
+  .home-intro{margin-top:28px;font-size:17px}
+  .home-intro + .find-pill{margin-top:16px}
   .find-pill kbd{display:none}
   .fp-more{display:none}
   .lesson-title{font-size:clamp(46px,13vw,64px)}
@@ -956,7 +962,7 @@ a.prin:hover .pn{color:var(--accent)}
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu"><i></i><i></i></button>
   </div>
   <nav class="mnav" id="mnav" aria-label="Menu" inert>
-    <a href="#/lessons" data-nav="lessons" style="--i:0"><span><span class="mn-t">Lessons</span><span class="mn-s">All 30, one a day</span></span><span class="mn-go"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></span></a>
+    <a href="#/lessons" data-nav="lessons" style="--i:0"><span><span class="mn-t">Lessons</span><span class="mn-s">A new one every day</span></span><span class="mn-go"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></span></a>
     <a href="#/principles" data-nav="principles" style="--i:1"><span><span class="mn-t">Principles</span><span class="mn-s">Every principle A to Z, plus flashcards</span></span><span class="mn-go"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></span></a>
     <a href="#/find" data-nav="find" style="--i:2"><span><span class="mn-t">Find</span><span class="mn-s">Describe a problem, get a principle</span></span><span class="mn-go"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></span></a>
     <a href="#/about" data-nav="about" style="--i:3"><span><span class="mn-t">About</span><span class="mn-s">Who’s behind Daily Crit</span></span><span class="mn-go"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></span></a>
@@ -2888,7 +2894,7 @@ function tile(l){
 function month(){
   const live = LESSONS.filter(l => l.status === 'live').length, draft = LESSONS.filter(l => l.status === 'draft').length;
   return `<section class="month" aria-labelledby="month-h">
-    <div class="sec-head"><h2 id="month-h">All 30 lessons</h2><p>${live} live${draft ? `, ${draft} in draft` : ''}, a new one each day</p></div>
+    <div class="sec-head"><h2 id="month-h">All lessons</h2><p>${live} so far${draft ? `, ${draft} in draft` : ''}, a new one each day</p></div>
     <div style="height:18px"></div>
     ${THEMES.map(t => `<div class="week-row">
       <div><span class="wk">${t.wk}</span><a class="week-name" href="#/themes/${t.id}">${esc(t.title)}</a></div>
@@ -2967,6 +2973,7 @@ function helpsBlock(l){
 function pageHome(){
   const today = latestLive();
   return { html: `
+    <p class="home-intro"><b>Free UI design lessons, one a day.</b> Each one shows a real screen with a problem, then fixes it.</p>
     <button class="find-pill" data-palette>${ICON_SEARCH}<span class="fp-text"><b>Stuck on something?</b> <span class="fp-more">Describe the problem</span></span><kbd>${MOD_K}</kbd></button>
     ${lessonModule(today, true)}
     ${feedback(today, true)}
@@ -2976,7 +2983,7 @@ function pageHome(){
 function pageLessons(){
   return { html: `
     <section class="page-intro"><h1>Lessons</h1>
-      <p class="big">Four weekly themes, one principle a day. Each lesson takes about a minute.</p></section>
+      <p class="big">Grouped by theme, one principle a day. Each lesson takes about a minute.</p></section>
     ${month()}${newsletter()}` };
 }
 function pageLesson(slug){
@@ -3056,7 +3063,7 @@ function pageAbout(){
     <div class="prose">
       <p>I\u2019m a UX design manager who loves what I do. Daily Crit is a little experiment I\u2019ve created. The best moment in any design crit is when someone names exactly why a screen isn\u2019t working, and suddenly everyone in the room can see it. Daily Crit tries to capture that moment and hand it to you.</p>
       <p>Most design principles are taught with a definition and a diagram. Here, each one starts as a real-looking screen with a real problem. A note explains what\u2019s wrong, then the screen fixes itself and a second note explains why the fix works. Tap around in the before version. The friction is the lesson.</p>
-      <p>For now, I\u2019ve committed to a new lesson every day for 30 days, across four weekly themes. What happens after that is part of the experiment, and depends a lot on what you find useful.</p>
+      <p>There\u2019s a new lesson every day, and I plan to keep going. Where it goes from here is part of the experiment, and depends a lot on what you find useful.</p>
       <h2>Let\u2019s connect</h2>
       <p>I\u2019d love to learn about your UX journey and hear any feedback you have about the site.</p>
       <a class="reach" href="https://www.linkedin.com/in/danielwarter" target="_blank" rel="noopener">Say hi on LinkedIn<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>

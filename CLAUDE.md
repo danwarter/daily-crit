@@ -13,7 +13,8 @@ Newsletter: **The weekly crit**, one email a week with this week's lessons and a
 - The entire site is one file: `index.html`. No build step, no framework.
 - Hash routing (`#/lessons/slug`, `#/find?q=`, etc.).
 - Hosted on Vercel from this GitHub repo. A push to `main` deploys to production. Other branches get preview URLs; use them for drafts.
-- Plan: 30 lessons over 30 days, then keep growing. After the 30 days, migrate to Astro (or similar) so every lesson, problem and principle has a real, indexable URL.
+- Plan: a new lesson every day, ongoing (no fixed end). Later, migrate to Astro (or similar) so every lesson, problem and principle has a real, indexable URL.
+- SEO: `robots.txt` and `sitemap.xml` sit at the repo root. With hash routing, the home page is the only real URL, so it's the only sitemap entry until the Astro migration. Keep `<title>`, meta description and canonical in `<head>` up to date.
 
 ## Map of index.html
 
@@ -218,7 +219,7 @@ Lessons are built in batches and released one a day.
 - [ ] Both tooltips point at the right element and don't cover the key part of the fix
 - [ ] The highlight ring, "?" beacon (close the tooltip, then reopen it) and arrow keys all work
 - [ ] Every tag has a `PRINCIPLES` definition, and it reads well on the tag page
-- [ ] The lesson appears on the home page, in the 30-tile grid, on its theme, tag, problem and screen pages, and in search
+- [ ] The lesson appears on the home page, in the All lessons grid, on its theme, tag, problem and screen pages, and in search
 - [ ] No horizontal page scroll on mobile
 
 ## Constraints
