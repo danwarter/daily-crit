@@ -611,24 +611,42 @@ Making text easy to read: size, spacing, emphasis and fonts.
 ### 29. The text is too small to read comfortably
 
 ```js
-{ n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'planned',
+{ n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'draft', frame:'Recipe',
+    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px and use a few sizes that are clearly different.',
     tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
-    phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'] }
+    phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'],
+    steps:{
+      before:{ anchor:'#rc-top', label:'The problem', title:'Five text sizes, all 11 to 15px',
+        body:'Body text is 12px and grey, and the title and headings are only a few pixels bigger. People squint to read it, and nothing shows where one part ends and the next begins.',
+        cta:'Show the fix' },
+      after:{ anchor:'#rc-top', label:'The fix', title:'17px body text on a four-step scale',
+        body:'Body text is now 17px, and four sizes (title, heading, body, caption) are far enough apart to tell at a glance. A clear type scale makes text easier to read and to scan.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A recipe screen set in 12px grey, with five font sizes only a pixel or two apart. Fix: 17px body text on a clear four-step scale: title, heading, body, caption.
+Bad UI: a recipe screen (Lemon ricotta pancakes) with five text sizes from 11 to 15px, and body text at 12px grey. Fix: 17px body text on a four-step scale (28px title, 20px heading, 17px body, 13px caption). The ingredient ticks work in both states. Built with restyle; new kit pieces `.rd` (reading surface with `.rd-t`, `.rd-h`, `.rd-b`, `.rd-p`, `.rd-c`, `.rd-i`) and the restyle classes `.fs11` to `.fs15` and `.faint`.
 
 ### 30. The lines are crammed together
 
 ```js
-{ n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'planned',
+{ n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'draft', frame:'Article',
+    lede:'When lines sit right on top of each other, a paragraph turns into one dark block and eyes slip to the wrong line. Give body text about 1.5 line height and a little space between paragraphs.',
     tags:['Line height'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'line height leading line spacing tight cramped dense paragraph article readability typography',
-    phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'] }
+    phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'],
+    steps:{
+      before:{ anchor:'#art-p1', label:'The problem', title:'Line height 1.0, lines nearly touching',
+        body:'Each line sits right on the one below, and paragraphs run together. In this example, readers in interviews said they kept losing their place when their eyes jumped back to start a new line.',
+        cta:'Show the fix' },
+      after:{ anchor:'#art-p1', label:'The fix', title:'1.5 line height, space between paragraphs',
+        body:'Same words, same font, same size. More line height gives each line room, so the eye finds the next one easily, and a gap between paragraphs shows where each thought ends.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: An article with lines set at 1.0 line height, so ascenders and descenders almost touch. Fix: 1.5 line height and a little space between paragraphs; same words, same font.
+Bad UI: a reader app's article (Why tomatoes split) with lines at 1.0 line height and no space between paragraphs. Fix: 1.5 line height and 14px between paragraphs; same words, font and size. Shares the `hard-to-read` problem with lesson 29, whose primary principle (type scale) and bad UI (a recipe) are different. Built with restyle, which now glides line height too; new restyle class `.tight`.
 
 ### 31. Everything is shouting in capitals
 

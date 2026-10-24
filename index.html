@@ -102,7 +102,7 @@ kbd{font-family:inherit;font-size:12px;font-weight:500;line-height:1;padding:4px
 .theme-link{text-decoration:none;padding:5px 11px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);transition:color .2s,box-shadow .2s}
 .theme-link:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .badge{background:var(--ink);color:var(--page);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
-.lesson-title{margin:0 0 22px;font-family:var(--display);font-weight:900;font-size:clamp(50px,6.8vw,96px);line-height:.88;letter-spacing:-.035em}
+.lesson-title{margin:0 0 22px;font-family:var(--display);font-weight:900;font-size:clamp(50px,6.8vw,96px);line-height:.88;letter-spacing:-.035em;hyphens:auto;overflow-wrap:break-word}
 .lesson-title a{text-decoration:none}
 .lesson-title a:hover{color:var(--accent)}
 .lede{margin:0 0 30px;font-size:19px;line-height:1.55;max-width:36ch}
@@ -344,10 +344,10 @@ a.lrow:hover .ltitle{color:var(--accent)}
 @keyframes pin{from{opacity:0;transform:translateX(6px)}}
 .primary{transition:background .3s,color .3s}
 .primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
-/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors, spacing, type size and width animate) */
+/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors, spacing, type size, line height and width animate) */
 .phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay),
   margin .62s var(--ease) var(--delay),padding .62s var(--ease) var(--delay),gap .62s var(--ease) var(--delay),
-  font-size .62s var(--ease) var(--delay),letter-spacing .62s var(--ease) var(--delay),width .62s var(--ease) var(--delay),opacity .38s ease var(--delay);
+  font-size .62s var(--ease) var(--delay),line-height .62s var(--ease) var(--delay),letter-spacing .62s var(--ease) var(--delay),width .62s var(--ease) var(--delay),opacity .38s ease var(--delay);
   --delay:calc(.12s + var(--d,0) * 60ms)}
 .after [data-bad],.after [data-good]{--delay:calc(.24s + var(--d,0) * 60ms)}
 
@@ -665,6 +665,24 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .unseen{opacity:0}
 .primary.tint{background:rgba(0,122,255,.14);color:var(--ios-blue);height:38px;border-radius:10px;font-size:15px}
 .pair .tint{margin-top:6px}
+/* Reading: .rd is a white reading surface (a recipe, an article) whose text classes form a clear four-step type scale:
+   .rd-t title 28, .rd-h heading 20, .rd-b body 17 (.rd-p for a paragraph with space above it), .rd-c caption 13 grey. .rd-i is a list line (a .tick beside .rd-b text).
+   Type restyles inside .rd: .fs11 to .fs15 set a font size (a cramped, muddy scale), .faint greys text out, .tight sets line height to 1 and removes paragraph spacing */
+.rd{margin:0 -16px -28px;padding:6px 16px 40px;min-height:100%;background:var(--ios-cell);color:var(--ios-label)}
+.rd-t{margin:0;padding-top:10px;font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-.02em}
+.rd-h{margin:0;padding-top:22px;font-size:20px;font-weight:600;line-height:1.25}
+.rd-b{margin:0;padding-top:8px;font-size:17px;line-height:1.45}
+.rd-p{margin:0;padding-top:14px;font-size:17px;line-height:1.5}
+.rd-c{margin:0;padding-top:6px;font-size:13px;line-height:1.35;color:var(--ios-2)}
+.rd-i{display:flex;gap:12px;align-items:center;padding-top:10px}
+.rd-i .rd-b{padding-top:0}
+.rd .fs11{font-size:11px}
+.rd .fs12{font-size:12px}
+.rd .fs13{font-size:13px}
+.rd .fs14{font-size:14px}
+.rd .fs15{font-size:15px}
+.rd .faint{color:var(--ios-2)}
+.rd .tight{line-height:1;padding-top:0}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1800,6 +1818,45 @@ a.prin:hover .pn{color:var(--accent)}
   </div></div>
 </div>
 </template>
+<template id="tpl-type-scale">
+<div class="nav"><span class="cancel">Recipes</span><span class="title"></span><span></span></div>
+<div class="screen">
+  <div class="rd">
+    <div id="rc-top">
+      <h3 class="rd-t" data-bad="fs15" data-good="" style="--d:0">Lemon ricotta pancakes</h3>
+      <p class="rd-c">Serves 4 · 25 minutes</p>
+      <h4 class="rd-h" data-bad="fs14" data-good="" style="--d:1">Ingredients</h4>
+      <div class="rd-i"><button class="tick" role="checkbox" aria-checked="false" aria-label="Ricotta"></button><span class="rd-b" data-bad="fs12 faint" data-good="" style="--d:1">1 cup ricotta</span></div>
+      <div class="rd-i"><button class="tick" role="checkbox" aria-checked="false" aria-label="Eggs"></button><span class="rd-b" data-bad="fs12 faint" data-good="" style="--d:1">3 eggs, separated</span></div>
+    </div>
+    <div>
+      <div class="rd-i"><button class="tick" role="checkbox" aria-checked="false" aria-label="Lemon"></button><span class="rd-b" data-bad="fs12 faint" data-good="" style="--d:1">1 lemon, zested</span></div>
+      <div class="rd-i"><button class="tick" role="checkbox" aria-checked="false" aria-label="Flour"></button><span class="rd-b" data-bad="fs12 faint" data-good="" style="--d:1">¾ cup flour</span></div>
+    </div>
+    <div id="rc-method">
+      <h4 class="rd-h" data-bad="fs14" data-good="" style="--d:2">Method</h4>
+      <p class="rd-b" data-bad="fs12 faint" data-good="" style="--d:2">Whisk the ricotta, yolks and lemon zest until smooth, then stir in the flour.</p>
+      <p class="rd-b" data-bad="fs12 faint" data-good="" style="--d:3">Beat the whites until they hold soft peaks and fold them in gently.</p>
+      <p class="rd-c" data-bad="fs11" data-good="" style="--d:4">Tip: let the batter rest for 5 minutes for fluffier pancakes.</p>
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-line-height">
+<div class="nav"><span class="cancel">Today</span><span class="title"></span><span class="end"><button data-done="Saved">Save</button></span></div>
+<div class="screen">
+  <div class="rd">
+    <p class="rd-c">Gardening · 4 min read</p>
+    <h3 class="rd-t">Why tomatoes split</h3>
+    <div id="art" style="padding-top:4px">
+      <p class="rd-p" id="art-p1" data-bad="tight" data-good="" style="--d:0">A summer storm can undo weeks of careful watering. After heavy rain, ripe tomatoes often crack open at the stem.</p>
+      <p class="rd-p" data-bad="tight" data-good="" style="--d:1">The cause is uneven water. When the soil swings from dry to soaked, the fruit swells faster than its skin can stretch, and the skin gives way.</p>
+      <p class="rd-p" data-bad="tight" data-good="" style="--d:2">Mulch helps most. A few inches of straw keeps the soil evenly moist, so a sudden downpour reaches the roots more slowly.</p>
+      <p class="rd-p" data-bad="tight" data-good="" style="--d:3">If rain is on the way, pick any tomatoes that are already blushing. They will finish ripening on the counter, safely out of the storm.</p>
+    </div>
+  </div>
+</div>
+</template>
 <script>
 (function(){
 const HOME_TITLE = document.title;
@@ -2277,14 +2334,32 @@ const LESSONS = [
         cta:'See the problem again' }
     }},
   // Unit 5: Type and readability
-  { n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'planned',
+  { n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'draft', frame:'Recipe',
+    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px and use a few sizes that are clearly different.',
     tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
-    phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'] },
-  { n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'planned',
+    phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'],
+    steps:{
+      before:{ anchor:'#rc-top', label:'The problem', title:'Five text sizes, all 11 to 15px',
+        body:'Body text is 12px and grey, and the title and headings are only a few pixels bigger. People squint to read it, and nothing shows where one part ends and the next begins.',
+        cta:'Show the fix' },
+      after:{ anchor:'#rc-top', label:'The fix', title:'17px body text on a four-step scale',
+        body:'Body text is now 17px, and four sizes (title, heading, body, caption) are far enough apart to tell at a glance. A clear type scale makes text easier to read and to scan.',
+        cta:'See the problem again' }
+    }},
+  { n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'draft', frame:'Article',
+    lede:'When lines sit right on top of each other, a paragraph turns into one dark block and eyes slip to the wrong line. Give body text about 1.5 line height and a little space between paragraphs.',
     tags:['Line height'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'line height leading line spacing tight cramped dense paragraph article readability typography',
-    phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'] },
+    phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'],
+    steps:{
+      before:{ anchor:'#art-p1', label:'The problem', title:'Line height 1.0, lines nearly touching',
+        body:'Each line sits right on the one below, and paragraphs run together. In this example, readers in interviews said they kept losing their place when their eyes jumped back to start a new line.',
+        cta:'Show the fix' },
+      after:{ anchor:'#art-p1', label:'The fix', title:'1.5 line height, space between paragraphs',
+        body:'Same words, same font, same size. More line height gives each line room, so the eye finds the next one easily, and a gap between paragraphs shows where each thought ends.',
+        cta:'See the problem again' }
+    }},
   { n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'planned',
     tags:['Typographic emphasis'], problems:['hard-to-read'], screens:['dialogs'],
     synonyms:'all caps uppercase capitals bold shouting emphasis sentence case title case notice alert warning loud',
@@ -2681,6 +2756,9 @@ const LESSONS = [
 // One plain-language definition per principle, keyed by its tag slug (slugify of the tag name).
 // Shown on the principle's tag page. Add one for every new tag when building a lesson.
 const PRINCIPLES = {
+  'type-scale': 'A small set of text sizes, each clearly bigger than the last, used the same way everywhere so titles, headings, body text and captions are easy to tell apart.',
+  'legibility': 'How easily people can make out letters and words. Text size, weight, contrast and spacing all affect it, especially on small screens.',
+  'line-height': 'The vertical space each line of text takes up. Too little crams lines together; about 1.5 times the font size keeps longer text comfortable to read.',
   'hicks-law': 'The more options people have, the longer they take to choose. Decision time grows with the number and complexity of the choices.',
   'smart-defaults': 'Preselect the option most people would pick, so they only have to act when their situation is different.',
   'progressive-disclosure': 'Show only what most people need first, and reveal advanced or rarely used options when someone asks for them.',
