@@ -13,7 +13,7 @@ Newsletter: **The weekly crit**, one email a week with this week's lessons and a
 - The entire site is one file: `index.html`. No build step, no framework.
 - Hash routing (`#/lessons/slug`, `#/find?q=`, etc.).
 - Hosted on Vercel from this GitHub repo. A push to `main` deploys to production. Other branches get preview URLs; use them for drafts.
-- Plan: a new lesson every day, ongoing (no fixed end). Later, migrate to Astro (or similar) so every lesson, problem and principle has a real, indexable URL.
+- Plan: a new lesson every day, ongoing (no fixed end). The curriculum runs to lesson 124 in 20 units (`THEMES`, labeled "Unit 1" to "Unit 20"), six or seven lessons each: Units 1–4 are built, and Units 5–20 (lessons 29–124) are already in `LESSONS` as `planned`, with their plan in `BACKLOG.md`. Build them in order, two or three at a time. Later, migrate to Astro (or similar) so every lesson, problem and principle has a real, indexable URL.
 - SEO: `robots.txt` and `sitemap.xml` sit at the repo root. With hash routing, the home page is the only real URL, so it's the only sitemap entry until the Astro migration. Keep `<title>`, meta description and canonical in `<head>` up to date.
 
 ## Map of index.html

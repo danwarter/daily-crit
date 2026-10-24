@@ -589,15 +589,1137 @@ Bad UI: a music app's Subscription screen (Tempo Premium, $10.99 a month). The m
 
 Bad UI: a plant shop's home screen with a 15%-off email offer sheet docked at the bottom, whose decline button reads “No thanks, I don’t like saving money.” Fix: the same sheet with a plain “No Thanks”; the offer itself doesn’t change. Either button dismisses the sheet. Built with text swap inside a `.dock`; new kit piece `.promo` (an offer sheet's centered heading and line).
 
-## Wrap-up
+## Units 5–20 (planned)
 
-These don't teach a single problem, so rules 1 and 4 don't apply.
+Lessons 29–124 continue the curriculum: four more parts of four units each, six lessons per unit. These are already in `LESSONS` as `status:'planned'`. Each entry below has the title, tags, problem, screens, synonyms and phrases; `lede`, `frame` and `steps` get written when the lesson is built. The Bad UI and Fix lines are starting points: change the scenario if the two tooltips don't come easily.
+
+When a lesson reuses a principle that is already another lesson's primary tag, its bad UI must be different (rule 4). Those are lessons 54 (Chunking), 65 (Jakob’s law), 75 (Visibility of system status), 78 (User control and freedom), 81 (Information architecture), 90 (Error prevention) and 93 (Smart defaults); each uses a new screen and scenario.
+
+| Part | Units | Lessons |
+| --- | --- | --- |
+| 2. Visual design foundations | 5–8 | 29–52 |
+| 3. The mind | 9–12 | 53–76 |
+| 4. Flows and structure | 13–16 | 77–100 |
+| 5. Words, access and ethics | 17–20 | 101–124 |
+
+Credits for principle pages: the Unit 20 pattern names come from Harry Brignull’s deceptive patterns typology (deceptive.design); lesson 60 echoes Nunes and Drèze’s endowed progress study and lesson 62 Buell and Norton’s labor illusion study. Write every definition and tooltip in your own words.
+
+## Unit 5: Type and readability
+
+Making text easy to read: size, spacing, emphasis and fonts.
+
+### 29. The text is too small to read comfortably
 
 ```js
-{ n:29, slug:'spot-the-problems', title:'Spot the problems', theme:'wrap-up', status:'planned', problems:[], screens:[],
-  synonyms:'quiz review practice',
-  phrases:['test what I learned','ux quiz','practice spotting design problems','find the mistakes in this screen'] },
-{ n:30, slug:'month-in-review', title:'The month in review', theme:'wrap-up', status:'planned', problems:[], screens:[],
-  synonyms:'recap summary',
-  phrases:['all the principles in one place','ux principles cheat sheet','recap of every lesson','what did the month cover'] }
+{ n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'planned',
+    tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
+    synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
+    phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'] }
 ```
+
+Bad UI: A recipe screen set in 12px grey, with five font sizes only a pixel or two apart. Fix: 17px body text on a clear four-step scale: title, heading, body, caption.
+
+### 30. The lines are crammed together
+
+```js
+{ n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'planned',
+    tags:['Line height'], problems:['hard-to-read'], screens:['reading'],
+    synonyms:'line height leading line spacing tight cramped dense paragraph article readability typography',
+    phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'] }
+```
+
+Bad UI: An article with lines set at 1.0 line height, so ascenders and descenders almost touch. Fix: 1.5 line height and a little space between paragraphs; same words, same font.
+
+### 31. Everything is shouting in capitals
+
+```js
+{ n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'planned',
+    tags:['Typographic emphasis'], problems:['hard-to-read'], screens:['dialogs'],
+    synonyms:'all caps uppercase capitals bold shouting emphasis sentence case title case notice alert warning loud',
+    phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'] }
+```
+
+Bad UI: A delivery notice written entirely in bold capitals, so the one important phrase is lost. Fix: Sentence case, with only the key phrase (the new delivery date) in bold.
+
+### 32. Four fonts on one screen
+
+```js
+{ n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'planned',
+    tags:['Typeface pairing','Consistency and standards'], problems:['cluttered'], screens:['dashboards'],
+    synonyms:'fonts font typeface typefaces pairing mixing serif sans script slab family weights typography invite event',
+    phrases:['the screen uses too many fonts','which fonts go together','the design feels chaotic','how many typefaces should an app use','the text styles do not match'] }
+```
+
+Bad UI: An event invite mixing a script, a slab serif, a classic serif and a sans serif. Fix: One type family, with hierarchy made from size and weight instead of new fonts.
+
+### 33. The prices in the list don’t line up
+
+```js
+{ n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'planned',
+    tags:['Tabular figures','Alignment'], problems:['numbers-unclear'], screens:['feeds','data'],
+    synonyms:'numbers digits prices amounts tabular figures monospaced numerals right align decimal column expenses list money',
+    phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'] }
+```
+
+Bad UI: An expense list with left-aligned amounts in proportional digits, so the decimal points zigzag. Fix: Right-aligned amounts in tabular figures, so every digit sits in the same column.
+
+### 34. The key detail gets cut off with “…”
+
+```js
+{ n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'planned',
+    tags:['Truncation','Front-loading'], problems:['skim-past'], screens:['feeds'],
+    synonyms:'truncate truncated ellipsis cut off dots overflow text wrap long text preview notification list row',
+    phrases:['the important part gets cut off','the text ends with dots','people cannot see the full message','when should text truncate','the date is hidden behind an ellipsis'] }
+```
+
+Bad UI: A shipping list whose rows read “Your package will arrive on Tu…”, hiding the day. Fix: The date leads each row, and the line wraps to two lines instead of cutting off.
+
+## Unit 6: Color and contrast
+
+Using color to guide the eye and carry meaning, without leaving anyone out.
+
+### 35. The grey text is hard to read
+
+```js
+{ n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'planned',
+    tags:['Contrast minimum (WCAG 1.4.3)'], problems:['hard-to-read'], screens:['settings'],
+    synonyms:'contrast ratio light grey gray pale faint low contrast accessibility a11y wcag 4.5 readable text color',
+    phrases:['the light grey text is hard to read','people cannot read the small print','is my text contrast high enough','the text is too faint','what contrast ratio do I need'] }
+```
+
+Bad UI: Settings descriptions in light grey on white, at a 2.3:1 contrast ratio. Fix: The same text at 4.5:1 or better, still quieter than the labels above it.
+
+### 36. So many colors that nothing stands out
+
+```js
+{ n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'planned',
+    tags:['Color restraint','Von Restorff effect'], problems:['cluttered'], screens:['dashboards'],
+    synonyms:'colors colourful rainbow too many colors accent palette loud busy dashboard tiles highlight alert stand out',
+    phrases:['the screen is too colorful','nothing stands out','every card is a different color','how many colors should I use','people miss the alert'] }
+```
+
+Bad UI: A dashboard where every tile has its own bright color, including the one overdue alert. Fix: Neutral tiles, with a single accent color saved for the alert that needs attention.
+
+### 37. Blue means tap, except when it doesn’t
+
+```js
+{ n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'planned',
+    tags:['Semantic color','Consistency and standards'], problems:['unclear-buttons'], screens:['settings'],
+    synonyms:'blue link color tappable clickable meaning semantic tint accent headings decoration interactive color system',
+    phrases:['people tap blue text that does nothing','which colors mean clickable','the brand color is everywhere','users cannot tell links from headings','what should the accent color be used for'] }
+```
+
+Bad UI: Blue headings, blue icons and blue links, so people tap things that do nothing. Fix: Blue is kept for things people can tap; headings and icons go black or grey.
+
+### 38. The text disappears into the photo
+
+```js
+{ n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'planned',
+    tags:['Figure-ground','Contrast'], problems:['hard-to-read'], screens:['feeds'],
+    synonyms:'text on image photo background overlay scrim gradient white text hero banner card travel legibility',
+    phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'] }
+```
+
+Bad UI: A travel card with white text over a bright sky, so the title vanishes in places. Fix: A soft dark gradient behind the text, so it reads on any photo.
+
+### 39. Spending shows up in green
+
+```js
+{ n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'planned',
+    tags:['Mental models','Match between system and the real world'], problems:['numbers-unclear'], screens:['dashboards'],
+    synonyms:'red green money spending income budget convention meaning color meaning negative positive finance bank',
+    phrases:['people misread their spending','the colors mean the opposite of what people expect','should money out be red','users think they earned money','the budget colors are confusing'] }
+```
+
+Bad UI: A budget where money spent shows in green and money received in red. Fix: The usual convention back in place, with minus and plus signs too.
+
+### 40. Dark mode looks like a photo negative
+
+```js
+{ n:40, slug:'dark-mode', title:'Dark mode looks like a photo negative', theme:'color', status:'planned',
+    tags:['Elevation','Dark mode design'], problems:['hard-to-read'], screens:['settings'],
+    synonyms:'dark mode dark theme night black background neon saturated colors shadows elevation surfaces glare',
+    phrases:['dark mode is hard on the eyes','our dark theme looks harsh','the cards disappear in dark mode','how do I design dark mode','the colors glow too much on black'] }
+```
+
+Bad UI: Pure black screens with neon accents and no way to tell cards from the background. Fix: Layered dark greys for surfaces, lighter as they rise, and a softer accent color.
+
+## Unit 7: Space and grouping
+
+How spacing and shape tell people what belongs together.
+
+### 41. Everything is crammed together
+
+```js
+{ n:41, slug:'white-space', title:'Everything is crammed together', theme:'space', status:'planned',
+    tags:['White space','Cognitive load'], problems:['cluttered'], screens:['checkout'],
+    synonyms:'white space whitespace breathing room margins padding crowded cramped dense busy cluttered product page',
+    phrases:['the screen feels crowded','there is no breathing room','everything is squeezed together','how much padding should I use','the page feels overwhelming'] }
+```
+
+Bad UI: A product page packed edge to edge, with no gaps between sections. Fix: Wider margins and clear gaps between sections; nothing removed, all easier to scan.
+
+### 42. Things that look alike do different things
+
+```js
+{ n:42, slug:'similarity', title:'Things that look alike do different things', theme:'space', status:'planned',
+    tags:['Law of similarity'], problems:['wrong-taps'], screens:['feeds','search'],
+    synonyms:'similarity same style chips buttons filters tags gestalt look alike lookalike pills toggle action',
+    phrases:['people tap the filter thinking it is a button','the chips and buttons look the same','users do not know which pills are filters','same style different behavior','people mix up tags and actions'] }
+```
+
+Bad UI: Filter chips and action buttons drawn as identical pills in one row. Fix: Filters look like chips and actions look like buttons, so each style means one thing.
+
+### 43. The steps don’t look connected
+
+```js
+{ n:43, slug:'uniform-connectedness', title:'The steps don\u2019t look connected', theme:'space', status:'planned',
+    tags:['Uniform connectedness'], problems:['hard-to-follow'], screens:['checkout'],
+    synonyms:'connected steps timeline tracker order tracking progress stepper line dots stages delivery status gestalt',
+    phrases:['people cannot tell what stage the order is in','the steps look like separate things','how do I show a sequence','the tracker is confusing','users do not see the progress'] }
+```
+
+Bad UI: Order tracking shown as four loose dots with labels, with nothing tying them together. Fix: A line joins the dots, and finished steps are filled in, so it reads as one journey.
+
+### 44. People don’t realize there’s more to swipe
+
+```js
+{ n:44, slug:'false-floor', title:'People don\u2019t realize there\u2019s more to swipe', theme:'space', status:'planned',
+    tags:['Law of closure','False floor'], problems:['skim-past'], screens:['feeds'],
+    synonyms:'carousel swipe scroll horizontal peek more content hidden cut off edge illusion of completeness cards',
+    phrases:['nobody swipes the carousel','people do not know there is more','users think the list ends','how do I show there is more to scroll','the extra cards get no views'] }
+```
+
+Bad UI: A carousel whose cards end flush with the screen edge, so it looks complete. Fix: The next card peeks in from the edge, hinting that there is more to swipe.
+
+### 45. The spacing is all over the place
+
+```js
+{ n:45, slug:'spacing-system', title:'The spacing is all over the place', theme:'space', status:'planned',
+    tags:['Spacing system'], problems:['cluttered'], screens:['settings'],
+    synonyms:'spacing 8 point grid 8pt scale gaps padding margins inconsistent random uneven rhythm tokens system',
+    phrases:['the spacing feels random','every gap is a different size','how do I pick spacing values','the layout feels uneven','what is an 8 point grid'] }
+```
+
+Bad UI: A settings screen with gaps of 7, 13, 22 and 9px, shown with pink guides. Fix: Every gap snaps to a scale of 8, 16 and 24px, and the rhythm evens out.
+
+### 46. The sheet blends into the page behind it
+
+```js
+{ n:46, slug:'figure-ground', title:'The sheet blends into the page behind it', theme:'space', status:'planned',
+    tags:['Figure-ground','Elevation'], problems:['hard-to-follow'], screens:['dialogs'],
+    synonyms:'sheet modal bottom sheet layer shadow dim overlay background foreground depth elevation popup',
+    phrases:['people do not notice the sheet opened','the popup blends into the page','users tap the page behind the sheet','how do I show a layer on top','the modal looks flat'] }
+```
+
+Bad UI: A flat white sheet slides up over a white screen with no shadow or dimming. Fix: The page behind dims and the sheet gets a soft shadow, so it clearly sits on top.
+
+## Unit 8: Icons, images and polish
+
+The visual details that make a screen clear and worth trusting.
+
+### 47. Nobody knows what these icons mean
+
+```js
+{ n:47, slug:'icon-labels', title:'Nobody knows what these icons mean', theme:'polish', status:'planned',
+    tags:['Icon labels','Recognition over recall'], problems:['unclear-buttons'], screens:['navigation'],
+    synonyms:'icons icon only labels toolbar mystery meat glyphs symbols ambiguous captions text labels',
+    phrases:['people do not know what the icons do','users guess what each icon means','should icons have labels','the toolbar is confusing','nobody uses the icon buttons'] }
+```
+
+Bad UI: A toolbar of six icon-only buttons with no labels. Fix: The same icons with short text labels underneath.
+
+### 48. The icons look like they’re from different apps
+
+```js
+{ n:48, slug:'icon-consistency', title:'The icons look like they\u2019re from different apps', theme:'polish', status:'planned',
+    tags:['Visual consistency'], problems:['cluttered'], screens:['navigation'],
+    synonyms:'icons icon set style outline filled stroke emoji mismatched inconsistent tab bar sf symbols',
+    phrases:['the icons do not match','our icons look mismatched','some icons are filled and some are outlined','the app looks thrown together','should icons be outline or filled'] }
+```
+
+Bad UI: A tab bar mixing outline icons, filled icons and an emoji. Fix: One icon set at one stroke weight.
+
+### 49. Which tab am I on?
+
+```js
+{ n:49, slug:'selected-state', title:'Which tab am I on?', theme:'polish', status:'planned',
+    tags:['Selected state','Visibility of system status'], problems:['lost-in-nav'], screens:['navigation'],
+    synonyms:'selected active current tab state highlight tab bar where am I indicator filled tint',
+    phrases:['people do not know which tab is open','the current tab is not highlighted','users lose track of where they are','how do I show the selected tab','all the tabs look the same'] }
+```
+
+Bad UI: Five identical grey tabs, with nothing marking the current one. Fix: The current tab is filled and tinted with the accent color.
+
+### 50. The photos are all different shapes
+
+```js
+{ n:50, slug:'aspect-ratio', title:'The photos are all different shapes', theme:'polish', status:'planned',
+    tags:['Aspect ratio','Grid systems'], problems:['cluttered'], screens:['feeds'],
+    synonyms:'images photos thumbnails crop cropping aspect ratio square grid gallery product tiles ragged uneven',
+    phrases:['the product grid looks messy','the thumbnails are different sizes','how should I crop images','the gallery looks uneven','photos break the layout'] }
+```
+
+Bad UI: A product grid where each photo keeps its own shape, so rows are ragged. Fix: Every photo cropped to one ratio, so the grid lines up.
+
+### 51. The detailed icon turns to mush when small
+
+```js
+{ n:51, slug:'pragnanz', title:'The detailed icon turns to mush when small', theme:'polish', status:'planned',
+    tags:['Law of Prägnanz'], problems:['unclear-buttons'], screens:['navigation'],
+    synonyms:'pragnanz simplicity simple icon detail small size blurry illustration shapes legible recognizable',
+    phrases:['the icons are hard to recognize','the icon looks blurry when small','how detailed should an icon be','people cannot tell the icons apart','our illustrations do not read at small size'] }
+```
+
+Bad UI: Shortcut icons packed with tiny detail that blurs together at small size. Fix: Simple, bold shapes that read at a glance.
+
+### 52. It works, but nobody trusts it
+
+```js
+{ n:52, slug:'aesthetic-usability', title:'It works, but nobody trusts it', theme:'polish', status:'planned',
+    tags:['Aesthetic-usability effect'], problems:['dont-trust'], screens:['checkout'],
+    synonyms:'polish polished pretty looks trust trustworthy professional sloppy rough corner radius shadows visual quality',
+    phrases:['people do not trust our app','the app looks cheap','does visual design really matter','users think it is a scam','it works but looks unfinished'] }
+```
+
+Bad UI: A working payment screen with mixed corner radii, shadows and fonts. Fix: The same screen and the same flow, with consistent styling.
+
+## Unit 9: Memory and attention
+
+Designing for what people can hold in their heads and what they actually notice.
+
+### 53. People have to memorize a code from another app
+
+```js
+{ n:53, slug:'working-memory', title:'People have to memorize a code from another app', theme:'memory', status:'planned',
+    tags:['Working memory','Cognitive load'], problems:['forget-info'], screens:['sign-up'],
+    synonyms:'verification code one time code otp sms text message 2fa autofill paste remember memorize switch apps',
+    phrases:['people forget the code before they type it','users switch apps to get the code','the code boxes do not allow paste','how do I make verification easier','typing a code from a text is annoying'] }
+```
+
+Bad UI: Six separate code boxes that can’t be pasted into, so people flip to Messages and back. Fix: One code field that offers the code from Messages above the keyboard.
+
+### 54. The confirmation code is impossible to read back
+
+```js
+{ n:54, slug:'chunking-codes', title:'The confirmation code is impossible to read back', theme:'memory', status:'planned',
+    tags:['Chunking','Miller\u2019s law'], problems:['forget-info'], screens:['checkout'],
+    synonyms:'confirmation code booking reference number long string read aloud groups spaces chunk 7 plus minus 2',
+    phrases:['people misread the booking code','the reference number is hard to copy down','long codes are hard to read','how should I display a long number','customers read the code wrong on the phone'] }
+```
+
+Bad UI: A booking confirmation showing one unbroken ten-character code. Fix: The code broken into short groups with spaces; the tooltip notes how often 7±2 is misquoted.
+
+### 55. People forget they never finished setting up
+
+```js
+{ n:55, slug:'zeigarnik', title:'People forget they never finished setting up', theme:'memory', status:'planned',
+    tags:['Zeigarnik effect'], problems:['quit-midway'], screens:['onboarding','dashboards'],
+    synonyms:'unfinished incomplete setup profile completion checklist progress reminder finish later open loop',
+    phrases:['people never finish their profile','users skip setup and forget','how do I get people to complete setup','half the accounts are incomplete','nobody comes back to finish'] }
+```
+
+Bad UI: A half-finished profile with no trace of it on the home screen. Fix: A small “2 of 4 done” card on Home that opens the next step.
+
+### 56. The change happened where nobody was looking
+
+```js
+{ n:56, slug:'change-blindness', title:'The change happened where nobody was looking', theme:'memory', status:'planned',
+    tags:['Change blindness'], problems:['unsure-it-worked'], screens:['checkout'],
+    synonyms:'add to cart bag badge count change notice confirmation toast feedback subtle unnoticed',
+    phrases:['people do not notice the item was added','users tap add to cart twice','nothing seems to happen when I add','how do I show something changed','the cart count changes but nobody sees it'] }
+```
+
+Bad UI: Add to Bag only changes a tiny number in the corner, far from the button. Fix: The badge pops and a short confirmation appears right by the button.
+
+### 57. The warning is right there, and people still miss it
+
+```js
+{ n:57, slug:'selective-attention', title:'The warning is right there, and people still miss it', theme:'memory', status:'planned',
+    tags:['Selective attention'], problems:['skim-past'], screens:['checkout'],
+    synonyms:'warning alert notice ignored missed attention banner top inline near action address checkout tunnel vision',
+    phrases:['people miss the warning','users ignore the banner at the top','the important message gets overlooked','where should a warning go','people do not see the error until too late'] }
+```
+
+Bad UI: An address warning styled like a promo banner at the top of checkout. Fix: A short inline note right beside the Pay button, where attention already is.
+
+### 58. Too much to compare at once
+
+```js
+{ n:58, slug:'compare-at-once', title:'Too much to compare at once', theme:'memory', status:'planned',
+    tags:['Cognitive load','Recognition over recall'], problems:['slow-decisions'], screens:['pricing'],
+    synonyms:'compare comparison plans pricing table side by side differences features paragraphs choose plan',
+    phrases:['people cannot compare the plans','users keep scrolling back and forth','how do I show plan differences','the pricing page is confusing','it is hard to see what each plan includes'] }
+```
+
+Bad UI: Three plans described in separate paragraphs, one after another. Fix: A side-by-side table, with the rows that differ highlighted.
+
+## Unit 10: Motivation and momentum
+
+What keeps people going, and what makes them want to come back.
+
+### 59. The ending leaves a flat taste
+
+```js
+{ n:59, slug:'peak-end', title:'The ending leaves a flat taste', theme:'motivation', status:'planned',
+    tags:['Peak-end rule'], problems:['lose-motivation'], screens:['checkout'],
+    synonyms:'order confirmation success screen receipt ending last impression delight thank you done finish',
+    phrases:['the confirmation screen feels cold','people are unsure what happens next','how should a success screen look','the end of checkout is boring','users do not feel good after ordering'] }
+```
+
+Bad UI: A plain receipt that leads with “Order #4471” and a list of SKUs. Fix: A warm confirmation that leads with what people care about: when it arrives.
+
+### 60. The rewards card starts at zero
+
+```js
+{ n:60, slug:'endowed-progress', title:'The rewards card starts at zero', theme:'motivation', status:'planned',
+    tags:['Endowed progress effect','Goal-gradient effect'], problems:['lose-motivation'], screens:['dashboards'],
+    synonyms:'loyalty rewards punch card stamps points progress head start motivation finish goal',
+    phrases:['nobody finishes the rewards card','people give up on the loyalty program','how do I motivate repeat visits','progress starting at zero feels hopeless','the rewards feel too far away'] }
+```
+
+Bad UI: A coffee rewards card that starts at 0 of 10 stamps. Fix: A card that starts at 2 of 12, with two stamps already given.
+
+### 61. One missed day wipes out the whole streak
+
+```js
+{ n:61, slug:'loss-aversion', title:'One missed day wipes out the whole streak', theme:'motivation', status:'planned',
+    tags:['Loss aversion','Forgiveness'], problems:['lose-motivation'], screens:['dashboards'],
+    synonyms:'streak streaks habit missed day reset zero freeze lost progress daily goal motivation quit',
+    phrases:['people quit after losing their streak','one missed day resets everything','users feel punished','how do I keep people motivated after a break','the streak makes people anxious'] }
+```
+
+Bad UI: “Streak lost: 0 days” after a 41-day run. Fix: A streak freeze covers the missed day, and the 41 days stay.
+
+### 62. The result shows up too fast to trust
+
+```js
+{ n:62, slug:'labor-illusion', title:'The result shows up too fast to trust', theme:'motivation', status:'planned',
+    tags:['Labor illusion'], problems:['dont-trust'], screens:['search'],
+    synonyms:'too fast instant results trust effort working searching progress loading flights search show the work',
+    phrases:['people do not trust the instant result','users think the search did nothing','results appear too quickly','how do I show the app is working hard','the answer feels made up'] }
+```
+
+Bad UI: Flight results that appear instantly, with no sign of what was checked. Fix: A short step that shows the search at work (airlines checked, prices compared) before the results.
+
+### 63. The app asks for everything before giving anything
+
+```js
+{ n:63, slug:'lazy-registration', title:'The app asks for everything before giving anything', theme:'motivation', status:'planned',
+    tags:['Reciprocity','Lazy registration'], problems:['drop-onboarding'], screens:['sign-up','onboarding'],
+    synonyms:'sign up wall login wall forced account registration browse first guest value first create account later',
+    phrases:['people leave at the sign up screen','users have to create an account first','can people try the app before signing up','the login wall kills downloads','we ask for too much up front'] }
+```
+
+Bad UI: A sign-up wall on first launch, before people have seen anything. Fix: People browse freely, and are asked to sign up only when they save something.
+
+### 64. The big ask comes out of nowhere
+
+```js
+{ n:64, slug:'foot-in-the-door', title:'The big ask comes out of nowhere', theme:'motivation', status:'planned',
+    tags:['Foot-in-the-door technique'], problems:['feel-tricked'], screens:['dialogs'],
+    synonyms:'review request rating prompt big ask small ask survey feedback write a review timing commitment',
+    phrases:['nobody writes a review','the review prompt annoys people','when should I ask for a rating','people dismiss our survey','the ask feels too big'] }
+```
+
+Bad UI: A request to write a full review on day one. Fix: A one-tap rating after a success, with the written review as an optional next step.
+
+## Unit 11: Expectations and mental models
+
+Working with what people already expect, and taking on the complexity for them.
+
+### 65. Swiping does the opposite of what people expect
+
+```js
+{ n:65, slug:'mental-models', title:'Swiping does the opposite of what people expect', theme:'expectations', status:'planned',
+    tags:['Jakob\u2019s law','Mental models'], problems:['accidental-delete'], screens:['feeds'],
+    synonyms:'swipe swipe actions gestures left right delete archive mail convention expectations platform',
+    phrases:['people delete things when they meant to archive','the swipe does the wrong thing','users expect it to work like other apps','which direction should swipe delete','our gestures are backwards'] }
+```
+
+Bad UI: A mail list where swiping left archives and swiping right deletes. Fix: Swipe actions that match iOS Mail.
+
+### 66. The app makes people do its math
+
+```js
+{ n:66, slug:'teslers-law', title:'The app makes people do its math', theme:'expectations', status:'planned',
+    tags:['Tesler\u2019s law'], problems:['form-errors'], screens:['forms'],
+    synonyms:'complexity calculation math split bill share divide automatic conservation of complexity work for the user',
+    phrases:['people get the math wrong','users have to calculate it themselves','why does the app not do this for me','splitting the bill is a pain','the form asks people to work things out'] }
+```
+
+Bad UI: A split-the-bill screen where people work out and type in each share. Fix: The app divides the total, and people adjust a share only if they need to.
+
+### 67. The form rejects how people naturally type
+
+```js
+{ n:67, slug:'postels-law', title:'The form rejects how people naturally type', theme:'expectations', status:'planned',
+    tags:['Postel\u2019s law'], problems:['form-errors'], screens:['forms'],
+    synonyms:'phone number format formatting parentheses dashes spaces strict validation rejected input flexible liberal',
+    phrases:['the form rejects my phone number','people get errors for spaces and dashes','why is the format so strict','users do not know what format to use','the field is too picky'] }
+```
+
+Bad UI: A phone field that rejects “(916) 555-0142” and demands digits only. Fix: The field accepts any common format and tidies it up itself.
+
+### 68. Two ways to do the same thing, and they differ
+
+```js
+{ n:68, slug:'occams-razor', title:'Two ways to do the same thing, and they differ', theme:'expectations', status:'planned',
+    tags:['Occam\u2019s razor'], problems:['unclear-buttons'], screens:['dialogs'],
+    synonyms:'duplicate redundant share menu toolbar long press options simplify one way multiple paths',
+    phrases:['there are too many ways to share','the two share buttons do different things','people are unsure which option to use','should there be one way to do this','our menus repeat each other'] }
+```
+
+Bad UI: Share in the toolbar, in a menu and on long-press, each with a different set of options. Fix: One Share, the same everywhere it appears.
+
+### 69. The tools people use daily are buried with the rest
+
+```js
+{ n:69, slug:'pareto-principle', title:'The tools people use daily are buried with the rest', theme:'expectations', status:'planned',
+    tags:['Pareto principle'], problems:['too-many-options'], screens:['settings'],
+    synonyms:'80 20 rule pareto most used features tools toolbar editor prioritize frequent rare buried',
+    phrases:['people cannot find the tools they use most','every tool gets the same space','how do I prioritize features','the editor is overwhelming','most people only use two tools'] }
+```
+
+Bad UI: A photo editor with 12 equal tool buttons. Fix: Crop and Adjust up front, with the rest under More.
+
+### 70. Regulars repeat the same 9 taps every week
+
+```js
+{ n:70, slug:'shortcuts', title:'Regulars repeat the same 9 taps every week', theme:'expectations', status:'planned',
+    tags:['Flexibility and efficiency of use'], problems:['feels-slow'], screens:['checkout'],
+    synonyms:'shortcut shortcuts accelerator reorder repeat order power users frequent regulars quick action',
+    phrases:['regular customers redo the same order every week','power users want a faster way','how do I add shortcuts','reordering takes too many taps','returning users are slowed down'] }
+```
+
+Bad UI: Rebuilding last week’s grocery order one item at a time. Fix: A one-tap Reorder for a past order, with the full flow still there.
+
+## Unit 12: Speed and motion
+
+How fast an app feels, and motion that explains instead of decorates.
+
+### 71. The screen jumps while people are reading
+
+```js
+{ n:71, slug:'layout-shift', title:'The screen jumps while people are reading', theme:'speed', status:'planned',
+    tags:['Layout stability','Fitts\u2019s law'], problems:['wrong-taps'], screens:['feeds'],
+    synonyms:'layout shift jump jumping content moves loading banner ad push down misclick cls reserve space',
+    phrases:['the page jumps as it loads','people tap the wrong thing when it moves','content shifts while I read','how do I stop the layout jumping','a banner pushes everything down'] }
+```
+
+Bad UI: A late-loading banner pushes the list down just as the mock taps a row, so it opens the wrong one. Fix: The banner’s space is held from the start, so nothing moves.
+
+### 72. A spinner for every load
+
+```js
+{ n:72, slug:'skeleton-screens', title:'A spinner for every load', theme:'speed', status:'planned',
+    tags:['Skeleton screens','Perceived performance'], problems:['feels-slow'], screens:['feeds'],
+    synonyms:'spinner loading skeleton placeholder shimmer blank screen wait perceived speed load state',
+    phrases:['the app always shows a spinner','loading feels slow','what should show while content loads','the blank screen while loading looks broken','people stare at a spinner'] }
+```
+
+Bad UI: A centered spinner on an empty feed every time it loads. Fix: Grey placeholder shapes in the layout of the feed, filled in as content arrives.
+
+### 73. Things just pop in and vanish
+
+```js
+{ n:73, slug:'purposeful-motion', title:'Things just pop in and vanish', theme:'speed', status:'planned',
+    tags:['Purposeful motion','Common fate'], problems:['hard-to-follow'], screens:['feeds'],
+    synonyms:'animation motion transition delete remove list jump pop vanish slide continuity',
+    phrases:['the list jumps when I delete something','people lose track of what changed','should I animate changes','items vanish without warning','the screen changes too suddenly'] }
+```
+
+Bad UI: A deleted row disappears instantly, and the rows below jump up. Fix: The row collapses and the rows below slide up together.
+
+### 74. The animation is slow and showy
+
+```js
+{ n:74, slug:'motion-duration', title:'The animation is slow and showy', theme:'speed', status:'planned',
+    tags:['Doherty threshold','Motion duration'], problems:['feels-slow'], screens:['dialogs'],
+    synonyms:'animation speed duration slow bouncy spring ease timing milliseconds transition sheet',
+    phrases:['the animations feel slow','people wait for the transition to finish','how long should an animation be','our sheet bounces too much','the motion gets in the way'] }
+```
+
+Bad UI: A sheet that takes nearly a second to bounce into place. Fix: A quick, smooth slide that finishes in about a quarter of a second.
+
+### 75. The wait has no end in sight
+
+```js
+{ n:75, slug:'progress-indicators', title:'The wait has no end in sight', theme:'speed', status:'planned',
+    tags:['Visibility of system status','Progress indicators'], problems:['feels-slow'], screens:['feeds'],
+    synonyms:'upload progress bar percentage time left determinate indeterminate spinner waiting long task',
+    phrases:['people do not know how long the upload will take','the spinner goes on forever','users cancel long uploads','should I use a progress bar or spinner','how do I show time remaining'] }
+```
+
+Bad UI: A video upload that shows a spinner for 30 seconds. Fix: A progress bar with the time left.
+
+### 76. The motion makes some people dizzy
+
+```js
+{ n:76, slug:'reduced-motion', title:'The motion makes some people dizzy', theme:'speed', status:'planned',
+    tags:['Animation from interactions (WCAG 2.3.3)'], problems:['excluded'], screens:['settings'],
+    synonyms:'reduce motion reduced motion vestibular dizzy nausea parallax zoom animation accessibility a11y crossfade',
+    phrases:['the animations make people feel sick','how do I support reduce motion','some users turn off animations','is parallax bad for accessibility','the zoom transitions are too much'] }
+```
+
+Bad UI: Zooming, parallax screen transitions that play even with Reduce Motion turned on. Fix: A simple crossfade when Reduce Motion is on.
+
+## Unit 13: Navigation and wayfinding
+
+Helping people know where they are, where they can go and how to get back.
+
+### 77. People don’t know where they are
+
+```js
+{ n:77, slug:'wayfinding', title:'People don\u2019t know where they are', theme:'wayfinding', status:'planned',
+    tags:['Wayfinding'], problems:['lost-in-nav'], screens:['navigation','settings'],
+    synonyms:'where am I page title back button label breadcrumb context deep navigation lost location',
+    phrases:['people get lost deep in the app','every screen is titled details','users do not know where back goes','how do I show where people are','the titles are too vague'] }
+```
+
+Bad UI: Three screens deep, every title says “Details” and every back button says “Back”. Fix: Specific titles and back labels that name the screen people came from.
+
+### 78. Going back loses everything
+
+```js
+{ n:78, slug:'state-preservation', title:'Going back loses everything', theme:'wayfinding', status:'planned',
+    tags:['User control and freedom','State preservation'], problems:['lost-in-nav'], screens:['search','navigation'],
+    synonyms:'back button filters reset scroll position lost state preserve remember list detail return',
+    phrases:['my filters reset when I go back','the list jumps to the top after going back','people lose their place','how do I keep scroll position','going back starts everything over'] }
+```
+
+Bad UI: Back from a product resets the filters and scrolls the list to the top. Fix: The list comes back exactly as people left it.
+
+### 79. The main features hide behind a hamburger
+
+```js
+{ n:79, slug:'discoverability', title:'The main features hide behind a hamburger', theme:'wayfinding', status:'planned',
+    tags:['Discoverability'], problems:['lost-in-nav'], screens:['navigation'],
+    synonyms:'hamburger menu side menu drawer hidden navigation tab bar discoverable out of sight',
+    phrases:['nobody opens the menu','people do not find the main features','should I use a hamburger menu','features are hidden in the drawer','users do not know what the app can do'] }
+```
+
+Bad UI: A hamburger menu hiding the app’s four main areas. Fix: A tab bar that shows all four.
+
+### 80. The menu labels don’t say what’s behind them
+
+```js
+{ n:80, slug:'information-scent', title:'The menu labels don\u2019t say what\u2019s behind them', theme:'wayfinding', status:'planned',
+    tags:['Information scent'], problems:['lost-in-nav'], screens:['navigation'],
+    synonyms:'menu labels vague names navigation words clear labels guess click wrong section',
+    phrases:['people open the wrong section','the menu names are vague','users guess where things are','how should I name menu items','nobody knows what resources means'] }
+```
+
+Bad UI: A menu with “Resources”, “Solutions” and “Hub”. Fix: Labels that say what’s inside: “Help articles”, “Pricing”, “Your files”.
+
+### 81. One long settings list with no groups
+
+```js
+{ n:81, slug:'grouping-settings', title:'One long settings list with no groups', theme:'wayfinding', status:'planned',
+    tags:['Information architecture','Common region'], problems:['too-many-options'], screens:['settings'],
+    synonyms:'settings list long flat groups sections headers categories organize card sorting',
+    phrases:['the settings list is too long','people cannot find a setting','how should I group settings','everything is in one list','users scroll forever to find options'] }
+```
+
+Bad UI: Eighteen settings in one flat list. Fix: Five labeled sections, each in its own group.
+
+### 82. People dig five levels deep to change one thing
+
+```js
+{ n:82, slug:'breadth-vs-depth', title:'People dig five levels deep to change one thing', theme:'wayfinding', status:'planned',
+    tags:['Breadth vs. depth'], problems:['lost-in-nav'], screens:['settings','navigation'],
+    synonyms:'deep navigation levels nested menus drill down flat hierarchy taps buried settings',
+    phrases:['the setting is buried too deep','people give up digging through menus','how many levels should navigation have','too many taps to change one thing','our menus are nested too deep'] }
+```
+
+Bad UI: Settings, then Account, Privacy, Sharing, Photos and finally Location. Fix: The same choice two levels down.
+
+## Unit 14: Search, lists and data
+
+Finding things, comparing them and making numbers make sense.
+
+### 83. One typo and search finds nothing
+
+```js
+{ n:83, slug:'error-tolerance', title:'One typo and search finds nothing', theme:'data', status:'planned',
+    tags:['Error tolerance','Empty states'], problems:['cant-find'], screens:['search'],
+    synonyms:'search typo misspelling no results zero results fuzzy did you mean spelling correction',
+    phrases:['search shows no results for a typo','people misspell and get nothing','how should search handle typos','our no results page is a dead end','users give up on search'] }
+```
+
+Bad UI: A search for “sneekers” that returns “0 results”. Fix: Results for “sneakers”, with a note saying what was searched.
+
+### 84. People open every result to compare them
+
+```js
+{ n:84, slug:'information-foraging', title:'People open every result to compare them', theme:'data', status:'planned',
+    tags:['Information foraging'], problems:['slow-decisions'], screens:['search'],
+    synonyms:'results list cards compare price rating distance details pogo sticking hotel listing summary',
+    phrases:['people open every result','users go back and forth between results','what should a result card show','comparing results takes forever','the price is only on the detail page'] }
+```
+
+Bad UI: A hotel list showing names and photos, with prices only inside each one. Fix: Price, rating and distance on every card.
+
+### 85. The chart needs a legend to decode
+
+```js
+{ n:85, slug:'direct-labeling', title:'The chart needs a legend to decode', theme:'data', status:'planned',
+    tags:['Direct labeling'], problems:['numbers-unclear'], screens:['data'],
+    synonyms:'chart graph legend labels line chart colors series data visualization dataviz',
+    phrases:['people cannot read the chart','users match colors to the legend','how should I label a chart','the legend is confusing','which line is which'] }
+```
+
+Bad UI: A four-line chart with a color legend underneath. Fix: Each line labeled at its end, and no legend.
+
+### 86. The table is a wall of lines and numbers
+
+```js
+{ n:86, slug:'data-ink', title:'The table is a wall of lines and numbers', theme:'data', status:'planned',
+    tags:['Data-ink ratio'], problems:['numbers-unclear'], screens:['data'],
+    synonyms:'table grid gridlines borders numbers data dense spreadsheet clean minimal right align',
+    phrases:['the table is hard to read','there are too many lines in the table','how should I design a data table','the numbers are hard to scan','our table looks like a spreadsheet'] }
+```
+
+Bad UI: A table with heavy gridlines on every cell and centered numbers. Fix: Light row rules only, with numbers right-aligned.
+
+### 87. The big number means nothing on its own
+
+```js
+{ n:87, slug:'data-context', title:'The big number means nothing on its own', theme:'data', status:'planned',
+    tags:['Comparison and context'], problems:['numbers-unclear'], screens:['dashboards'],
+    synonyms:'metric number stat context goal comparison yesterday trend kpi dashboard steps fitness',
+    phrases:['people do not know if the number is good','the stat has no context','how do I make a metric meaningful','users ignore the dashboard numbers','is this number high or low'] }
+```
+
+Bad UI: A fitness screen showing “8,412 steps” and nothing else. Fix: “8,412 of 10,000”, plus how it compares with yesterday.
+
+### 88. Endless scroll and no way back to that one thing
+
+```js
+{ n:88, slug:'infinite-scroll', title:'Endless scroll and no way back to that one thing', theme:'data', status:'planned',
+    tags:['Wayfinding','Infinite scroll'], problems:['cant-find'], screens:['feeds','search'],
+    synonyms:'infinite scroll endless list pagination history find again group by month search older items',
+    phrases:['people cannot find an old order','the list never ends','should I use infinite scroll','users scroll forever to find something','there is no way to jump back'] }
+```
+
+Bad UI: Order history as one endless list. Fix: Orders grouped by month, with a search field at the top.
+
+## Unit 15: Permissions, notifications and setup
+
+Asking for access and attention at the right moment, and getting people started.
+
+### 89. The app asks for every permission on launch
+
+```js
+{ n:89, slug:'permission-priming', title:'The app asks for every permission on launch', theme:'permissions', status:'planned',
+    tags:['Permission priming','Just-in-time learning'], problems:['tune-out-alerts'], screens:['notifications','onboarding'],
+    synonyms:'permissions camera location contacts prompt allow deny launch ask context explain priming',
+    phrases:['people deny every permission','users say no to the camera','when should I ask for permissions','too many prompts on first launch','how do I get people to allow access'] }
+```
+
+Bad UI: Location, camera and contacts prompts in a row on first launch. Fix: Camera access asked for when people tap Scan, with one line on why.
+
+### 90. People can’t see what they’re typing
+
+```js
+{ n:90, slug:'show-password', title:'People can\u2019t see what they\u2019re typing', theme:'permissions', status:'planned',
+    tags:['Error prevention','Form design'], problems:['form-errors'], screens:['sign-up'],
+    synonyms:'password show password hide mask confirm password typo retype sign up login visibility toggle',
+    phrases:['people mistype their password','confirm password annoys users','should I add a show password button','users get locked out after sign up','typing a hidden password is hard'] }
+```
+
+Bad UI: A hidden password typed twice in “Password” and “Confirm password”. Fix: One password field with a Show button.
+
+### 91. Every notification sounds urgent
+
+```js
+{ n:91, slug:'alert-fatigue', title:'Every notification sounds urgent', theme:'permissions', status:'planned',
+    tags:['Alert fatigue','Signal-to-noise ratio'], problems:['tune-out-alerts'], screens:['notifications'],
+    synonyms:'notifications push alerts urgent marketing spam important ignored turned off priority',
+    phrases:['people turn off our notifications','users ignore every alert','promos look like warnings','how many notifications is too many','the important alert gets ignored'] }
+```
+
+Bad UI: Sale notifications styled exactly like a fraud alert. Fix: Only real alerts look urgent; promos are quiet.
+
+### 92. Notifications are all or nothing
+
+```js
+{ n:92, slug:'granular-control', title:'Notifications are all or nothing', theme:'permissions', status:'planned',
+    tags:['Granular control','User control and freedom'], problems:['tune-out-alerts'], screens:['notifications','settings'],
+    synonyms:'notification settings categories switch toggle mute promos orders preferences opt out',
+    phrases:['people turn off all notifications','users want to mute just promos','how should notification settings work','there is only one switch','people miss order updates after muting'] }
+```
+
+Bad UI: One switch for every notification the app sends. Fix: Categories, so people can mute promos and keep order updates.
+
+### 93. Setup asks questions people can’t answer yet
+
+```js
+{ n:93, slug:'defer-setup', title:'Setup asks questions people can\u2019t answer yet', theme:'permissions', status:'planned',
+    tags:['Smart defaults','Paradox of the active user'], problems:['drop-onboarding'], screens:['onboarding'],
+    synonyms:'onboarding questions setup quiz preferences goals units defaults later skip configure',
+    phrases:['people drop off during setup questions','users do not know what to answer','should onboarding ask questions','setup takes too long','how do I shorten onboarding'] }
+```
+
+Bad UI: Six onboarding questions about goals, units and targets before the app opens. Fix: The app opens with sensible defaults, adjustable later.
+
+### 94. Nothing to try until you build it yourself
+
+```js
+{ n:94, slug:'templates', title:'Nothing to try until you build it yourself', theme:'permissions', status:'planned',
+    tags:['Blank page problem','Templates'], problems:['drop-onboarding'], screens:['onboarding'],
+    synonyms:'templates starter examples sample blank page start from scratch empty budget first use',
+    phrases:['people do not know where to start','starting from scratch is daunting','should I offer templates','new users stare at an empty screen','nobody creates their first one'] }
+```
+
+Bad UI: An empty budget with one button: “Create category”. Fix: Three starter templates to pick from, plus a blank option.
+
+## Unit 16: Real-world states
+
+Designing for offline moments, long names, big text and other languages.
+
+### 95. Offline, and the app just spins
+
+```js
+{ n:95, slug:'offline-states', title:'Offline, and the app just spins', theme:'edge-cases', status:'planned',
+    tags:['Offline states','Visibility of system status'], problems:['unsure-it-worked'], screens:['feeds','errors'],
+    synonyms:'offline no connection no internet spinner queue send later retry network airplane mode',
+    phrases:['the app spins forever with no signal','people do not know if it sent','what should happen offline','users lose messages when offline','the app does not say it is offline'] }
+```
+
+Bad UI: Send spins forever while the phone is offline. Fix: The message is queued, with a note that it will send when the phone is back online.
+
+### 96. Real names break the layout
+
+```js
+{ n:96, slug:'real-content', title:'Real names break the layout', theme:'edge-cases', status:'planned',
+    tags:['Design for real content'], problems:['looks-broken'], screens:['settings'],
+    synonyms:'long names real data edge cases overflow wrap lorem ipsum placeholder content layout breaks',
+    phrases:['long names break the layout','the design only works with short text','text overflows the card','how do I design for real content','the layout breaks with real data'] }
+```
+
+Bad UI: A profile designed for “Jane Doe” that overflows with a long hyphenated name. Fix: The header wraps the name cleanly onto two lines.
+
+### 97. Bigger text breaks the screen
+
+```js
+{ n:97, slug:'dynamic-type', title:'Bigger text breaks the screen', theme:'edge-cases', status:'planned',
+    tags:['Resize text (WCAG 1.4.4)','Dynamic Type'], problems:['excluded'], screens:['checkout','settings'],
+    synonyms:'dynamic type text size larger text accessibility a11y zoom font scaling cut off truncated buttons',
+    phrases:['the layout breaks with large text','buttons get cut off at bigger font sizes','how do I support dynamic type','people with large text cannot use the app','text overlaps when enlarged'] }
+```
+
+Bad UI: At a large text size, buttons cut off their labels and overlap. Fix: The layout reflows and stacks, so everything still fits.
+
+### 98. “1 items” and “0 new messages”
+
+```js
+{ n:98, slug:'zero-one-many', title:'“1 items” and “0 new messages”', theme:'edge-cases', status:'planned',
+    tags:['Edge states','Microcopy'], problems:['confusing-words'], screens:['feeds'],
+    synonyms:'plural pluralization 1 items zero none empty count copy wording edge case grammar',
+    phrases:['the app says 1 items','we show 0 new messages','how do I handle plurals','the counts read awkwardly','copy breaks at zero'] }
+```
+
+Bad UI: Copy written only for “many”: “1 items in your bag”, “0 new messages”. Fix: Wording for zero, one and many, and nothing at all when there’s nothing new.
+
+### 99. Timestamps people have to do math on
+
+```js
+{ n:99, slug:'human-readable-time', title:'Timestamps people have to do math on', theme:'edge-cases', status:'planned',
+    tags:['Human-readable formats','Match between system and the real world'], problems:['numbers-unclear'], screens:['feeds'],
+    synonyms:'timestamp date time format relative ago utc iso readable minutes hours',
+    phrases:['the dates are hard to read','people do not understand the timestamp','should I show relative time','users convert time zones in their head','how should I format dates'] }
+```
+
+Bad UI: Messages stamped “2026-10-24T13:02Z”. Fix: “2 min ago”, switching to a plain date once a message is older.
+
+### 100. The button breaks in another language
+
+```js
+{ n:100, slug:'text-expansion', title:'The button breaks in another language', theme:'edge-cases', status:'planned',
+    tags:['Internationalization','Text expansion'], problems:['looks-broken'], screens:['checkout'],
+    synonyms:'localization translation german longer text i18n l10n button width cropped language',
+    phrases:['translated text does not fit','the German labels get cut off','how do I design for translation','buttons break in other languages','text gets longer when translated'] }
+```
+
+Bad UI: German labels cropped inside fixed-width buttons. Fix: Buttons that size to their labels, wrapping when they need to.
+
+## Unit 17: Writing for interfaces
+
+The words on the screen: clear, plain and consistent.
+
+### 101. The error message blames the person
+
+```js
+{ n:101, slug:'error-messages', title:'The error message blames the person', theme:'writing', status:'planned',
+    tags:['Error messages','Voice and tone'], problems:['confusing-words'], screens:['forms','errors'],
+    synonyms:'error message wording invalid illegal blame tone voice how to fix helpful copy',
+    phrases:['our error messages sound rude','people do not know how to fix the error','what should an error message say','the error blames the user','invalid input means nothing'] }
+```
+
+Bad UI: “Invalid input. Illegal value entered.” Fix: A plain message that says what went wrong and how to fix it.
+
+### 102. Five links all say “Learn more”
+
+```js
+{ n:102, slug:'link-purpose', title:'Five links all say “Learn more”', theme:'writing', status:'planned',
+    tags:['Link purpose (WCAG 2.4.4)','Descriptive labels'], problems:['unclear-buttons'], screens:['settings'],
+    synonyms:'learn more click here read more link text vague generic accessibility screen reader descriptive',
+    phrases:['every link says learn more','people do not know where links go','what should link text say','screen readers read the same link five times','click here is vague'] }
+```
+
+Bad UI: A help screen with five links that all read “Learn more”. Fix: Each link says where it goes.
+
+### 103. The setting uses a double negative
+
+```js
+{ n:103, slug:'plain-language', title:'The setting uses a double negative', theme:'writing', status:'planned',
+    tags:['Plain language'], problems:['confusing-words'], screens:['settings'],
+    synonyms:'double negative wording toggle setting confusing disable enable plain language clear copy',
+    phrases:['people turn the setting the wrong way','the toggle wording is confusing','what does disable off mean','users misread the setting','how do I word a toggle'] }
+```
+
+Bad UI: A switch labeled “Don’t disable auto-lock”, set to Off. Fix: “Auto-Lock”, set to On.
+
+### 104. The most important word comes last
+
+```js
+{ n:104, slug:'front-loading', title:'The most important word comes last', theme:'writing', status:'planned',
+    tags:['Front-loading','Inverted pyramid'], problems:['skim-past'], screens:['notifications'],
+    synonyms:'front load headline notification first words important first wording preview skim',
+    phrases:['people miss the important part of the message','the notification buries the point','what should come first in a message','users skim past alerts','the key word is at the end'] }
+```
+
+Bad UI: A notification that starts “Due to scheduled maintenance…” and ends with “your payment failed”. Fix: “Payment failed: $40” first, the reason after.
+
+### 105. Internal jargon on the screen
+
+```js
+{ n:105, slug:'internal-jargon', title:'Internal jargon on the screen', theme:'writing', status:'planned',
+    tags:['Match between system and the real world'], problems:['confusing-words'], screens:['checkout'],
+    synonyms:'jargon internal terms technical words status order tracking plain language customer words sku',
+    phrases:['customers do not understand the status','the app uses our internal words','what does fulfillment pending mean','support gets questions about the wording','the status messages are too technical'] }
+```
+
+Bad UI: An order status that reads “Fulfillment pending: SKU allocation”. Fix: “Packing your order”.
+
+### 106. Cart, bag and basket on three screens
+
+```js
+{ n:106, slug:'consistent-terminology', title:'Cart, bag and basket on three screens', theme:'writing', status:'planned',
+    tags:['Consistent terminology','Consistency and standards'], problems:['confusing-words'], screens:['checkout'],
+    synonyms:'terminology words naming inconsistent cart bag basket remove delete discard glossary copy',
+    phrases:['we call the same thing different names','people think cart and bag are different','how do I keep wording consistent','remove and delete mean different things','our copy is inconsistent'] }
+```
+
+Bad UI: One shopping flow that says cart, bag and basket, plus Remove, Delete and Discard. Fix: One word for each thing, everywhere.
+
+## Unit 18: Accessibility beyond color
+
+Making screens work with screen readers, captions, time limits and gestures.
+
+### 107. The screen reader says “button, button, button”
+
+```js
+{ n:107, slug:'accessible-names', title:'The screen reader says “button, button, button”', theme:'access', status:'planned',
+    tags:['Name, role, value (WCAG 4.1.2)'], problems:['excluded'], screens:['feeds'],
+    synonyms:'screen reader voiceover talkback accessibility label aria label icon button blind a11y unlabeled',
+    phrases:['voiceover just says button','icon buttons have no labels','how do I label buttons for screen readers','blind users cannot use our app','what is an accessible name'] }
+```
+
+Bad UI: Icon-only actions that VoiceOver reads as “button”. Fix: Each one reads its action: “Like”, “Share”, “More”.
+
+### 108. The focus jumps around the screen
+
+```js
+{ n:108, slug:'focus-order', title:'The focus jumps around the screen', theme:'access', status:'planned',
+    tags:['Focus order (WCAG 2.4.3)'], problems:['excluded'], screens:['forms'],
+    synonyms:'focus order reading order tab order voiceover keyboard navigation accessibility a11y jumps',
+    phrases:['the screen reader jumps around','the focus order is wrong','how should focus move through a form','keyboard users get lost','voiceover reads things out of order'] }
+```
+
+Bad UI: The VoiceOver focus ring zigzags across a form. Fix: Focus follows the reading order, top to bottom.
+
+### 109. The photo says nothing without sight
+
+```js
+{ n:109, slug:'alt-text', title:'The photo says nothing without sight', theme:'access', status:'planned',
+    tags:['Non-text content (WCAG 1.1.1)'], problems:['excluded'], screens:['checkout'],
+    synonyms:'alt text image description screen reader voiceover accessibility a11y photo blind product image',
+    phrases:['our images have no alt text','the screen reader reads the file name','what should alt text say','blind users miss the product photos','how do I describe an image'] }
+```
+
+Bad UI: A product photo that VoiceOver reads as “IMG_4471.jpg”. Fix: A short description of what the photo shows.
+
+### 110. The video has no captions
+
+```js
+{ n:110, slug:'captions', title:'The video has no captions', theme:'access', status:'planned',
+    tags:['Captions (WCAG 1.2.2)'], problems:['excluded'], screens:['feeds'],
+    synonyms:'captions subtitles video audio deaf hard of hearing muted autoplay accessibility a11y',
+    phrases:['people watch videos on mute','our videos have no captions','deaf users miss the video','should videos have subtitles','autoplay videos make no sense without sound'] }
+```
+
+Bad UI: A muted autoplay video of someone talking, with no captions. Fix: Captions on by default.
+
+### 111. The timer runs out before people finish
+
+```js
+{ n:111, slug:'adjustable-timing', title:'The timer runs out before people finish', theme:'access', status:'planned',
+    tags:['Timing adjustable (WCAG 2.2.1)'], problems:['excluded'], screens:['checkout'],
+    synonyms:'timer timeout countdown session expired time limit checkout tickets extend more time accessibility',
+    phrases:['the checkout timed out','people run out of time','how long should a time limit be','users get kicked out mid purchase','can people get more time'] }
+```
+
+Bad UI: A ticket checkout that drops people when its 2-minute timer runs out. Fix: A warning before time runs out, with a button to add more time.
+
+### 112. Swiping is the only way to do it
+
+```js
+{ n:112, slug:'gesture-alternatives', title:'Swiping is the only way to do it', theme:'access', status:'planned',
+    tags:['Pointer gestures (WCAG 2.5.1)','Signifiers'], problems:['excluded'], screens:['feeds'],
+    synonyms:'swipe gesture only hidden alternative button edit delete accessibility motor a11y discoverability',
+    phrases:['people do not know you can swipe','the only way to delete is a swipe','do gestures need a button too','some users cannot swipe','hidden gestures confuse people'] }
+```
+
+Bad UI: A list where swiping is the only way to delete. Fix: An Edit button that does the same thing.
+
+## Unit 19: Persuasion done right
+
+Behavioral science that helps people decide, without pushing them.
+
+### 113. People can’t tell if anyone else uses this
+
+```js
+{ n:113, slug:'social-proof', title:'People can\u2019t tell if anyone else uses this', theme:'persuasion', status:'planned',
+    tags:['Social proof'], problems:['dont-trust'], screens:['checkout'],
+    synonyms:'reviews ratings stars social proof trust testimonials how many people popular product page',
+    phrases:['people hesitate to buy','nobody trusts a product with no reviews','where should ratings go','users want to know others bought it','how do I build trust on a product page'] }
+```
+
+Bad UI: A product page with nothing to show anyone else has bought or liked it. Fix: Its real star rating and review count, beside the price.
+
+### 114. The yearly price looks scary
+
+```js
+{ n:114, slug:'framing', title:'The yearly price looks scary', theme:'persuasion', status:'planned',
+    tags:['Framing effect','Anchoring'], problems:['slow-decisions'], screens:['pricing'],
+    synonyms:'pricing annual yearly monthly price framing per month save discount subscription plan anchor',
+    phrases:['nobody picks the yearly plan','the annual price scares people','how should I show yearly pricing','people do not see the savings','monthly or yearly price display'] }
+```
+
+Bad UI: A yearly plan shown only as “$119.99”, beside a monthly plan at “$9.99/mo”. Fix: “$10/mo, billed yearly”, with the savings stated.
+
+### 115. Three plans and none stands out
+
+```js
+{ n:115, slug:'choice-architecture', title:'Three plans and none stands out', theme:'persuasion', status:'planned',
+    tags:['Choice architecture','Von Restorff effect'], problems:['slow-decisions'], screens:['pricing'],
+    synonyms:'plans pricing tiers recommended most popular highlight choose plan cards decision',
+    phrases:['people cannot decide between plans','all the plans look the same','should I highlight a plan','users pick the cheapest by default','how do I guide plan choice'] }
+```
+
+Bad UI: Three identical plan cards side by side. Fix: The plan most people pick is marked and raised slightly.
+
+### 116. The upgrade pitch comes at the worst moment
+
+```js
+{ n:116, slug:'contextual-timing', title:'The upgrade pitch comes at the worst moment', theme:'persuasion', status:'planned',
+    tags:['Contextual timing','Peak-end rule'], problems:['feel-tricked'], screens:['pricing','errors'],
+    synonyms:'upgrade paywall upsell timing moment pitch premium after error success offer',
+    phrases:['the paywall appears at the worst time','people hate our upgrade prompt','when should I show an upgrade','users feel pushed to pay','the upsell interrupts people'] }
+```
+
+Bad UI: An upgrade paywall that appears right after an error. Fix: The offer appears after a success, when the app has just proved its worth.
+
+### 117. People don’t care about a playlist they didn’t make
+
+```js
+{ n:117, slug:'ikea-effect', title:'People don\u2019t care about a playlist they didn\u2019t make', theme:'persuasion', status:'planned',
+    tags:['IKEA effect'], problems:['lose-motivation'], screens:['onboarding'],
+    synonyms:'personalize customize ownership generated playlist pick choose effort invest ikea',
+    phrases:['people ignore the generated playlist','users do not feel ownership','should people customize first','nobody returns to the recommendations','how do I get people invested'] }
+```
+
+Bad UI: A playlist generated entirely by the app. Fix: People pick three artists first, then the app builds the playlist around them.
+
+### 118. People set a goal and forget it
+
+```js
+{ n:118, slug:'commitment', title:'People set a goal and forget it', theme:'persuasion', status:'planned',
+    tags:['Commitment and consistency','Goal-gradient effect'], problems:['lose-motivation'], screens:['dashboards'],
+    synonyms:'goal savings commitment reason date first step habit forget abandon motivation',
+    phrases:['people set goals and never return','savings goals get abandoned','how do I help people stick to goals','users forget their goal','goals feel like just a number'] }
+```
+
+Bad UI: A savings goal that is just a number. Fix: A goal with a reason, a date and a first deposit.
+
+## Unit 20: Dark patterns to avoid
+
+Tricks that win a click and lose trust, and the honest version of each.
+
+### 119. Cancelling takes six screens
+
+```js
+{ n:119, slug:'roach-motel', title:'Cancelling takes six screens', theme:'dark-patterns', status:'planned',
+    tags:['Roach motel'], problems:['feel-tricked'], screens:['settings'],
+    synonyms:'cancel subscription hard to cancel obstruction unsubscribe retention flow dark pattern click to cancel',
+    phrases:['it is impossible to cancel','people complain about cancelling','how many steps should cancelling take','users feel trapped','cancel flow is too long'] }
+```
+
+Bad UI: A six-screen cancel flow full of offers and “Are you sure?” steps. Fix: One screen to cancel, as easy as signing up.
+
+### 120. Something was added to the order without asking
+
+```js
+{ n:120, slug:'sneak-into-basket', title:'Something was added to the order without asking', theme:'dark-patterns', status:'planned',
+    tags:['Sneak into basket'], problems:['feel-tricked'], screens:['checkout'],
+    synonyms:'pre checked preselected add on insurance protection plan extra charge opt out dark pattern',
+    phrases:['an extra was added to my order','people pay for things they did not choose','is a pre checked add on ok','customers ask for refunds on add ons','users feel tricked at checkout'] }
+```
+
+Bad UI: A $4.99 protection plan checked by default at checkout. Fix: The plan offered as an unchecked option.
+
+### 121. The real price appears at the last step
+
+```js
+{ n:121, slug:'hidden-costs', title:'The real price appears at the last step', theme:'dark-patterns', status:'planned',
+    tags:['Hidden costs','Drip pricing'], problems:['feel-tricked'], screens:['checkout','pricing'],
+    synonyms:'fees service fee hidden fees drip pricing total price surprise checkout tickets all in price',
+    phrases:['the price jumps at checkout','people abandon when fees appear','should I show the total up front','users feel misled by fees','surprise charges at the end'] }
+```
+
+Bad UI: Tickets listed at $45 that become $63.80 at the final step. Fix: The all-in price from the first screen.
+
+### 122. The countdown resets every visit
+
+```js
+{ n:122, slug:'false-urgency', title:'The countdown resets every visit', theme:'dark-patterns', status:'planned',
+    tags:['False urgency'], problems:['feel-tricked'], screens:['checkout'],
+    synonyms:'countdown timer fake urgency scarcity only 2 left limited time pressure dark pattern',
+    phrases:['the timer is fake','people feel rushed to buy','is a countdown timer ok','users notice the sale never ends','fake scarcity damages trust'] }
+```
+
+Bad UI: “Offer ends in 09:59”, starting again on every visit. Fix: No fake timer; a real end date, or none at all.
+
+### 123. The checkbox wording is a trick
+
+```js
+{ n:123, slug:'trick-questions', title:'The checkbox wording is a trick', theme:'dark-patterns', status:'planned',
+    tags:['Trick questions'], problems:['feel-tricked'], screens:['sign-up'],
+    synonyms:'checkbox wording opt in opt out confusing marketing emails consent double negative dark pattern',
+    phrases:['people get emails they did not want','the opt out checkbox is confusing','users cannot tell what the checkbox means','how should consent checkboxes be worded','unchecking subscribes people'] }
+```
+
+Bad UI: A sign-up checkbox worded so that leaving it alone signs people up for marketing. Fix: A plain “Send me deals” box, unchecked.
+
+### 124. The ad looks like a real result
+
+```js
+{ n:124, slug:'disguised-ads', title:'The ad looks like a real result', theme:'dark-patterns', status:'planned',
+    tags:['Disguised ads'], problems:['feel-tricked'], screens:['search'],
+    synonyms:'ads sponsored promoted advertisement search results native ads labeled disguised dark pattern',
+    phrases:['people click ads by mistake','sponsored results look organic','how should ads be labeled','users feel tricked by promoted items','the first result is an ad'] }
+```
+
+Bad UI: A sponsored product styled exactly like the first search result. Fix: The same product clearly labeled “Sponsored”.
