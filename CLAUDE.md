@@ -236,5 +236,5 @@ Lessons are built in batches and released one a day.
 - **Next transition primitives:** move (one element sliding to a new spot), reorder (grouping). (Built so far: collapse/expand, text swap, restyle, modal, reveal, autoplay script, mask, keyboard and wheel picker, type to confirm, toggle, stepper, keyboard dock.)
 - **Principle pages:** a page per principle with a one-line definition, origin (who, when, what research), a ready-to-use "how to say it in a review" sentence, honest limits (for example, Miller's 7±2 is often misapplied), and links to its lessons. These make search results citable.
 - **Analytics:** lesson views and search terms are logged in Google Analytics. Next: review them weekly to decide what to build.
-- **After 30 days:** migrate to Astro with real URLs for SEO.
+- **Astro migration:** move to Astro with real URLs for SEO.
 - **Later:** AI help for describing a problem or critiquing a screenshot. Start with a free "copy this prompt into your AI" handoff that includes the principle catalog, and add a hosted, rate-limited option only if people use it.

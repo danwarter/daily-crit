@@ -1802,6 +1802,7 @@ a.prin:hover .pn{color:var(--accent)}
 </template>
 <script>
 (function(){
+const HOME_TITLE = document.title;
 const THEMES = [
   { id:'choices',     wk:'Week 1',        title:'Choices and complexity',  desc:'How many decisions a screen asks for, and how to ask for fewer.' },
   { id:'hierarchy',   wk:'Week 2',        title:'Hierarchy and attention', desc:'Where the eye lands first, and making sure it lands on the right thing.' },
@@ -3540,7 +3541,7 @@ function route(){
   app.classList.remove('page-enter'); void app.offsetWidth; app.classList.add('page-enter');
   document.querySelectorAll('[data-nav]').forEach(a => { if (a.dataset.nav === nav) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   const h = app.querySelector('h1');
-  document.title = (parts.length && h ? h.textContent + ' | ' : '') + 'Daily Crit';
+  document.title = parts.length && h ? h.textContent + ' | Daily Crit' : HOME_TITLE;
   trackPage(parts.join('/'));
   if (q) trackSearch(q);
   if (!(parts[0] === 'find' && document.activeElement && document.activeElement.id === 'q')) window.scrollTo(0, 0);
