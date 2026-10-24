@@ -612,16 +612,16 @@ Making text easy to read: size, spacing, emphasis and fonts.
 
 ```js
 { n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'draft', frame:'Recipe',
-    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px and use a few sizes that are clearly different.',
+    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px, step the other sizes clearly apart, and give text enough contrast too.',
     tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
     phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'],
     steps:{
       before:{ anchor:'#rc-top', label:'The problem', title:'Five text sizes, all 11 to 15px',
-        body:'Body text is 12px and grey, and the title and headings are only a few pixels bigger. People squint to read it, and nothing shows where one part ends and the next begins.',
+        body:'Body text is 12px and pale grey: two separate problems, size and contrast. The title and headings are only a few pixels bigger, so nothing shows where one part ends and the next begins.',
         cta:'Show the fix' },
-      after:{ anchor:'#rc-top', label:'The fix', title:'17px body text on a four-step scale',
-        body:'Body text is now 17px, and four sizes (title, heading, body, caption) are far enough apart to tell at a glance. A clear type scale makes text easier to read and to scan.',
+      after:{ anchor:'#rc-top', label:'The fix', title:'A four-step scale: 28, 20, 17, 13px',
+        body:'The scale sets a clear hierarchy, title to caption, so the recipe is easy to scan. Body text also turns from grey to black: contrast is its own fix, separate from size.',
         cta:'See the problem again' }
     }}
 ```
@@ -632,16 +632,16 @@ Bad UI: a recipe screen (Lemon ricotta pancakes) with five text sizes from 11 to
 
 ```js
 { n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'draft', frame:'Article',
-    lede:'When lines sit right on top of each other, a paragraph turns into one dark block and eyes slip to the wrong line. Give body text about 1.5 line height and a little space between paragraphs.',
+    lede:'When lines sit right on top of each other, a paragraph turns into one dark block and eyes slip to the wrong line. Start with about 1.5 line height and a little space between paragraphs, then adjust for your font and line length.',
     tags:['Line height'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'line height leading line spacing tight cramped dense paragraph article readability typography',
     phrases:['the paragraphs feel dense','people lose their place reading','text lines are too close','what line height should I use','long text is tiring to read'],
     steps:{
       before:{ anchor:'#art-p1', label:'The problem', title:'Line height 1.0, lines nearly touching',
-        body:'Each line sits right on the one below, and paragraphs run together. In this example, readers in interviews said they kept losing their place when their eyes jumped back to start a new line.',
+        body:'Each line sits right on the one below, and paragraphs run together. When the eye jumps back to start a new line, it can easily land on the wrong one.',
         cta:'Show the fix' },
       after:{ anchor:'#art-p1', label:'The fix', title:'1.5 line height, space between paragraphs',
-        body:'Same words, same font, same size. More line height gives each line room, so the eye finds the next one easily, and a gap between paragraphs shows where each thought ends.',
+        body:'Same words, font and size. About 1.5 line height plus space between paragraphs is a good starting point, so the eye finds each next line. Tune it for your font and line length.',
         cta:'See the problem again' }
     }}
 ```
