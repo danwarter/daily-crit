@@ -651,35 +651,62 @@ Bad UI: a reader app's article (Why tomatoes split) with lines at 1.0 line heigh
 ### 31. Everything is shouting in capitals
 
 ```js
-{ n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'planned',
+{ n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'draft', frame:'Delivery notice',
+    lede:'When every word is in bold capitals, a message shouts and nothing in it stands out. Write in sentence case, and save bold for the few words people must not miss.',
     tags:['Typographic emphasis'], problems:['hard-to-read'], screens:['dialogs'],
     synonyms:'all caps uppercase capitals bold shouting emphasis sentence case title case notice alert warning loud',
-    phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'] }
+    phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'],
+    steps:{
+      before:{ anchor:'#notice', place:'above', label:'The problem', title:'Every word in bold capitals',
+        body:'Long runs of capitals are slower to read, and when everything is bold, nothing stands out. The one detail people need, the new delivery date, gets lost in the noise.',
+        cta:'Show the fix' },
+      after:{ anchor:'#notice', place:'above', label:'The fix', title:'Sentence case, one phrase in bold',
+        body:'Emphasis only works when it\u2019s rare. In sentence case the notice reads calmly, and the new date, the only bold words in the message, is what people see first.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A delivery notice written entirely in bold capitals, so the one important phrase is lost. Fix: Sentence case, with only the key phrase (the new delivery date) in bold.
+Bad UI: an order-delay alert over an Orders screen, with the title, message and buttons all in bold capitals, so the new delivery date is lost. Fix: sentence case, with only the new date (Thursday, Oct 29) in bold. Built with restyle and the modal (`.modal.low`, tooltip above); new restyle class `.shout`.
 
 ### 32. Four fonts on one screen
 
 ```js
-{ n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'planned',
+{ n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'draft', frame:'Invite',
+    lede:'Every typeface has its own voice, and four on one screen talk over each other. Most screens need one or two, with size and weight doing the work of hierarchy.',
     tags:['Typeface pairing','Consistency and standards'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'fonts font typeface typefaces pairing mixing serif sans script slab family weights typography invite event',
-    phrases:['the screen uses too many fonts','which fonts go together','the design feels chaotic','how many typefaces should an app use','the text styles do not match'] }
+    phrases:['the screen uses too many fonts','which fonts go together','the design feels chaotic','how many typefaces should an app use','the text styles do not match'],
+    steps:{
+      before:{ anchor:'#inv-head', label:'The problem', title:'Script, slab, serif and sans in one card',
+        body:'Each font has its own personality, so four of them pull the invite in four directions. It looks chaotic, and no font has a clear job.',
+        cta:'Show the fix' },
+      after:{ anchor:'#inv-head', label:'The fix', title:'One family; size and weight do the work',
+        body:'One typeface keeps the invite calm, and size and weight set the order: a big bold title, a semibold date, then regular details. If you pair two fonts, give each a clear job.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: An event invite mixing a script, a slab serif, a classic serif and a sans serif. Fix: One type family, with hierarchy made from size and weight instead of new fonts.
+Bad UI: a garden party invite whose title is a script, date a slab serif, location an italic display serif and body a sans serif. Fix: one type family, with hierarchy from size and weight (28px bold title, 17px semibold date, 15px grey location, 17px body). Built with restyle; new restyle classes `.ff-script`, `.ff-slab`, `.ff-serif` (Pacifico, Roboto Slab and Playfair Display, added to the Google Fonts link), and new kit pieces `.card.inset`, `.cover` and `.rd-s`.
 
 ### 33. The prices in the list don’t line up
 
 ```js
-{ n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'planned',
+{ n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'draft', frame:'Spending',
+    lede:'When amounts start at the left and each digit has its own width, a column of prices zigzags. Right-align them and turn on tabular figures (tabular-nums in CSS), so digits line up place by place.',
     tags:['Tabular figures','Alignment'], problems:['numbers-unclear'], screens:['feeds','data'],
-    synonyms:'numbers digits prices amounts tabular figures monospaced numerals right align decimal column expenses list money',
-    phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'] }
+    synonyms:'numbers digits prices amounts tabular figures tabular-nums monospaced numerals right align decimal column expenses list money',
+    phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'],
+    steps:{
+      before:{ anchor:'#bills', label:'The problem', title:'Decimal points zigzag down the list',
+        body:'The amounts start at the left, and each digit has its own width, so the decimal points never line up. To see which bill is bigger, people have to read every number.',
+        cta:'Show the fix' },
+      after:{ anchor:'#bills', label:'The fix', title:'Right-aligned, with tabular figures',
+        body:'Tabular figures give every digit the same width, and right alignment stacks ones over ones and cents over cents. Now the size of each amount shows at a glance.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: An expense list with left-aligned amounts in proportional digits, so the decimal points zigzag. Fix: Right-aligned amounts in tabular figures, so every digit sits in the same column.
+Bad UI: a monthly budget with bills and everyday spending, amounts left-aligned in proportional digits, so the decimal points zigzag. Fix: right-aligned amounts in tabular figures. Built with restyle, which now glides flex-grow; new kit pieces `.num` (amount column) with a `.push` spacer that restyles to `.grow`, and the restyle class `.prop`.
 
 ### 34. The key detail gets cut off with “…”
 

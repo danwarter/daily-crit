@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=Space+Grotesk:wght@400;500;700&family=Pacifico&family=Roboto+Slab:wght@600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
 :root{
   --page:#EFEFEF; --surface:#FFFFFF; --ink:#000000; --ink-2:#8A8A8A; --line:#DCDCDC; --chip:#E8E8E8; --dots:#D6D6D6;
@@ -344,10 +344,10 @@ a.lrow:hover .ltitle{color:var(--accent)}
 @keyframes pin{from{opacity:0;transform:translateX(6px)}}
 .primary{transition:background .3s,color .3s}
 .primary[aria-disabled="true"]{background:var(--ios-fill);color:var(--ios-2)}
-/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors, spacing, type size, line height and width animate) */
+/* Transition primitive: restyle (data-bad / data-good list the classes an element wears in each state; colors, spacing, type size, line height, width and flex-grow animate) */
 .phone [data-bad],.phone [data-good]{transition:background-color .45s ease var(--delay),color .45s ease var(--delay),box-shadow .45s ease var(--delay),border-color .45s ease var(--delay),
   margin .62s var(--ease) var(--delay),padding .62s var(--ease) var(--delay),gap .62s var(--ease) var(--delay),
-  font-size .62s var(--ease) var(--delay),line-height .62s var(--ease) var(--delay),letter-spacing .62s var(--ease) var(--delay),width .62s var(--ease) var(--delay),opacity .38s ease var(--delay);
+  font-size .62s var(--ease) var(--delay),line-height .62s var(--ease) var(--delay),letter-spacing .62s var(--ease) var(--delay),width .62s var(--ease) var(--delay),flex-grow .62s var(--ease) var(--delay),opacity .38s ease var(--delay);
   --delay:calc(.12s + var(--d,0) * 60ms)}
 .after [data-bad],.after [data-good]{--delay:calc(.24s + var(--d,0) * 60ms)}
 
@@ -683,6 +683,22 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .rd .fs15{font-size:15px}
 .rd .faint{color:var(--ios-2)}
 .rd .tight{line-height:1;padding-top:0}
+/* Emphasis: .shout sets text in bold capitals (use restyle: data-bad="shout" data-good="") */
+.phone .shout{text-transform:uppercase;font-weight:700;letter-spacing:.01em}
+/* Typefaces: restyle classes that swap the font family, to show fonts that clash. .ff-script (a looping script), .ff-slab (a slab serif), .ff-serif (an italic display serif). Loaded from Google Fonts; font files only download on a screen that uses them */
+.phone .ff-script{font-family:'Pacifico',cursive;font-weight:400;letter-spacing:0}
+.phone .ff-slab{font-family:'Roboto Slab',Rockwell,serif;font-weight:600}
+.phone .ff-serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}
+/* Inset cards: .card.inset pads a card for free text (an invite, a summary); .cover is a full-width colored banner at its top (set --art). .rd-s is a 15px grey secondary line */
+.card.inset{padding:0 16px 18px}
+.cover{height:132px;margin:0 -16px 2px;display:grid;place-items:center;color:#fff;background:var(--art,var(--ios-blue))}
+.cover svg{width:56px;height:56px}
+.rd-s{margin:0;padding-top:4px;font-size:15px;line-height:1.35;color:var(--ios-2)}
+/* Number columns: .num is a fixed-width amount column holding a .push spacer and then the amount. Restyle the spacer to .grow to slide the amount from the column's left edge to its right (flex-grow glides). .prop gives an amount proportional digits, each its own width (use restyle on a .price, which is tabular) */
+.num{display:flex;flex:none;width:92px;white-space:nowrap}
+.push{flex:0 0 0}
+.push.grow{flex-grow:1}
+.phone .prop{font-variant-numeric:proportional-nums}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1857,6 +1873,62 @@ a.prin:hover .pn{color:var(--accent)}
   </div>
 </div>
 </template>
+<template id="tpl-all-caps">
+<div class="nav"><span class="brand">Orders</span><span></span><span></span></div>
+<div class="screen">
+  <div class="pad"><p class="ghead">On the way</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3 0 5-1 7-4l2 1c1 2 3 3 6 3h3v3H3z"/><path d="M3 18h18"/></svg></span><span><p class="pname">Trail running shoes</p><span class="sub">Order 4821 · Shipped Oct 22</span></span></span><span class="chev"></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#5E5CE6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6"/></svg></span><span><p class="pname">Hardcover notebook</p><span class="sub">Order 4821 · Shipped Oct 22</span></span></span><span class="chev"></span></div></div></div>
+  </div></div>
+  <div class="pad"><p class="ghead">Delivered</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="pimg" style="--art:#30B0C7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h10v7a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg></span><span><p class="pname">Ceramic mug</p><span class="sub">Delivered Oct 19</span></span></span><span class="chev"></span></div></div></div>
+  </div></div>
+</div>
+<div class="modal low">
+  <div class="alerts" id="notice">
+    <div class="alert">
+      <span class="ri" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+      <h3 data-bad="shout" data-good="" style="--d:0">Delivery update</h3>
+      <p data-bad="shout" data-good="" style="--d:1">Storms have delayed your order. It will now arrive on <b>Thursday, Oct 29</b>. You don’t need to do anything.</p>
+      <div class="alert-btns"><button data-dismiss data-bad="shout" data-good="" style="--d:2">OK</button><button class="bold" data-done="Opening…" data-bad="shout" data-good="" style="--d:2">Track</button></div>
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-typeface-pairing">
+<div class="nav"><span class="cancel">Events</span><span class="title"></span><span class="end"><button class="icon-btn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg></button></span></div>
+<div class="screen">
+  <div class="pad" style="padding-top:8px"><div class="card inset" id="invite">
+    <div class="cover" style="--art:linear-gradient(135deg,#34C759,#30B0C7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.5"/><path d="M12 6.5C12 4 14 3 15.5 4.5S15 8 14.5 8.5M14.5 9.5c2.5 0 3.5 2 2 3.5S13 13 12.5 12M11.5 12c0 2.5-2 3.5-3.5 2s0-3.5.5-4M9.5 8.5C7 8.5 6 6.5 7.5 5s3.5.5 4 1"/><path d="M12 11.5V21M12 18c-2-2.5-4.5-2.5-6-2 1 2.5 3.5 3 6 2zM12 16c2-2.5 4.5-2.5 6-2-1 2.5-3.5 3-6 2z"/></svg></div>
+    <div id="inv-head">
+    <h3 class="rd-t" data-bad="ff-script" data-good="" style="--d:0">Garden Party</h3>
+    <p class="rd-b" style="font-weight:600;--d:1" data-bad="ff-slab" data-good="">Saturday, June 14 · 4 PM</p>
+    <p class="rd-s" data-bad="ff-serif" data-good="" style="--d:2">Maple Street Community Garden</p>
+    </div>
+    <p class="rd-p" style="--d:3">Bring a dish to share. Lawn games, lemonade and live music until sunset.</p>
+  </div></div>
+</div>
+<div class="dock">
+  <div class="pair"><button class="primary plain" data-done="Sent">Can’t Go</button><button class="primary" data-done="See you there!">Going</button></div>
+</div>
+</template>
+<template id="tpl-tabular-figures">
+<div class="nav"><span class="cancel">Budget</span><span class="title">October</span><span></span></div>
+<div class="screen">
+  <div class="pad" style="padding-top:12px"><p class="ghead">Bills</p><div class="card" id="bills">
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#5E5CE6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg></span><span><p class="pname">Rent</p><span class="sub">Oct 1</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:0"></i><span class="price" data-bad="prop" data-good="" style="--d:0">$1,450.00</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></span><span><p class="pname">Electric</p><span class="sub">Oct 4</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:1"></i><span class="price" data-bad="prop" data-good="" style="--d:1">$86.10</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#34C759"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></span><span><p class="pname">Phone</p><span class="sub">Oct 8</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:1"></i><span class="price" data-bad="prop" data-good="" style="--d:1">$45.00</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#FF375F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M10 9l4 2.5-4 2.5z"/></svg></span><span><p class="pname">Streaming</p><span class="sub">Oct 11</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:2"></i><span class="price" data-bad="prop" data-good="" style="--d:2">$11.99</span></span></div></div></div>
+  </div></div>
+  <div class="pad"><p class="ghead">Everyday</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#30B0C7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.5 11h10L20 8H6.5"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg></span><span><p class="pname">Groceries</p><span class="sub">Oct 12</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:2"></i><span class="price" data-bad="prop" data-good="" style="--d:2">$128.47</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#AF52DE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 8h3"/></svg></span><span><p class="pname">Dinner out</p><span class="sub">Oct 14</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:3"></i><span class="price" data-bad="prop" data-good="" style="--d:3">$61.40</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#8E8E93"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M4 21h12M7 8h6"/><path d="M15 11h2a1.5 1.5 0 0 1 1.5 1.5V17a1.5 1.5 0 0 0 3 0V9l-3-3"/></svg></span><span><p class="pname">Gas</p><span class="sub">Oct 17</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:3"></i><span class="price" data-bad="prop" data-good="" style="--d:3">$41.18</span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri" style="--art:#A2845E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3v3M11 3v3"/></svg></span><span><p class="pname">Coffee</p><span class="sub">Oct 20</span></span></span><span class="num"><i class="push" data-bad="" data-good="grow" style="--d:4"></i><span class="price" data-bad="prop" data-good="" style="--d:4">$4.75</span></span></div></div></div>
+  </div></div>
+</div>
+</template>
 <script>
 (function(){
 const HOME_TITLE = document.title;
@@ -2360,18 +2432,45 @@ const LESSONS = [
         body:'Same words, font and size. About 1.5 line height plus space between paragraphs is a good starting point, so the eye finds each next line. Tune it for your font and line length.',
         cta:'See the problem again' }
     }},
-  { n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'planned',
+  { n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'draft', frame:'Delivery notice',
+    lede:'When every word is in bold capitals, a message shouts and nothing in it stands out. Write in sentence case, and save bold for the few words people must not miss.',
     tags:['Typographic emphasis'], problems:['hard-to-read'], screens:['dialogs'],
     synonyms:'all caps uppercase capitals bold shouting emphasis sentence case title case notice alert warning loud',
-    phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'] },
-  { n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'planned',
+    phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'],
+    steps:{
+      before:{ anchor:'#notice', place:'above', label:'The problem', title:'Every word in bold capitals',
+        body:'Long runs of capitals are slower to read, and when everything is bold, nothing stands out. The one detail people need, the new delivery date, gets lost in the noise.',
+        cta:'Show the fix' },
+      after:{ anchor:'#notice', place:'above', label:'The fix', title:'Sentence case, one phrase in bold',
+        body:'Emphasis only works when it\u2019s rare. In sentence case the notice reads calmly, and the new date, the only bold words in the message, is what people see first.',
+        cta:'See the problem again' }
+    }},
+  { n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'draft', frame:'Invite',
+    lede:'Every typeface has its own voice, and four on one screen talk over each other. Most screens need one or two, with size and weight doing the work of hierarchy.',
     tags:['Typeface pairing','Consistency and standards'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'fonts font typeface typefaces pairing mixing serif sans script slab family weights typography invite event',
-    phrases:['the screen uses too many fonts','which fonts go together','the design feels chaotic','how many typefaces should an app use','the text styles do not match'] },
-  { n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'planned',
+    phrases:['the screen uses too many fonts','which fonts go together','the design feels chaotic','how many typefaces should an app use','the text styles do not match'],
+    steps:{
+      before:{ anchor:'#inv-head', label:'The problem', title:'Script, slab, serif and sans in one card',
+        body:'Each font has its own personality, so four of them pull the invite in four directions. It looks chaotic, and no font has a clear job.',
+        cta:'Show the fix' },
+      after:{ anchor:'#inv-head', label:'The fix', title:'One family; size and weight do the work',
+        body:'One typeface keeps the invite calm, and size and weight set the order: a big bold title, a semibold date, then regular details. If you pair two fonts, give each a clear job.',
+        cta:'See the problem again' }
+    }},
+  { n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'draft', frame:'Spending',
+    lede:'When amounts start at the left and each digit has its own width, a column of prices zigzags. Right-align them and turn on tabular figures (tabular-nums in CSS), so digits line up place by place.',
     tags:['Tabular figures','Alignment'], problems:['numbers-unclear'], screens:['feeds','data'],
-    synonyms:'numbers digits prices amounts tabular figures monospaced numerals right align decimal column expenses list money',
-    phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'] },
+    synonyms:'numbers digits prices amounts tabular figures tabular-nums monospaced numerals right align decimal column expenses list money',
+    phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'],
+    steps:{
+      before:{ anchor:'#bills', label:'The problem', title:'Decimal points zigzag down the list',
+        body:'The amounts start at the left, and each digit has its own width, so the decimal points never line up. To see which bill is bigger, people have to read every number.',
+        cta:'Show the fix' },
+      after:{ anchor:'#bills', label:'The fix', title:'Right-aligned, with tabular figures',
+        body:'Tabular figures give every digit the same width, and right alignment stacks ones over ones and cents over cents. Now the size of each amount shows at a glance.',
+        cta:'See the problem again' }
+    }},
   { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'planned',
     tags:['Truncation','Front-loading'], problems:['skim-past'], screens:['feeds'],
     synonyms:'truncate truncated ellipsis cut off dots overflow text wrap long text preview notification list row',
@@ -2759,6 +2858,9 @@ const PRINCIPLES = {
   'type-scale': 'A small set of text sizes, each clearly bigger than the last, used the same way everywhere so titles, headings, body text and captions are easy to tell apart.',
   'legibility': 'How easily people can make out letters and words. Text size, weight, contrast and spacing all affect it, especially on small screens.',
   'line-height': 'The vertical space each line of text takes up. Too little crams lines together; about 1.5 times the font size is a common starting point for longer text.',
+  'typographic-emphasis': 'Using bold, italics, capitals or color to make a few words stand out. It works by contrast, so the less of it a screen uses, the more each bit is noticed.',
+  'typeface-pairing': 'Choosing fonts that work together. Most screens need one or two typefaces, each with a clear job, like headings and body text; more starts to feel chaotic.',
+  'tabular-figures': 'Digits that all take up the same width, so numbers in a column line up place by place. Many fonts offer them as an option alongside proportional digits.',
   'hicks-law': 'The more options people have, the longer they take to choose. Decision time grows with the number and complexity of the choices.',
   'smart-defaults': 'Preselect the option most people would pick, so they only have to act when their situation is different.',
   'progressive-disclosure': 'Show only what most people need first, and reveal advanced or rarely used options when someone asks for them.',
