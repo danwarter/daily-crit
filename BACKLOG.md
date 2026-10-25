@@ -651,7 +651,7 @@ Bad UI: a reader app's article (Why tomatoes split) with lines at 1.0 line heigh
 ### 31. Everything is shouting in capitals
 
 ```js
-{ n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'draft', frame:'Delivery notice',
+{ n:31, slug:'all-caps', title:'Everything is shouting in capitals', theme:'type', status:'ready', frame:'Delivery notice',
     lede:'When every word is in bold capitals, a message shouts and nothing in it stands out. Write in sentence case, and save bold for the few words people must not miss.',
     tags:['Typographic emphasis'], problems:['hard-to-read'], screens:['dialogs'],
     synonyms:'all caps uppercase capitals bold shouting emphasis sentence case title case notice alert warning loud',
@@ -671,7 +671,7 @@ Bad UI: an order-delay alert over an Orders screen, with the title, message and 
 ### 32. Four fonts on one screen
 
 ```js
-{ n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'draft', frame:'Invite',
+{ n:32, slug:'typeface-pairing', title:'Four fonts on one screen', theme:'type', status:'ready', frame:'Invite',
     lede:'Every typeface has its own voice, and four on one screen talk over each other. Most screens need one or two, with size and weight doing the work of hierarchy.',
     tags:['Typeface pairing','Consistency and standards'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'fonts font typeface typefaces pairing mixing serif sans script slab family weights typography invite event',
@@ -691,7 +691,7 @@ Bad UI: a garden party invite whose title is a script, date a slab serif, locati
 ### 33. The prices in the list don’t line up
 
 ```js
-{ n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'draft', frame:'Spending',
+{ n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'ready', frame:'Spending',
     lede:'When amounts start at the left and each digit has its own width, a column of prices zigzags. Give every amount the same format (like two decimal places), right-align them and turn on tabular figures (tabular-nums in CSS), so digits line up place by place.',
     tags:['Tabular figures','Alignment'], problems:['numbers-unclear'], screens:['feeds','data'],
     synonyms:'numbers digits prices amounts tabular figures tabular-nums monospaced numerals right align decimal column expenses list money',
