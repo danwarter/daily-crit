@@ -611,7 +611,7 @@ Making text easy to read: size, spacing, emphasis and fonts.
 ### 29. The text is too small to read comfortably
 
 ```js
-{ n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'draft', frame:'Recipe',
+{ n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'ready', frame:'Recipe',
     lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px with good contrast, and step the other sizes clearly apart.',
     tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
@@ -631,7 +631,7 @@ Bad UI: a recipe screen (Lemon ricotta pancakes) with five text sizes from 11 to
 ### 30. The lines are crammed together
 
 ```js
-{ n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'draft', frame:'Article',
+{ n:30, slug:'line-height', title:'The lines are crammed together', theme:'type', status:'ready', frame:'Article',
     lede:'When lines sit right on top of each other, a paragraph turns into one dark block and eyes slip to the wrong line. Start with about 1.5 line height and a little space between paragraphs, then adjust for your font and line length.',
     tags:['Line height'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'line height leading line spacing tight cramped dense paragraph article readability typography',
