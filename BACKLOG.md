@@ -612,16 +612,16 @@ Making text easy to read: size, spacing, emphasis and fonts.
 
 ```js
 { n:29, slug:'type-scale', title:'The text is too small to read comfortably', theme:'type', status:'draft', frame:'Recipe',
-    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px, step the other sizes clearly apart, and give text enough contrast too.',
+    lede:'Small, pale text makes people work for every word, and sizes only a pixel apart blur together. Start body text around 17px with good contrast, and step the other sizes clearly apart.',
     tags:['Type scale','Legibility'], problems:['hard-to-read'], screens:['reading'],
     synonyms:'font size text size small tiny typography type scale body text 12px 17px readable legibility headings hierarchy recipe',
     phrases:['the text is too small','people squint at the screen','what font size should body text be','all the text looks the same size','how many font sizes should I use'],
     steps:{
       before:{ anchor:'#rc-top', label:'The problem', title:'Five text sizes, all 11 to 15px',
-        body:'Body text is 12px and pale grey: two separate problems, size and contrast. The title and headings are only a few pixels bigger, so nothing shows where one part ends and the next begins.',
+        body:'Body text is 12px and pale grey, and the title and headings are only a few pixels bigger. People squint to read it, and nothing shows where one part ends and the next begins.',
         cta:'Show the fix' },
       after:{ anchor:'#rc-top', label:'The fix', title:'A four-step scale: 28, 20, 17, 13px',
-        body:'The scale sets a clear hierarchy, title to caption, so the recipe is easy to scan. Body text also turns from grey to black: contrast is its own fix, separate from size.',
+        body:'Body text is now 17px and black, with clear steps from title to caption. The recipe is easier to read, and the type scale makes it quick to scan.',
         cta:'See the problem again' }
     }}
 ```
