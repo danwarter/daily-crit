@@ -658,7 +658,7 @@ Bad UI: a reader app's article (Why tomatoes split) with lines at 1.0 line heigh
     phrases:['everything is in capital letters','the notice feels like it is yelling','nothing stands out because everything is bold','should buttons be uppercase','all caps is hard to read'],
     steps:{
       before:{ anchor:'#notice', place:'above', label:'The problem', title:'Every word in bold capitals',
-        body:'Long runs of capitals are slower to read, and when everything is bold, nothing stands out. The one detail people need, the new delivery date, gets lost in the noise.',
+        body:'When the whole notice is in bold capitals, nothing stands out, and it\u2019s tiring to read. The one detail people need, the new delivery date, gets lost in the noise.',
         cta:'Show the fix' },
       after:{ anchor:'#notice', place:'above', label:'The fix', title:'Sentence case, one phrase in bold',
         body:'Emphasis only works when it\u2019s rare. In sentence case the notice reads calmly, and the new date, the only bold words in the message, is what people see first.',
@@ -692,16 +692,16 @@ Bad UI: a garden party invite whose title is a script, date a slab serif, locati
 
 ```js
 { n:33, slug:'tabular-figures', title:'The prices in the list don\u2019t line up', theme:'type', status:'draft', frame:'Spending',
-    lede:'When amounts start at the left and each digit has its own width, a column of prices zigzags. Right-align them and turn on tabular figures (tabular-nums in CSS), so digits line up place by place.',
+    lede:'When amounts start at the left and each digit has its own width, a column of prices zigzags. Give every amount the same format (like two decimal places), right-align them and turn on tabular figures (tabular-nums in CSS), so digits line up place by place.',
     tags:['Tabular figures','Alignment'], problems:['numbers-unclear'], screens:['feeds','data'],
     synonyms:'numbers digits prices amounts tabular figures tabular-nums monospaced numerals right align decimal column expenses list money',
     phrases:['the numbers do not line up','hard to compare prices in a list','amounts look jagged','should numbers be right aligned','the decimal points are all over the place'],
     steps:{
       before:{ anchor:'#bills', label:'The problem', title:'Decimal points zigzag down the list',
-        body:'The amounts start at the left, and each digit has its own width, so the decimal points never line up. To see which bill is bigger, people have to read every number.',
+        body:'The amounts start at the left, so their decimal points zigzag, and digits of different widths make it worse. To see which bill is bigger, people have to read every number.',
         cta:'Show the fix' },
       after:{ anchor:'#bills', label:'The fix', title:'Right-aligned, with tabular figures',
-        body:'Tabular figures give every digit the same width, and right alignment stacks ones over ones and cents over cents. Now the size of each amount shows at a glance.',
+        body:'Tabular figures give every digit the same width. With cents on every amount, right alignment then lines up the decimal points, so the size of each amount shows at a glance.',
         cta:'See the problem again' }
     }}
 ```
