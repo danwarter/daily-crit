@@ -202,6 +202,27 @@ Each issue is generated from `LESSONS`, so there is nothing to write by hand.
 6. Push to a branch for a preview URL and check it on a phone while it is still `status:'draft'`.
 7. Set `status:'ready'` and merge to `main`. The lesson stays hidden until the release job publishes it.
 
+## Working with Dan: the batch loop
+
+Dan runs every batch the same way, with short messages. Treat these as the full instructions; don't wait for him to repeat the details.
+
+**"Build the next lessons"** (or "build 31–33"): with no numbers, build the next two or three `planned` lessons in order.
+- Make one branch, `lessons-N-M`. If that name is already on GitHub, add a short suffix rather than overwriting it.
+- Build each lesson as `status:'draft'` and run the publishing checklist on each one. Never set `ready` or `live`, and never touch `main` in this step.
+- Before handing off, review your own tooltips against `REVIEW-BRIEF.md`, and fix anything wrong or misleading.
+- Push the branch. Reply with the Vercel preview link (from the GitHub deployment for the pushed commit), the branch name, a link to each lesson, and anything outside the lessons you had to change.
+- Send a `lessons-review.md` file and don't commit it. It's the full text of `REVIEW-BRIEF.md`, then for each lesson its number and title, primary principle, related principles ("None" if there are none), and both tooltips with their titles. Text only, no code. Dan pastes the whole file into ChatGPT.
+
+**Pasted feedback** (ChatGPT's review, with no other instructions): treat it as notes, not literal edits.
+- Keep each lesson focused on its primary principle and in its current voice.
+- Fix anything that's actually wrong with the smallest change that does it.
+- For "Consider" and "Optional" points, use your judgment. Skip anything that would distract from the lesson, conflict with this file, or that the screen already shows. Push back if a point is too literal.
+- Check that the tooltips still fit at 375px, keep `BACKLOG.md` in sync, push, and reply with what changed (old and new wording), what you skipped and why, and the new preview link. Send an updated `lessons-review.md`.
+
+**Dan's own notes**: these are direct edits. Make them as he describes, with the same follow-up as above.
+
+**"Ship it"** (or "merge and mark ready"): set the batch to `status:'ready'` in `index.html` and `BACKLOG.md`, sync with `main`, run `node --check` and `node scripts/release-lesson.mjs --check`, then push to `main`. Reply with the day each lesson will go live, counting one a day from the next `ready` lesson.
+
 ## Releasing lessons
 
 Lessons are built in batches and released one a day.
