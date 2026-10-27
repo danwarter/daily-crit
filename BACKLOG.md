@@ -711,13 +711,22 @@ Bad UI: a monthly budget with bills and everyday spending, amounts left-aligned 
 ### 34. The key detail gets cut off with “…”
 
 ```js
-{ n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'planned',
+  { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'draft', frame:'Deliveries',
+    lede:'A one-line preview that ends in “…” often cuts off the very detail people opened the app for. Put the key detail first, and let important text wrap to a second line before you cut it.',
     tags:['Truncation','Front-loading'], problems:['skim-past'], screens:['feeds'],
     synonyms:'truncate truncated ellipsis cut off dots overflow text wrap long text preview notification list row',
-    phrases:['the important part gets cut off','the text ends with dots','people cannot see the full message','when should text truncate','the date is hidden behind an ellipsis'] }
+    phrases:['the important part gets cut off','the text ends with dots','people cannot see the full message','when should text truncate','the date is hidden behind an ellipsis'],
+    steps:{
+      before:{ anchor:'#dl', label:'The problem', title:'3 updates, every key detail cut off',
+        body:'Each update fits on one line and ends in \u201c\u2026\u201d, right before the delivery day, the drop-off spot or the signature request. To learn anything, people have to open every order.',
+        cta:'Show the fix' },
+      after:{ anchor:'#dl', label:'The fix', title:'Key detail first, two lines to fit',
+        body:'Each update now leads with what changed, and the text wraps to a second line before it\u2019s cut. When text must be truncated, the part people lose should be the part they can spare.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A shipping list whose rows read “Your package will arrive on Tu…”, hiding the day. Fix: The date leads each row, and the line wraps to two lines instead of cutting off.
+Bad UI: a Deliveries list whose one-line updates end in “…” right before the delivery day, the drop-off spot or the signature request. Fix: each update leads with the key detail in bold and wraps to two lines before it’s cut. Built with collapse/expand (a clipped and a wrapped version of each line); new kit pieces `.txt` (a row’s text column), `.clip` (one line with an ellipsis), `.clamp2` (two lines, then an ellipsis) and `.sub b`.
 
 ## Unit 6: Color and contrast
 
@@ -726,24 +735,42 @@ Using color to guide the eye and carry meaning, without leaving anyone out.
 ### 35. The grey text is hard to read
 
 ```js
-{ n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'planned',
+  { n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'draft', frame:'Backup settings',
+    lede:'Pale grey looks tidy on a big monitor, but on a phone in daylight, or for someone with low vision, it fades away. Normal-size text needs a contrast ratio of at least 4.5:1 against its background.',
     tags:['Contrast minimum (WCAG 1.4.3)'], problems:['hard-to-read'], screens:['settings'],
     synonyms:'contrast ratio light grey gray pale faint low contrast accessibility a11y wcag 4.5 readable text color',
-    phrases:['the light grey text is hard to read','people cannot read the small print','is my text contrast high enough','the text is too faint','what contrast ratio do I need'] }
+    phrases:['the light grey text is hard to read','people cannot read the small print','is my text contrast high enough','the text is too faint','what contrast ratio do I need'],
+    steps:{
+      before:{ anchor:'#cell-row', label:'The problem', title:'Light grey text at 2.3:1 contrast',
+        body:'The descriptions are pale grey on white, far below the 4.5:1 minimum for normal-size text. In bright light, or with low vision, the warning about data charges is easy to miss.',
+        cta:'Show the fix' },
+      after:{ anchor:'#cell-row', label:'The fix', title:'Darker grey at 5.2:1, still secondary',
+        body:'The descriptions now pass the 4.5:1 minimum, and they still read as secondary because they\u2019re smaller and greyer than the labels. Check the ratio with a contrast tool, not by eye.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: Settings descriptions in light grey on white, at a 2.3:1 contrast ratio. Fix: The same text at 4.5:1 or better, still quieter than the labels above it.
+Bad UI: Backup settings with descriptions in pale grey on white (#ACACAC, 2.3:1), including a warning about cellular data charges. Fix: the same descriptions in a darker grey (#6C6C70, 5.2:1; #98989D on dark), still quieter than the labels. Built with restyle; new kit piece `.desc` (a secondary line under a row label) and restyle class `.lowc`, with new color tokens `--ios-faint` and `--ios-2aa`.
 
 ### 36. So many colors that nothing stands out
 
 ```js
-{ n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'planned',
+  { n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'draft', frame:'Shop dashboard',
+    lede:'Color draws the eye, but only when it\u2019s rare. Keep most of a screen neutral and save strong color for the one thing that needs attention, so it\u2019s the first thing people see.',
     tags:['Color restraint','Von Restorff effect'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'colors colourful rainbow too many colors accent palette loud busy dashboard tiles highlight alert stand out',
-    phrases:['the screen is too colorful','nothing stands out','every card is a different color','how many colors should I use','people miss the alert'] }
+    phrases:['the screen is too colorful','nothing stands out','every card is a different color','how many colors should I use','people miss the alert'],
+    steps:{
+      before:{ anchor:'#board', label:'The problem', title:'7 tiles in 7 bright colors',
+        body:'Every tile has its own bright color, so the one that needs action, 3 late orders, looks like just another tile. When everything is colorful, nothing stands out.',
+        cta:'Show the fix' },
+      after:{ anchor:'#late', label:'The fix', title:'Neutral tiles, color only for the alert',
+        body:'Now the late orders are the only colored tile, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A dashboard where every tile has its own bright color, including the one overdue alert. Fix: Neutral tiles, with a single accent color saved for the alert that needs attention.
+Bad UI: a shop dashboard where every tile has its own bright color, so the red “3 orders late” alert blends in. Fix: neutral tiles, with the alert the only colored tile. Built with restyle; new kit pieces `.board`, `.mt` (a dashboard tile; `.mt.wide`, `.mt.alarm`) and restyle class `.loud`, with new color token `--ios-alarm` (white text at 5.4:1).
 
 ### 37. Blue means tap, except when it doesn’t
 

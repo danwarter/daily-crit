@@ -27,6 +27,7 @@
   --ios-bg:#F2F2F7; --ios-cell:#FFFFFF; --ios-label:#000000; --ios-2:#8A8A8E; --ios-sep:#C6C6C8;
   --ios-blue:#007AFF; --ios-fill:#E4E4E9; --ios-seg:#FFFFFF; --ios-green:#34C759; --ios-off:#E9E9EA; --grab:#C7C7CC; --ios-alert:rgba(242,242,242,.94);
   --ios-red:#FF3B30; --ios-red-text:#D70015; --ios-green-text:#248A3D;
+  --ios-faint:#ACACAC; --ios-2aa:#6C6C70; --ios-alarm:#D70015;
   --kb-bg:#D1D4DA; --kb-key:#FFFFFF; --kb-mod:#ABB0BC; --kb-bar:#F2F2F5;
   --ease:cubic-bezier(.32,.72,0,1);
   --display:"Outfit","Space Grotesk",system-ui,sans-serif;
@@ -42,6 +43,7 @@
     --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
     --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
     --ios-red:#FF453A; --ios-red-text:#FF6961; --ios-green-text:#30D158;
+    --ios-faint:#545456; --ios-2aa:#98989D; --ios-alarm:#D70015;
     --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
   }
 }
@@ -52,6 +54,7 @@
   --ios-bg:#000000; --ios-cell:#1C1C1E; --ios-label:#FFFFFF; --ios-2:#8E8E93; --ios-sep:#38383A;
   --ios-blue:#0A84FF; --ios-fill:#2C2C2E; --ios-seg:#636366; --ios-green:#30D158; --ios-off:#39393D; --grab:#48484A; --ios-alert:rgba(44,44,46,.94);
   --ios-red:#FF453A; --ios-red-text:#FF6961; --ios-green-text:#30D158;
+    --ios-faint:#545456; --ios-2aa:#98989D; --ios-alarm:#D70015;
   --kb-bg:#2B2B2D; --kb-key:#6B6B6E; --kb-mod:#47474A; --kb-bar:#1C1C1E;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -699,6 +702,34 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .push{flex:0 0 0}
 .push.grow{flex-grow:1}
 .phone .prop{font-variant-numeric:proportional-nums}
+/* Long text: .txt is a row's text column that fills the space left beside its icon. .clip keeps a line to one line and ends it in "…";
+   .clamp2 lets it wrap to two lines before it cuts off. Put the clipped and wrapped versions in bad-only and good-only .c blocks to trade one for the other.
+   <b> inside a .sub is the detail that matters, in the label color */
+.txt{flex:1;min-width:0}
+.phone .clip{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone .clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.3}
+.sub b{font-weight:600;color:var(--ios-label)}
+/* Contrast: .desc is a 13px secondary line under a row's label, in a grey that passes 4.5:1 (--ios-2aa). Restyle it to .lowc for pale grey text that fails (about 2.3:1, --ios-faint) */
+.desc{display:block;margin-top:3px;font-size:13px;line-height:1.35;color:var(--ios-2aa)}
+.phone .lowc{color:var(--ios-faint)}
+/* Dashboard tiles: .board is a two-column grid of .mt tiles (an .ri icon, a big <b> figure, a grey <span> label); .mt.wide spans both columns.
+   Restyle a tile to .loud to fill it with its own --art color; .mt.alarm is the one tile filled red (--ios-alarm, white text at 5.4:1) in both states */
+.board{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt{display:flex;flex-direction:column;gap:2px;min-height:96px;padding:12px;border-radius:14px;background:var(--ios-cell);color:var(--ios-label)}
+.mt .ri{margin-bottom:8px;background:var(--ios-fill);color:var(--ios-2)}
+.mt b{font-size:22px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.mt .lab{font-size:13px;color:var(--ios-2)}
+.mt .ri,.mt .lab{transition:inherit}
+.mt.wide{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:12px}
+.mt.wide .ri{margin:0}
+.mt.wide .txt{display:flex;flex-direction:column;gap:2px}
+.mt.wide b{font-size:17px}
+.phone .mt.loud{background:var(--art);color:#fff}
+.mt.loud .lab,.mt.alarm .lab{color:rgba(255,255,255,.9)}
+.mt.loud .ri,.mt.alarm .ri{background:rgba(255,255,255,.24);color:#fff}
+.mt.alarm{background:var(--ios-alarm);color:#fff}
+.mt .mini{margin-left:auto;background:#fff;color:var(--ios-alarm)}
+.row:has(.desc){padding-top:11px;padding-bottom:11px}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -1929,6 +1960,54 @@ a.prin:hover .pn{color:var(--accent)}
   </div></div>
 </div>
 </template>
+<template id="tpl-truncation">
+<div class="nav"><span class="brand">Deliveries</span><span></span><span></span></div>
+<div class="screen">
+  <div class="pad" style="padding-top:12px"><p class="ghead">Updates</p><div class="card" id="dl">
+    <div class="c"><div><div class="row"><span class="lead txt"><span class="pimg" style="--art:#FF9F0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c3 0 5-1 7-4l2 1c1 2 3 3 6 3h3v3H3z"/><path d="M3 18h18"/></svg></span><span class="txt"><p class="pname">Trail running shoes</p>
+      <span class="c bad-only" style="--d:0"><div><span class="sub clip">Your order from Trailhead Outfitters is on its way and will arrive Tuesday, Oct 29</span></div></span>
+      <span class="c good-only" style="--d:0"><div><span class="sub clamp2"><b>Arrives Tue, Oct 29.</b> On its way from Trailhead Outfitters</span></div></span>
+    </span></span><span class="chev"></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead txt"><span class="pimg" style="--art:#5E5CE6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l-3 7h10l-3-7z"/><path d="M10 11v6M7 20h6M10 17v3"/><path d="M17 9l2 1M17 6l2-1"/></svg></span><span class="txt"><p class="pname">Desk lamp</p>
+      <span class="c bad-only" style="--d:1"><div><span class="sub clip">We tried to deliver your package today, but someone needs to sign for it</span></div></span>
+      <span class="c good-only" style="--d:1"><div><span class="sub clamp2"><b>Signature needed.</b> We’ll try again tomorrow, 9 AM to 1 PM</span></div></span>
+    </span></span><span class="chev"></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead txt"><span class="pimg" style="--art:#30B0C7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h10v7a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/></svg></span><span class="txt"><p class="pname">Ceramic mug set</p>
+      <span class="c bad-only" style="--d:2"><div><span class="sub clip">Your package was delivered today at 2:14 PM and left at the back door</span></div></span>
+      <span class="c good-only" style="--d:2"><div><span class="sub clamp2"><b>Left at the back door.</b> Delivered today at 2:14 PM</span></div></span>
+    </span></span><span class="chev"></span></div></div></div>
+  </div></div>
+</div>
+</template>
+<template id="tpl-contrast-minimum">
+<div class="nav"><span class="cancel">Settings</span><span class="title">Backup</span><span></span></div>
+<div class="screen">
+  <div class="pad" style="padding-top:12px"><p class="ghead">Photos and videos</p><div class="card" id="bk">
+    <div class="c"><div><div class="row"><span class="txt">Back Up Photos<span class="desc" data-bad="lowc" data-good="" style="--d:0">Saves new photos and videos to your cloud storage.</span></span><button class="sw" role="switch" aria-checked="true" aria-label="Back Up Photos"></button></div></div></div>
+    <div class="c"><div><div class="row" id="cell-row"><span class="txt">Use Cellular Data<span class="desc" data-bad="lowc" data-good="" style="--d:1">Backs up away from Wi-Fi. Large videos can use a lot of data and add charges to your phone bill.</span></span><button class="sw" role="switch" aria-checked="false" aria-label="Use Cellular Data"></button></div></div></div>
+    <div class="c"><div><div class="row"><span class="txt">Only While Charging<span class="desc" data-bad="lowc" data-good="" style="--d:2">Waits until your phone is plugged in, to save battery.</span></span><button class="sw" role="switch" aria-checked="true" aria-label="Only While Charging"></button></div></div></div>
+    <div class="c"><div><div class="row"><span class="txt">Keep Originals<span class="desc" data-bad="lowc" data-good="" style="--d:3">Keeps full-size copies on this phone. Uses about 18 GB of storage.</span></span><button class="sw" role="switch" aria-checked="false" aria-label="Keep Originals"></button></div></div></div>
+  </div></div>
+  <div class="pad"><p class="ghead">Last backup</p><div class="card">
+    <div class="c"><div><div class="row"><span class="txt">Today at 6:12 AM<span class="desc" data-bad="lowc" data-good="" style="--d:4">2,481 photos and 316 videos backed up.</span></span><button class="mini plain" data-done="Backing up…">Back Up Now</button></div></div></div>
+  </div></div>
+</div>
+</template>
+<template id="tpl-color-restraint">
+<div class="nav"><span class="brand">Shop</span><span></span><span class="end"><button class="icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button></span></div>
+<div class="screen">
+  <div class="pad" style="padding-top:12px"><p class="ghead">Today</p>
+  <div class="board" id="board">
+    <div class="mt" data-bad="loud" data-good="" style="--art:#FF9F0A;--d:0"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M7 15v-3M12 15V8M17 15V5"/></svg></span><b>$2,480</b><span class="lab">Sales</span></div>
+    <div class="mt" data-bad="loud" data-good="" style="--art:#FF375F;--d:0"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><b>38</b><span class="lab">Orders</span></div>
+    <div class="mt wide alarm" id="late"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></span><div class="txt"><b>3 orders late</b><span class="lab">Should have shipped yesterday</span></div><button class="mini" data-done="Opening…">Ship</button></div>
+    <div class="mt" data-bad="loud" data-good="" style="--art:#AF52DE;--d:1"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><b>1,204</b><span class="lab">Visitors</span></div>
+    <div class="mt" data-bad="loud" data-good="" style="--art:#30B0C7;--d:1"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-3-5.4 3 1.1-6L3.2 9.4l6.1-.8z"/></svg></span><b>4.8</b><span class="lab">Rating</span></div>
+    <div class="mt" data-bad="loud" data-good="" style="--art:#34C759;--d:2"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></span><b>2</b><span class="lab">Returns</span></div>
+    <div class="mt" data-bad="loud" data-good="" style="--art:#5E5CE6;--d:2"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg></span><b>5</b><span class="lab">Messages</span></div>
+  </div></div>
+</div>
+</template>
 <script>
 (function(){
 const HOME_TITLE = document.title;
@@ -2471,19 +2550,46 @@ const LESSONS = [
         body:'Tabular figures give every digit the same width. With cents on every amount, right alignment then lines up the decimal points, so the size of each amount shows at a glance.',
         cta:'See the problem again' }
     }},
-  { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'planned',
+  { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'draft', frame:'Deliveries',
+    lede:'A one-line preview that ends in “…” often cuts off the very detail people opened the app for. Put the key detail first, and let important text wrap to a second line before you cut it.',
     tags:['Truncation','Front-loading'], problems:['skim-past'], screens:['feeds'],
     synonyms:'truncate truncated ellipsis cut off dots overflow text wrap long text preview notification list row',
-    phrases:['the important part gets cut off','the text ends with dots','people cannot see the full message','when should text truncate','the date is hidden behind an ellipsis'] },
+    phrases:['the important part gets cut off','the text ends with dots','people cannot see the full message','when should text truncate','the date is hidden behind an ellipsis'],
+    steps:{
+      before:{ anchor:'#dl', label:'The problem', title:'3 updates, every key detail cut off',
+        body:'Each update fits on one line and ends in \u201c\u2026\u201d, right before the delivery day, the drop-off spot or the signature request. To learn anything, people have to open every order.',
+        cta:'Show the fix' },
+      after:{ anchor:'#dl', label:'The fix', title:'Key detail first, two lines to fit',
+        body:'Each update now leads with what changed, and the text wraps to a second line before it\u2019s cut. When text must be truncated, the part people lose should be the part they can spare.',
+        cta:'See the problem again' }
+    }},
   // Unit 6: Color and contrast
-  { n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'planned',
+  { n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'draft', frame:'Backup settings',
+    lede:'Pale grey looks tidy on a big monitor, but on a phone in daylight, or for someone with low vision, it fades away. Normal-size text needs a contrast ratio of at least 4.5:1 against its background.',
     tags:['Contrast minimum (WCAG 1.4.3)'], problems:['hard-to-read'], screens:['settings'],
     synonyms:'contrast ratio light grey gray pale faint low contrast accessibility a11y wcag 4.5 readable text color',
-    phrases:['the light grey text is hard to read','people cannot read the small print','is my text contrast high enough','the text is too faint','what contrast ratio do I need'] },
-  { n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'planned',
+    phrases:['the light grey text is hard to read','people cannot read the small print','is my text contrast high enough','the text is too faint','what contrast ratio do I need'],
+    steps:{
+      before:{ anchor:'#cell-row', label:'The problem', title:'Light grey text at 2.3:1 contrast',
+        body:'The descriptions are pale grey on white, far below the 4.5:1 minimum for normal-size text. In bright light, or with low vision, the warning about data charges is easy to miss.',
+        cta:'Show the fix' },
+      after:{ anchor:'#cell-row', label:'The fix', title:'Darker grey at 5.2:1, still secondary',
+        body:'The descriptions now pass the 4.5:1 minimum, and they still read as secondary because they\u2019re smaller and greyer than the labels. Check the ratio with a contrast tool, not by eye.',
+        cta:'See the problem again' }
+    }},
+  { n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'draft', frame:'Shop dashboard',
+    lede:'Color draws the eye, but only when it\u2019s rare. Keep most of a screen neutral and save strong color for the one thing that needs attention, so it\u2019s the first thing people see.',
     tags:['Color restraint','Von Restorff effect'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'colors colourful rainbow too many colors accent palette loud busy dashboard tiles highlight alert stand out',
-    phrases:['the screen is too colorful','nothing stands out','every card is a different color','how many colors should I use','people miss the alert'] },
+    phrases:['the screen is too colorful','nothing stands out','every card is a different color','how many colors should I use','people miss the alert'],
+    steps:{
+      before:{ anchor:'#board', label:'The problem', title:'7 tiles in 7 bright colors',
+        body:'Every tile has its own bright color, so the one that needs action, 3 late orders, looks like just another tile. When everything is colorful, nothing stands out.',
+        cta:'Show the fix' },
+      after:{ anchor:'#late', label:'The fix', title:'Neutral tiles, color only for the alert',
+        body:'Now the late orders are the only colored tile, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
+        cta:'See the problem again' }
+    }},
   { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'planned',
     tags:['Semantic color','Consistency and standards'], problems:['unclear-buttons'], screens:['settings'],
     synonyms:'blue link color tappable clickable meaning semantic tint accent headings decoration interactive color system',
@@ -2860,6 +2966,10 @@ const PRINCIPLES = {
   'line-height': 'The vertical space each line of text takes up. Too little crams lines together; about 1.5 times the font size is a common starting point for longer text.',
   'typographic-emphasis': 'Using bold, italics, capitals or color to make a few words stand out. It works by contrast, so the less of it a screen uses, the more each bit is noticed.',
   'typeface-pairing': 'Choosing fonts that work together. Most screens need one or two typefaces, each with a clear job, like headings and body text; more starts to feel chaotic.',
+  'truncation': 'Cutting text short, usually with an ellipsis (\u2026), when it doesn\u2019t fit. Cut only what people can spare, and give them a way to see the rest.',
+  'front-loading': 'Putting the most important words first in a sentence, label or line, so people get the point even if they read only the first few words.',
+  'contrast-minimum-wcag-1-4-3': 'Normal-size text needs a contrast ratio of at least 4.5:1 against its background, and large text at least 3:1, so people with low vision can read it.',
+  'color-restraint': 'Using a few colors, mostly neutrals, and saving strong color for what needs attention or carries meaning. The fewer things are colored, the more each one stands out.',
   'tabular-figures': 'Digits that all take up the same width, so numbers in a column line up place by place. Many fonts offer them as an option alongside proportional digits.',
   'hicks-law': 'The more options people have, the longer they take to choose. Decision time grows with the number and complexity of the choices.',
   'smart-defaults': 'Preselect the option most people would pick, so they only have to act when their situation is different.',
