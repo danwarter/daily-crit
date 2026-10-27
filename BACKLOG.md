@@ -721,7 +721,7 @@ Bad UI: a monthly budget with bills and everyday spending, amounts left-aligned 
         body:'Each update fits on one line and ends in \u201c\u2026\u201d, right before the delivery day, the drop-off spot or the signature request. To learn anything, people have to open every order.',
         cta:'Show the fix' },
       after:{ anchor:'#dl', label:'The fix', title:'Key detail first, two lines to fit',
-        body:'Each update now leads with what changed, and the text wraps to a second line before it\u2019s cut. When text must be truncated, the part people lose should be the part they can spare.',
+        body:'Each update now leads with what changed, and the text wraps to a second line before it\u2019s cut. If it still runs long, keep everything people need ahead of the cutoff.',
         cta:'See the problem again' }
     }}
 ```
@@ -765,7 +765,7 @@ Bad UI: Backup settings with descriptions in pale grey on white (#ACACAC, 2.3:1)
         body:'Every tile has its own bright color, so the one that needs action, 3 late orders, looks like just another tile. When everything is colorful, nothing stands out.',
         cta:'Show the fix' },
       after:{ anchor:'#late', label:'The fix', title:'Calm tiles, strong color only for the alert',
-        body:'Now the late orders are the only tile filled with strong color, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
+        body:'Now the late orders are the only tile filled with strong color, so they stand out at a glance. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
         cta:'See the problem again' }
     }}
 ```
