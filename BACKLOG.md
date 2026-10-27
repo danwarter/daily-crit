@@ -764,13 +764,13 @@ Bad UI: Backup settings with descriptions in pale grey on white (#ACACAC, 2.3:1)
       before:{ anchor:'#board', label:'The problem', title:'7 tiles in 7 bright colors',
         body:'Every tile has its own bright color, so the one that needs action, 3 late orders, looks like just another tile. When everything is colorful, nothing stands out.',
         cta:'Show the fix' },
-      after:{ anchor:'#late', label:'The fix', title:'Neutral tiles, color only for the alert',
-        body:'Now the late orders are the only colored tile, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
+      after:{ anchor:'#late', label:'The fix', title:'Calm tiles, strong color only for the alert',
+        body:'Now the late orders are the only tile filled with strong color, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
         cta:'See the problem again' }
     }}
 ```
 
-Bad UI: a shop dashboard where every tile has its own bright color, so the red “3 orders late” alert blends in. Fix: neutral tiles, with the alert the only colored tile. Built with restyle; new kit pieces `.board`, `.mt` (a dashboard tile; `.mt.wide`, `.mt.alarm`) and restyle class `.loud`, with new color token `--ios-alarm` (white text at 5.4:1).
+Bad UI: a shop dashboard where every tile has its own bright color, so the red “3 orders late” alert blends in. Fix: white tiles whose small icons keep a soft tint of their color, with the alert the only tile filled with strong color. Built with restyle; new kit pieces `.board`, `.mt` (a dashboard tile; `.mt.wide`, `.mt.alarm`) and restyle class `.loud`, with new color token `--ios-alarm` (white text at 5.4:1).
 
 ### 37. Blue means tap, except when it doesn’t
 

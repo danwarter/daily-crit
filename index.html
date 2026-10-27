@@ -713,10 +713,10 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .desc{display:block;margin-top:3px;font-size:13px;line-height:1.35;color:var(--ios-2aa)}
 .phone .lowc{color:var(--ios-faint)}
 /* Dashboard tiles: .board is a two-column grid of .mt tiles (an .ri icon, a big <b> figure, a grey <span> label); .mt.wide spans both columns.
-   Restyle a tile to .loud to fill it with its own --art color; .mt.alarm is the one tile filled red (--ios-alarm, white text at 5.4:1) in both states */
+   A tile's icon is tinted with its own --art color. Restyle a tile to .loud to fill the whole tile with that color; .mt.alarm is the one tile filled red (--ios-alarm, white text at 5.4:1) in both states */
 .board{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mt{display:flex;flex-direction:column;gap:2px;min-height:96px;padding:12px;border-radius:14px;background:var(--ios-cell);color:var(--ios-label)}
-.mt .ri{margin-bottom:8px;background:var(--ios-fill);color:var(--ios-2)}
+.mt .ri{margin-bottom:8px;background:color-mix(in srgb,var(--art,var(--ios-blue)) 15%,transparent);color:var(--art,var(--ios-blue))}
 .mt b{font-size:22px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .mt .lab{font-size:13px;color:var(--ios-2)}
 .mt .ri,.mt .lab{transition:inherit}
@@ -2586,8 +2586,8 @@ const LESSONS = [
       before:{ anchor:'#board', label:'The problem', title:'7 tiles in 7 bright colors',
         body:'Every tile has its own bright color, so the one that needs action, 3 late orders, looks like just another tile. When everything is colorful, nothing stands out.',
         cta:'Show the fix' },
-      after:{ anchor:'#late', label:'The fix', title:'Neutral tiles, color only for the alert',
-        body:'Now the late orders are the only colored tile, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
+      after:{ anchor:'#late', label:'The fix', title:'Calm tiles, strong color only for the alert',
+        body:'Now the late orders are the only tile filled with strong color, so they\u2019re seen first. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
         cta:'See the problem again' }
     }},
   { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'planned',
