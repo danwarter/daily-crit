@@ -711,7 +711,7 @@ Bad UI: a monthly budget with bills and everyday spending, amounts left-aligned 
 ### 34. The key detail gets cut off with “…”
 
 ```js
-  { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'draft', frame:'Deliveries',
+  { n:34, slug:'truncation', title:'The key detail gets cut off with “…”', theme:'type', status:'ready', frame:'Deliveries',
     lede:'A one-line preview that ends in “…” often cuts off the very detail people opened the app for. Put the key detail first, and let important text wrap to a second line before you cut it.',
     tags:['Truncation','Front-loading'], problems:['skim-past'], screens:['feeds'],
     synonyms:'truncate truncated ellipsis cut off dots overflow text wrap long text preview notification list row',
@@ -735,7 +735,7 @@ Using color to guide the eye and carry meaning, without leaving anyone out.
 ### 35. The grey text is hard to read
 
 ```js
-  { n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'draft', frame:'Backup settings',
+  { n:35, slug:'contrast-minimum', title:'The grey text is hard to read', theme:'color', status:'ready', frame:'Backup settings',
     lede:'Pale grey looks tidy on a big monitor, but on a phone in daylight, or for someone with low vision, it fades away. Normal-size text needs a contrast ratio of at least 4.5:1 against its background.',
     tags:['Contrast minimum (WCAG 1.4.3)'], problems:['hard-to-read'], screens:['settings'],
     synonyms:'contrast ratio light grey gray pale faint low contrast accessibility a11y wcag 4.5 readable text color',
@@ -755,7 +755,7 @@ Bad UI: Backup settings with descriptions in pale grey on white (#ACACAC, 2.3:1)
 ### 36. So many colors that nothing stands out
 
 ```js
-  { n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'draft', frame:'Shop dashboard',
+  { n:36, slug:'color-restraint', title:'So many colors that nothing stands out', theme:'color', status:'ready', frame:'Shop dashboard',
     lede:'Color draws the eye, but only when it\u2019s rare. Keep most of a screen neutral and save strong color for the one thing that needs attention, so it\u2019s the first thing people see.',
     tags:['Color restraint','Von Restorff effect'], problems:['cluttered'], screens:['dashboards'],
     synonyms:'colors colourful rainbow too many colors accent palette loud busy dashboard tiles highlight alert stand out',
