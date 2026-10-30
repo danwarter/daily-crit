@@ -785,7 +785,7 @@ Bad UI: a shop dashboard where every tile has its own bright color, so the red �
         body:'Headings, icons and storage numbers are the same blue as the links. People tap 84 GB expecting details and nothing happens, while Manage Storage looks like everything else.',
         cta:'Show the fix' },
       after:{ anchor:'#manage', label:'The fix', title:'Blue only on what you can tap',
-        body:'Headings, icons and numbers are now black or grey, so blue is left for the 4 links. When a color always means one thing, people learn it once and trust it on every screen.',
+        body:'Headings, icons and numbers are now black or grey, so blue is left for the 4 links. When blue consistently means “tap here,” people learn it once and trust it on every screen.',
         cta:'See the problem again' }
     }}
 ```
@@ -796,7 +796,7 @@ Bad UI: Storage settings where section headings, row icons and storage numbers a
 
 ```js
   { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'draft', frame:'Travel feed',
-    lede:'White text can vanish where a photo is bright, like sky, sand or snow, and you rarely know which photo will be behind it. A soft dark fade under the text keeps it readable on any image.',
+    lede:'White text can vanish where a photo is bright, like sky, sand or snow, and you rarely know which photo will be behind it. A soft dark fade under the text keeps it readable on most images.',
     tags:['Figure-ground','Contrast'], problems:['hard-to-read'], screens:['feeds'],
     synonyms:'text on image photo background overlay scrim gradient white text hero banner card travel legibility',
     phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'],
@@ -805,7 +805,7 @@ Bad UI: Storage settings where section headings, row icons and storage numbers a
         body:'The titles sit on the brightest part of each photo, at about 1.2:1 contrast. On sand and snow they almost disappear, and every new photo is a gamble.',
         cta:'Show the fix' },
       after:{ anchor:'#hero-1', label:'The fix', title:'A soft dark fade behind the text',
-        body:'A gradient darkens just the bottom of each photo, so the white text stands apart from what\u2019s behind it on any image. That\u2019s figure-ground: text needs a clear background to read as text.',
+        body:'A gradient darkens just the bottom of each photo, giving the white text a darker, more consistent background. That\u2019s figure-ground: text needs a clear background to read as text.',
         cta:'See the problem again' }
     }}
 ```
