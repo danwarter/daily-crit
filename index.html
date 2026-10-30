@@ -472,6 +472,8 @@ input[type=range]{width:130px;accent-color:var(--ios-blue)}
 .ri.mute{background:var(--ios-fill);color:var(--ios-2)}
 .ri.gone{width:0;margin-right:-12px;opacity:0;overflow:hidden}
 .deck{display:grid;gap:12px}
+/* The flashcards on the principles page also use .deck; keep their size and spacing out of the phone */
+.phone .deck{position:static;width:auto;height:auto;margin:0;perspective:none}
 .row.roomy{padding-top:16px;padding-bottom:18px}
 .shift{margin-left:var(--x,0)}
 .guides{position:absolute;inset:0;z-index:2;pointer-events:none}
@@ -730,6 +732,22 @@ button.fbox{border:0;display:flex;align-items:center;justify-content:space-betwe
 .mt.alarm{background:var(--ios-alarm);color:#fff}
 .mt .mini{margin-left:auto;background:#fff;color:var(--ios-alarm)}
 .row:has(.desc){padding-top:11px;padding-bottom:11px}
+/* Color meaning (restyle targets): .tint turns text or a line icon the tappable blue (--ios-blue), so a heading, value or icon can look like a link;
+   .gain and .loss set text to the green or red that passes 4.5:1 (--ios-green-text, --ios-red-text). .gl is a row's leading line icon (22px, grey) */
+.gl{width:22px;height:22px;flex:none;color:var(--ios-2)}
+.phone .tint{color:var(--ios-blue)}
+.phone .gain{color:var(--ios-green-text)}
+.phone .loss{color:var(--ios-red-text)}
+/* Photo cards: .hero is a photo panel (an inline SVG illustration as its first child, or set --art) with text laid over its bottom edge in .cap (an h3 title and a span line).
+   .scrim is a dark fade behind the caption: restyle it with data-bad="" data-good="on" to fade it in. .hero-meta is a small grey line under the card */
+.hero{position:relative;height:200px;border-radius:14px;overflow:hidden;background:var(--art,var(--ios-fill));color:#fff}
+.hero>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim{position:absolute;inset:0;opacity:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.5) 74%,rgba(0,0,0,.7))}
+.phone .scrim.on{opacity:1}
+.cap{position:absolute;left:14px;right:14px;bottom:12px}
+.cap h3{margin:0;font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.cap span{display:block;margin-top:2px;font-size:14px;font-weight:500}
+.hero-meta{margin:6px 4px 0;font-size:13px;color:var(--ios-2)}
 
 /* ---------- Coach marks ---------- */
 .ring{position:absolute;z-index:4;pointer-events:none;border-radius:16px;opacity:0;
@@ -2008,6 +2026,45 @@ a.prin:hover .pn{color:var(--accent)}
   </div></div>
 </div>
 </template>
+<template id="tpl-semantic-color">
+<div class="nav"><span class="cancel">‹ Settings</span><span class="title">Storage</span><span></span></div>
+<div class="screen" data-play-before="#photos-val 900">
+  <div class="pad" style="padding-top:12px"><p class="ghead" data-bad="tint" data-good="" style="--d:0">Used by</p><div class="card" id="usage">
+    <div class="c"><div><div class="row"><span class="lead"><svg class="gl" data-bad="tint" data-good="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="--d:1"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M20.5 16l-5-5-8 8"/></svg><span>Photos</span></span><span class="val" id="photos-val" data-bad="tint" data-good="" style="--d:1">84 GB</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><svg class="gl" data-bad="tint" data-good="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="--d:2"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg><span>Backups</span></span><span class="val" data-bad="tint" data-good="" style="--d:2">22 GB</span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><svg class="gl" data-bad="tint" data-good="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="--d:3"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></svg><span>Messages</span></span><span class="val" data-bad="tint" data-good="" style="--d:3">6 GB</span></div></div></div>
+    <div class="c"><div><button class="row link" id="manage" data-done="Opening…">Manage Storage</button></div></div>
+  </div>
+  <p class="hint">Delete old backups to free up space. <button class="link" data-done="Opening…" style="border:0;background:none;padding:0;font:inherit">Learn More</button></p></div>
+  <div class="pad"><p class="ghead" data-bad="tint" data-good="" style="--d:4">Your plan</p><div class="card">
+    <div class="c"><div><div class="row"><span class="lead"><svg class="gl" data-bad="tint" data-good="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="--d:0"><path d="M7 18h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z"/></svg><span>Cloud+ 200 GB</span></span><span class="val" data-bad="tint" data-good="" style="--d:0">$2.99/mo</span></div></div></div>
+    <div class="c"><div><button class="row link" data-done="Opening…">Change Plan</button></div></div>
+  </div></div>
+</div>
+</template>
+<template id="tpl-text-over-images">
+<div class="nav"><span class="brand">Wander</span><span></span><span></span></div>
+<div class="screen">
+  <div class="utabs" data-pick data-before="For You" data-after="For You" style="margin-top:4px"><button>For You</button><button>Nearby</button><button>Saved</button></div>
+  <div style="display:grid;gap:16px;padding-top:14px">
+  <div class="c"><div><div class="hero" id="hero-1"><svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="tb-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FCBF2"/><stop offset=".55" stop-color="#E6F4FC"/></linearGradient></defs>
+<rect width="340" height="200" fill="url(#tb-sky)"/><circle cx="262" cy="46" r="22" fill="#FFFBEA"/><path d="M0 98h340v14H0z" fill="#6FC1E6"/><path d="M0 108q85-8 170 0t170 0v92H0z" fill="#F4EAD6"/><path d="M0 128q90-10 180 2t160-2v72H0z" fill="#F8F1E3"/></svg><div class="scrim" data-bad="" data-good="on" style="--d:0"></div><div class="cap" id="cap-1"><h3>Tulum, Mexico</h3><span>Beach week, flights included</span></div></div><p class="hero-meta">5 nights · from $890</p></div></div>
+  <div class="c"><div><div class="hero" id="hero-2"><svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="tb-sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DD0F5"/><stop offset=".6" stop-color="#EEF7FD"/></linearGradient></defs>
+<rect width="340" height="200" fill="url(#tb-sky2)"/><path d="M-10 200L90 70l40 40 50-70 70 90 40-30 60 100z" fill="#DCE6EF"/><path d="M-10 200L70 120l50 30 60-50 60 60 50-20 70 60z" fill="#F7FAFC"/><path d="M180 40l-22 30 12-4 10 10 10-8 14 6z" fill="#FFFFFF"/></svg><div class="scrim" data-bad="" data-good="on" style="--d:1"></div><div class="cap" id="cap-2"><h3>Banff, Canada</h3><span>Winter cabins with lake views</span></div></div><p class="hero-meta">4 nights · from $1,240</p></div></div>
+  </div>
+</div>
+</template>
+<template id="tpl-color-conventions">
+<div class="nav"><span class="cancel">‹ Back</span><span class="title">Checking</span><span></span></div>
+<div class="screen">
+  <div class="c"><div><div style="padding:14px 4px 0" id="net"><span class="kicker">This week</span><span class="huge" data-bad="gain" data-good="loss" style="font-size:32px;--d:0"><span class="swap"><span class="sa">$176.20</span><span class="sb">−$176.20</span></span></span><span class="kicker">Balance $2,418.30</span></div></div></div>
+  <div class="pad" style="padding-top:16px"><p class="ghead">Recent</p><div class="card" id="tx">
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v11H4z"/><path d="M4 11h16M8 15h3"/></svg></span><span class="txt">Paycheck<span class="sub" style="font-size:13px">Fri</span></span></span><span class="price" data-bad="loss" data-good="gain" style="--d:1"><span class="swap end"><span class="sa">$1,200.00</span><span class="sb">+$1,200.00</span></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg></span><span class="txt">Rent<span class="sub" style="font-size:13px">Thu</span></span></span><span class="price" data-bad="gain" data-good="" style="--d:2"><span class="swap end"><span class="sa">$1,250.00</span><span class="sb">−$1,250.00</span></span></span></div></div></div>
+    <div class="c"><div><div class="row"><span class="lead"><span class="ri mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="txt">Groceries<span class="sub" style="font-size:13px">Wed</span></span></span><span class="price" data-bad="gain" data-good="" style="--d:3"><span class="swap end"><span class="sa">$126.20</span><span class="sb">−$126.20</span></span></span></div></div></div>
+  </div></div>
+</div>
+</template>
 <script>
 (function(){
 const HOME_TITLE = document.title;
@@ -2590,18 +2647,45 @@ const LESSONS = [
         body:'Now the late orders are the only tile filled with strong color, so they stand out at a glance. That\u2019s the Von Restorff effect: when one thing looks different from everything around it, people notice it.',
         cta:'See the problem again' }
     }},
-  { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'planned',
+  { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'draft', frame:'Storage settings',
+    lede:'Blue is the color people expect to tap. Give it to headings, icons and plain numbers too, and it stops meaning anything: people tap things that do nothing and miss the real links.',
     tags:['Semantic color','Consistency and standards'], problems:['unclear-buttons'], screens:['settings'],
     synonyms:'blue link color tappable clickable meaning semantic tint accent headings decoration interactive color system',
-    phrases:['people tap blue text that does nothing','which colors mean clickable','the brand color is everywhere','users cannot tell links from headings','what should the accent color be used for'] },
-  { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'planned',
+    phrases:['people tap blue text that does nothing','which colors mean clickable','the brand color is everywhere','users cannot tell links from headings','what should the accent color be used for'],
+    steps:{
+      before:{ anchor:'#usage', label:'The problem', title:'14 blue things, only 4 can be tapped',
+        body:'Headings, icons and storage numbers are the same blue as the links. People tap 84 GB expecting details and nothing happens, while Manage Storage looks like everything else.',
+        cta:'Show the fix' },
+      after:{ anchor:'#manage', label:'The fix', title:'Blue only on what you can tap',
+        body:'Headings, icons and numbers are now black or grey, so blue is left for the 4 links. When a color always means one thing, people learn it once and trust it on every screen.',
+        cta:'See the problem again' }
+    }},
+  { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'draft', frame:'Travel feed',
+    lede:'White text can vanish where a photo is bright, like sky, sand or snow, and you rarely know which photo will be behind it. A soft dark fade under the text keeps it readable on any image.',
     tags:['Figure-ground','Contrast'], problems:['hard-to-read'], screens:['feeds'],
     synonyms:'text on image photo background overlay scrim gradient white text hero banner card travel legibility',
-    phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'] },
-  { n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'planned',
+    phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'],
+    steps:{
+      before:{ anchor:'#hero-1', label:'The problem', title:'White text on pale sand and snow',
+        body:'The titles sit on the brightest part of each photo, at about 1.2:1 contrast. On sand and snow they almost disappear, and every new photo is a gamble.',
+        cta:'Show the fix' },
+      after:{ anchor:'#hero-1', label:'The fix', title:'A soft dark fade behind the text',
+        body:'A gradient darkens just the bottom of each photo, so the white text stands apart from what\u2019s behind it on any image. That\u2019s figure-ground: text needs a clear background to read as text.',
+        cta:'See the problem again' }
+    }},
+  { n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'draft', frame:'Checking account',
+    lede:'People bring color meanings with them. With money, green usually means money in and red means money out, so flipping them makes a bad week look good. (Some markets, like Chinese stock markets, use red for gains, so match your audience.)',
     tags:['Mental models','Match between system and the real world'], problems:['numbers-unclear'], screens:['dashboards'],
     synonyms:'red green money spending income budget convention meaning color meaning negative positive finance bank',
-    phrases:['people misread their spending','the colors mean the opposite of what people expect','should money out be red','users think they earned money','the budget colors are confusing'] },
+    phrases:['people misread their spending','the colors mean the opposite of what people expect','should money out be red','users think they earned money','the budget colors are confusing'],
+    steps:{
+      before:{ anchor:'#tx', label:'The problem', title:'Spending in green, income in red',
+        body:'Every expense is green and the paycheck is red, so a week that lost money looks like a win. People have to read every row to see that $176.20 actually left.',
+        cta:'Show the fix' },
+      after:{ anchor:'#tx', label:'The fix', title:'Green and a plus mean money in',
+        body:'Income is green with a plus, spending has a minus, and the week\u2019s loss is red, matching what people know from banks. The signs carry the meaning too, so color isn\u2019t the only clue.',
+        cta:'See the problem again' }
+    }},
   { n:40, slug:'dark-mode', title:'Dark mode looks like a photo negative', theme:'color', status:'planned',
     tags:['Elevation','Dark mode design'], problems:['hard-to-read'], screens:['settings'],
     synonyms:'dark mode dark theme night black background neon saturated colors shadows elevation surfaces glare',
@@ -3021,6 +3105,9 @@ const PRINCIPLES = {
   'affordance': 'The actions an interface makes possible, like a row that can be tapped to open. An affordance exists whether or not people notice it; signifiers are the cues that show it.',
   'descriptive-labels': 'Label buttons and links with what they do, like Save Draft or Stay Subscribed, so people can act without reading everything around them.',
   'match-between-system-and-the-real-world': 'Speak the user\u2019s language: use the words and ideas people already know, in a natural order, instead of system or internal terms like OK, Submit or Error 402.',
+  'semantic-color': 'Giving each color one job, like blue for things you can tap or red for errors, and using it only for that job, so the color itself tells people what something does.',
+  'figure-ground': 'People see a screen as shapes (the figure) standing in front of a background (the ground). When the two don\u2019t separate clearly, text and controls blend into what\u2019s behind them.',
+  'mental-models': 'The beliefs people already hold about how something works, built from other apps and the real world. Designs that match them feel obvious; designs that fight them cause mistakes.',
   'confirmshaming': 'Wording that guilts or shames people for declining an offer, like \u201cNo thanks, I don\u2019t like saving money,\u201d so that saying no feels worse than saying yes.'
 };
 

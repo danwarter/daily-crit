@@ -775,35 +775,62 @@ Bad UI: a shop dashboard where every tile has its own bright color, so the red �
 ### 37. Blue means tap, except when it doesn’t
 
 ```js
-{ n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'planned',
+  { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'draft', frame:'Storage settings',
+    lede:'Blue is the color people expect to tap. Give it to headings, icons and plain numbers too, and it stops meaning anything: people tap things that do nothing and miss the real links.',
     tags:['Semantic color','Consistency and standards'], problems:['unclear-buttons'], screens:['settings'],
     synonyms:'blue link color tappable clickable meaning semantic tint accent headings decoration interactive color system',
-    phrases:['people tap blue text that does nothing','which colors mean clickable','the brand color is everywhere','users cannot tell links from headings','what should the accent color be used for'] }
+    phrases:['people tap blue text that does nothing','which colors mean clickable','the brand color is everywhere','users cannot tell links from headings','what should the accent color be used for'],
+    steps:{
+      before:{ anchor:'#usage', label:'The problem', title:'14 blue things, only 4 can be tapped',
+        body:'Headings, icons and storage numbers are the same blue as the links. People tap 84 GB expecting details and nothing happens, while Manage Storage looks like everything else.',
+        cta:'Show the fix' },
+      after:{ anchor:'#manage', label:'The fix', title:'Blue only on what you can tap',
+        body:'Headings, icons and numbers are now black or grey, so blue is left for the 4 links. When a color always means one thing, people learn it once and trust it on every screen.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: Blue headings, blue icons and blue links, so people tap things that do nothing. Fix: Blue is kept for things people can tap; headings and icons go black or grey.
+Bad UI: Storage settings where section headings, row icons and storage numbers are all the same blue as the links, so 14 things are blue and only 4 can be tapped; the mock taps 84 GB and nothing happens. Fix: headings, icons and numbers go grey or black, and blue is left for Manage Storage, Learn More, Change Plan and the back button. Built with restyle; new kit pieces `.gl` (a grey leading line icon) and restyle class `.tint` (tappable blue).
 
 ### 38. The text disappears into the photo
 
 ```js
-{ n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'planned',
+  { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'draft', frame:'Travel feed',
+    lede:'White text can vanish where a photo is bright, like sky, sand or snow, and you rarely know which photo will be behind it. A soft dark fade under the text keeps it readable on any image.',
     tags:['Figure-ground','Contrast'], problems:['hard-to-read'], screens:['feeds'],
     synonyms:'text on image photo background overlay scrim gradient white text hero banner card travel legibility',
-    phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'] }
+    phrases:['the white text is hard to read on the photo','the title gets lost in the image','how do I put text on a photo','the hero text has no contrast','text over images is unreadable'],
+    steps:{
+      before:{ anchor:'#hero-1', label:'The problem', title:'White text on pale sand and snow',
+        body:'The titles sit on the brightest part of each photo, at about 1.2:1 contrast. On sand and snow they almost disappear, and every new photo is a gamble.',
+        cta:'Show the fix' },
+      after:{ anchor:'#hero-1', label:'The fix', title:'A soft dark fade behind the text',
+        body:'A gradient darkens just the bottom of each photo, so the white text stands apart from what\u2019s behind it on any image. That\u2019s figure-ground: text needs a clear background to read as text.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A travel card with white text over a bright sky, so the title vanishes in places. Fix: A soft dark gradient behind the text, so it reads on any photo.
+Bad UI: a travel feed whose white titles sit on pale sand and snow (about 1.2:1). Fix: a dark gradient fades in over the bottom of each photo, behind the text (about 5:1 under the title). Built with restyle; new kit pieces `.hero` (a photo card with an SVG illustration), `.cap` (its caption), `.scrim` (restyle to `.on`) and `.hero-meta`.
 
 ### 39. Spending shows up in green
 
 ```js
-{ n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'planned',
+  { n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'draft', frame:'Checking account',
+    lede:'People bring color meanings with them. With money, green usually means money in and red means money out, so flipping them makes a bad week look good. (Some markets, like Chinese stock markets, use red for gains, so match your audience.)',
     tags:['Mental models','Match between system and the real world'], problems:['numbers-unclear'], screens:['dashboards'],
     synonyms:'red green money spending income budget convention meaning color meaning negative positive finance bank',
-    phrases:['people misread their spending','the colors mean the opposite of what people expect','should money out be red','users think they earned money','the budget colors are confusing'] }
+    phrases:['people misread their spending','the colors mean the opposite of what people expect','should money out be red','users think they earned money','the budget colors are confusing'],
+    steps:{
+      before:{ anchor:'#tx', label:'The problem', title:'Spending in green, income in red',
+        body:'Every expense is green and the paycheck is red, so a week that lost money looks like a win. People have to read every row to see that $176.20 actually left.',
+        cta:'Show the fix' },
+      after:{ anchor:'#tx', label:'The fix', title:'Green and a plus mean money in',
+        body:'Income is green with a plus, spending has a minus, and the week\u2019s loss is red, matching what people know from banks. The signs carry the meaning too, so color isn\u2019t the only clue.',
+        cta:'See the problem again' }
+    }}
 ```
 
-Bad UI: A budget where money spent shows in green and money received in red. Fix: The usual convention back in place, with minus and plus signs too.
+Bad UI: a checking account where the rent and groceries show in green and the paycheck in red, so a week that lost $176.20 shows a big green $176.20. Fix: income green with a plus, spending with a minus in the label color, and the week’s net loss red with a minus. Built with restyle and text swap; new restyle classes `.gain` and `.loss` (green and red text that pass 4.5:1).
 
 ### 40. Dark mode looks like a photo negative
 
