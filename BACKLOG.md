@@ -775,7 +775,7 @@ Bad UI: a shop dashboard where every tile has its own bright color, so the red â
 ### 37. Blue means tap, except when it doesnâ€™t
 
 ```js
-  { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'draft', frame:'Storage settings',
+  { n:37, slug:'semantic-color', title:'Blue means tap, except when it doesn\u2019t', theme:'color', status:'ready', frame:'Storage settings',
     lede:'Blue is the color people expect to tap. Give it to headings, icons and plain numbers too, and it stops meaning anything: people tap things that do nothing and miss the real links.',
     tags:['Semantic color','Consistency and standards'], problems:['unclear-buttons'], screens:['settings'],
     synonyms:'blue link color tappable clickable meaning semantic tint accent headings decoration interactive color system',
@@ -795,7 +795,7 @@ Bad UI: Storage settings where section headings, row icons and storage numbers a
 ### 38. The text disappears into the photo
 
 ```js
-  { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'draft', frame:'Travel feed',
+  { n:38, slug:'text-over-images', title:'The text disappears into the photo', theme:'color', status:'ready', frame:'Travel feed',
     lede:'White text can vanish where a photo is bright, like sky, sand or snow, and you rarely know which photo will be behind it. A soft dark fade under the text keeps it readable on most images.',
     tags:['Figure-ground','Contrast'], problems:['hard-to-read'], screens:['feeds'],
     synonyms:'text on image photo background overlay scrim gradient white text hero banner card travel legibility',
@@ -815,7 +815,7 @@ Bad UI: a travel feed whose white titles sit on pale sand and snow (about 1.2:1)
 ### 39. Spending shows up in green
 
 ```js
-  { n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'draft', frame:'Checking account',
+  { n:39, slug:'color-conventions', title:'Spending shows up in green', theme:'color', status:'ready', frame:'Checking account',
     lede:'People bring color meanings with them. With money, green usually means money in and red means money out, so flipping them makes a bad week look good. (Some markets, like Chinese stock markets, use red for gains, so match your audience.)',
     tags:['Mental models','Match between system and the real world'], problems:['numbers-unclear'], screens:['dashboards'],
     synonyms:'red green money spending income budget convention meaning color meaning negative positive finance bank',
